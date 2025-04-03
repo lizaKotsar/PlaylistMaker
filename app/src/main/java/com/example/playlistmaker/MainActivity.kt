@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, SearchActivity::class.java)
                 startActivity(intent)
             }
-        }//jjjj
+        }//jjjjf
 
         val typedValue = TypedValue()
         theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
