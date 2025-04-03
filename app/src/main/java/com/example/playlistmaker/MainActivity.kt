@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-            //ss
+            //ssы
         searchButton.setOnClickListener(searchClickListener)
 
         mediaButton.setOnClickListener {
