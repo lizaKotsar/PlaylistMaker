@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, SearchActivity::class.java)
                 startActivity(intent)
             }
-        }
+        }//jjjj
             //ssы
         searchButton.setOnClickListener(searchClickListener)
 
