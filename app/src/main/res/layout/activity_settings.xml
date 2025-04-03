@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorSecondary"
     android:id="@+id/main">
 
     <LinearLayout
@@ -15,211 +15,207 @@
         android:paddingTop="@dimen/layout_padding_top"
         android:paddingBottom="@dimen/layout_padding_bottom">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="@dimen/margin_bottom_between_blocks"
-        android:paddingStart="@dimen/icon_padding_back"
-        >
-
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="@dimen/back_button_size"
-            android:layout_height="@dimen/back_button_size"
-            android:backgroundTint="@android:color/white"
-            android:padding="@dimen/icon_padding"
-            android:src="@drawable/baseline_arrow_back_24"
-            app:tint="@color/black" />
-
-        <TextView
-            style="@style/SettingsTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/title_margin_start"
-            android:text="@string/settings" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingVertical="@dimen/icon_padding">
-
-        <TextView
-            style="@style/SettingsItemTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dark_tema"/>
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
+        <!-- Верхний блок с кнопкой Назад и заголовком -->
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            style="@style/SettingsItemTextStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/share"
-            android:layout_marginEnd="@dimen/text_margin_end"
-           />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/share_icon"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/margin_bottom_between_blocks"
+            android:paddingStart="@dimen/icon_padding_back">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:backgroundTint="@android:color/white"
+                android:padding="@dimen/icon_padding"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="@color/black" />
 
+            <TextView
+                style="@style/SettingsTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/title_margin_start"
+                android:text="@string/settings" />
+        </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            style="@style/SettingsItemTextStyle"
-            android:layout_width="0dp"
+        <!-- Тумблер тёмной темы -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/support"
-            android:layout_marginEnd="@dimen/text_margin_end"
-            />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/support"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="@dimen/icon_padding">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dark_tema" />
+
+            <Switch
+                android:id="@+id/theme_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Кнопка «Поделиться приложением» -->
+        <LinearLayout
+            android:id="@+id/share_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/share"
+                android:layout_marginEnd="@dimen/text_margin_end" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/share_icon"
+                android:contentDescription="@string/share"
+                app:tint="@color/YP_Text_Gray" />
+        </LinearLayout>
+
+        <!-- Кнопка «Поддержка» -->
+        <LinearLayout
+            android:id="@+id/support_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/support"
+                android:layout_marginEnd="@dimen/text_margin_end" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/support"
+                android:contentDescription="@string/support"
+                app:tint="?attr/iconsetting" />
+        </LinearLayout>
+
+        <!-- Кнопка «Пользовательское соглашение» -->
+        <LinearLayout
+            android:id="@+id/agreement_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/user_agreement"
+                android:layout_marginEnd="@dimen/text_margin_end" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/agreement"
+                android:contentDescription="@string/user_agreement"
+                app:tint="@color/YP_Text_Gray" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            style="@style/SettingsItemTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/user_agreement"
-            android:layout_marginEnd="@dimen/text_margin_end"
-            />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/agreement"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
-    </LinearLayout>
-
-    </LinearLayout>
-
-
+    <!-- Нижнее навигационное меню -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="?attr/navsetting">
 
-    <LinearLayout
-        android:id="@+id/search_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/lypa"
-            app:tint="@color/black" />
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/lypa"
+                app:tint="@color/black" />
 
-        <TextView
-            style="@style/BottomNavTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search"/>
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/media_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/media_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/media_icon"
-            app:tint="@color/black" />
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/media_icon"
+                app:tint="@color/black" />
 
-        <TextView
-            style="@style/BottomNavTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/media" />
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/settings_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-    <LinearLayout
-        android:id="@+id/settings_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/nastroiki_icon"
+                app:tint="@color/YP_Blue" />
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/nastroiki_icon"
-            app:tint="@color/YP_Blue" />
-
-        <TextView
-            style="@style/BottomNavTextActiveStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"/>
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextActiveStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
-
-
-
