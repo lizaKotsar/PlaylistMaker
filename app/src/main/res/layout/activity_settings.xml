@@ -34,13 +34,11 @@
             app:tint="@color/black" />
 
         <TextView
+            style="@style/SettingsTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/title_margin_start"
-            android:text="@string/settings"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/title_text_size" />
+            android:text="@string/settings" />
     </LinearLayout>
 
 
@@ -52,13 +50,11 @@
         android:paddingVertical="@dimen/icon_padding">
 
         <TextView
+            style="@style/SettingsItemTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/dark_tema"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"/>
+            android:text="@string/dark_tema"/>
 
         <Switch
             android:layout_width="wrap_content"
@@ -75,14 +71,11 @@
         android:focusable="true">
 
         <TextView
+            style="@style/SettingsItemTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
             android:layout_marginEnd="@dimen/text_margin_end"
            />
         <ImageView
@@ -106,14 +99,11 @@
         android:focusable="true">
 
         <TextView
+            style="@style/SettingsItemTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/support"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
             android:layout_marginEnd="@dimen/text_margin_end"
             />
         <ImageView
@@ -134,14 +124,11 @@
         android:focusable="true">
 
         <TextView
+            style="@style/SettingsItemTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/user_agreement"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
             android:layout_marginEnd="@dimen/text_margin_end"
             />
         <ImageView
@@ -179,13 +166,10 @@
             app:tint="@color/black" />
 
         <TextView
+            style="@style/BottomNavTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
+            android:text="@string/search"/>
     </LinearLayout>
 
     <LinearLayout
@@ -205,13 +189,10 @@
             app:tint="@color/black" />
 
         <TextView
+            style="@style/BottomNavTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/media"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
+            android:text="@string/media" />
     </LinearLayout>
 
 
@@ -232,13 +213,10 @@
             app:tint="@color/YP_Blue" />
 
         <TextView
+            style="@style/BottomNavTextActiveStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:textColor="@color/YP_Blue"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
+            android:text="@string/settings"/>
     </LinearLayout>
     </LinearLayout>
 </FrameLayout>
