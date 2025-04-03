@@ -28,7 +28,7 @@
                 android:id="@+id/back_button"
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
-                android:backgroundTint="@android:color/white"
+
                 android:padding="@dimen/icon_padding"
                 android:src="@drawable/baseline_arrow_back_24"
                 app:tint="@color/black" />
