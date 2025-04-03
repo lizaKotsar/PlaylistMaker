@@ -9,6 +9,8 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.widget.Button
 import android.content.Intent
+import android.util.Log
+import android.util.TypedValue
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +33,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }//jjjj
-            //ssы
+
+        val typedValue = TypedValue()
+        theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        Log.d("ColorCheck", "colorPrimary = #" + Integer.toHexString(typedValue.data))
+
+        //ssы
         searchButton.setOnClickListener(searchClickListener)
 
         mediaButton.setOnClickListener {
