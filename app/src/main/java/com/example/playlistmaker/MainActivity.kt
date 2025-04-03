@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MediaActivity::class.java)
             startActivity(intent)
         }
-
+// sprint9
         settingsButton.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
