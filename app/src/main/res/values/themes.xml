@@ -18,7 +18,7 @@
         <item name="iconsetting">@color/YP_Text_Gray</item>
         <item name="navsetting">@color/white</item>
 
-
+        <item name="navIcon">@color/black</item>
         <!-- Цвет статус-бара и навигационной панели -->
         <item name="android:statusBarColor">@color/YP_Blue</item>
         <item name="android:navigationBarColor" tools:targetApi="l">@color/YP_Blue</item>

@@ -17,7 +17,7 @@
 
         <item name="iconsetting">@color/white</item>
         <item name="navsetting">@color/black</item>
-
+        <item name="navIcon">@color/white</item>
 
         <!-- Цвет статус-бара и навигационной панели -->
         <item name="android:statusBarColor">@color/black</item>

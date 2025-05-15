@@ -32,7 +32,7 @@
 
     <!-- экран настроек -->
     <style name="SettingsTitleStyle">
-        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>

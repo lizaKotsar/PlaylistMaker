@@ -2,5 +2,6 @@
 <resources>
     <attr name="iconsetting" format="reference|color"/>
     <attr name="navsetting" format="reference|color"/>
+    <attr name="navIcon" format="reference|color"/>
 
 </resources>
