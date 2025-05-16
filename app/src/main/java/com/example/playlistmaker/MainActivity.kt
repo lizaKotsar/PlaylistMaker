@@ -11,6 +11,8 @@ import android.widget.Button
 import android.content.Intent
 import android.util.Log
 import android.util.TypedValue
+import android.widget.LinearLayout
+import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

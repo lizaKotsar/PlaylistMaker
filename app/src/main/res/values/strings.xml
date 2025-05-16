@@ -7,5 +7,6 @@
     <string name="support">Написать в поддержку</string>
     <string name="share">Поделиться приложением</string>
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="share_text">https://practicum.yandex.ru/android-developer//</string>
 
 </resources>
