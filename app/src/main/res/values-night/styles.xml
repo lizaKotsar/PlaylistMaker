@@ -64,4 +64,14 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
     </style>
+
+    <style name="SearchEditTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/button_text_size_search</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:tint">?attr/searchIconColor</item>
+        <item name="android:paddingEnd">@dimen/search_field_margin</item>
+    </style>
 </resources>

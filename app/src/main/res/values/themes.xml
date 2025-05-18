@@ -23,5 +23,7 @@
         <item name="android:statusBarColor">@color/YP_Blue</item>
         <item name="android:navigationBarColor" tools:targetApi="l">@color/YP_Blue</item>
 
+        <!-- для экрана поиска -->
+        <item name="searchIconColor">@color/YP_Text_Gray</item>
     </style>
 </resources>
