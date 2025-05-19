@@ -61,7 +61,7 @@
                 android:layout_marginStart="@dimen/search_icon_margin_start"
                 android:layout_marginEnd="@dimen/search_icon_margin_end"
                 android:src="@drawable/baseline_search"
-                android:tint="?attr/searchIconColor" />
+                app:tint="?attr/searchIconColor" />
 
             <!-- Поле ввода -->
             <EditText
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="@dimen/search_icon_margin_end"
                 android:src="@drawable/baseline_close_24"
                 android:visibility="gone"
-                android:tint="?attr/searchIconColor" />
+                app:tint="?attr/searchIconColor" />
 
 
         </LinearLayout>

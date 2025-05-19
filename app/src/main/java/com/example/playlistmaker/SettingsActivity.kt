@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // кнопки на экране настроек
+
 
         // Кнопка поделиться
         val shareButton = findViewById<LinearLayout>(R.id.share_button)
