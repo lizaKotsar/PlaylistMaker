@@ -67,6 +67,7 @@
             <EditText
                 android:id="@+id/search_edit_text"
                 style="@style/SearchEditTextStyle"
+                android:textCursorDrawable="@drawable/search_cursor"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/search_field_height"
                 android:layout_weight="1"
