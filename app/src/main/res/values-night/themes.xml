@@ -24,5 +24,6 @@
         <item name="android:navigationBarColor" tools:targetApi="l">@color/black</item>
         <!-- экран поиска -->
         <item name="searchIconColor">@color/black</item>
+
     </style>
 </resources>

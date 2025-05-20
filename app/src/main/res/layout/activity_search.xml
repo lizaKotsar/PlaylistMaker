@@ -75,7 +75,6 @@
                 android:hint="@string/search_hint"
                 android:inputType="text"
                 android:maxLines="1"
-
                 />
             <ImageView
                 android:id="@+id/clear_icon"
@@ -88,6 +87,15 @@
 
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tracks_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 </FrameLayout>

@@ -25,5 +25,6 @@
 
         <!-- для экрана поиска -->
         <item name="searchIconColor">@color/YP_Text_Gray</item>
+
     </style>
 </resources>

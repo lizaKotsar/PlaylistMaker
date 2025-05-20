@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp"
+    android:background="?attr/colorSecondary">
+
+    <!-- Обложка -->
+    <ImageView
+        android:id="@+id/track_artwork"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/image_placeholder"
+        android:clipToOutline="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Название трека -->
+    <TextView
+        android:id="@+id/track_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track name"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textColor="?attr/colorOnBackground"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/track_artwork"
+        app:layout_constraintEnd_toStartOf="@id/track_arrow"
+        app:layout_constraintTop_toTopOf="@id/track_artwork" />
+
+    <!-- Исполнитель и время -->
+    <TextView
+        android:id="@+id/track_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Artist • 3:30"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?attr/colorOnSecondary"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@id/track_name"
+        app:layout_constraintStart_toStartOf="@id/track_name"
+        app:layout_constraintEnd_toEndOf="@id/track_name" />
+
+    <!-- Иконка стрелки -->
+    <ImageView
+        android:id="@+id/track_arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_trek"
+        android:tint="?attr/iconsetting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/track_artwork"
+        app:layout_constraintBottom_toBottomOf="@id/track_artwork" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
