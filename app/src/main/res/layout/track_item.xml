@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp"
-    android:background="?attr/colorSecondary">
+    android:background="@android:color/transparent">
 
     <!-- Обложка -->
     <ImageView

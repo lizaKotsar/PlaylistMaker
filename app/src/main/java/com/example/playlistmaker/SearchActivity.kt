@@ -1,6 +1,9 @@
 package com.example.playlistmaker
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -9,17 +12,17 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.data.model.TrackAdapter
 import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.data.model.TrackAdapter
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchEditText: EditText
     private lateinit var clearIcon: ImageView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var trackAdapter: TrackAdapter
 
 
     private var searchQuery: String = ""
@@ -75,15 +78,17 @@ class SearchActivity : AppCompatActivity() {
         searchEditText = findViewById(R.id.search_edit_text)
         clearIcon = findViewById(R.id.clear_icon)
 
-        val tracksRecyclerView = findViewById<RecyclerView>(R.id.tracks_recycler_view)
-        val trackAdapter = TrackAdapter(mockTracks)
-        tracksRecyclerView.adapter = trackAdapter
+        recyclerView = findViewById(R.id.tracksRecycler)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        trackAdapter = TrackAdapter(mockTracks)
+        recyclerView.adapter = trackAdapter
 
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(SEARCH_QUERY_KEY, "")
             searchEditText.setText(searchQuery)
-            searchEditText.setSelection(searchQuery.length) // ставим курсор в конец
+            searchEditText.setSelection(searchQuery.length)
             clearIcon.visibility = if (searchQuery.isEmpty()) View.GONE else View.VISIBLE
         }
 
@@ -113,10 +118,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
+    //override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        //super.onRestoreInstanceState(savedInstanceState)
 
-    }
+    //}
 
     private fun hideKeyboard() {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager

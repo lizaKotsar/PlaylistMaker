@@ -89,13 +89,19 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tracks_recycler_view"
+            android:id="@+id/tracksRecycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            android:scrollbars="vertical" />
+
+            android:paddingBottom="8dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <!-- где пробел там вопрос -->
+
 
     </LinearLayout>
 </FrameLayout>
