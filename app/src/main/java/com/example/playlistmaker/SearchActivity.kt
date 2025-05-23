@@ -118,10 +118,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    //override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        //super.onRestoreInstanceState(savedInstanceState)
 
-    //}
 
     private fun hideKeyboard() {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager

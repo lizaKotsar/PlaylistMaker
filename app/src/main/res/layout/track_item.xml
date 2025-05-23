@@ -14,7 +14,7 @@
         android:layout_width="@dimen/track_artwork_size"
         android:layout_height="@dimen/track_artwork_size"
         android:scaleType="centerCrop"
-        android:background="@drawable/image_placeholder"
+        android:background="@drawable/ic_placeholder"
         android:clipToOutline="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
