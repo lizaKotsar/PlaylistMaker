@@ -36,6 +36,12 @@
     <dimen name="search_icon_margin_end">10dp</dimen>
     <dimen name="clear_icon_size">24dp</dimen>
 
-
-
+    <!-- трек -->
+    <dimen name="track_item_padding_horizontal">16dp</dimen>
+    <dimen name="track_item_padding_vertical">8dp</dimen>
+    <dimen name="track_artwork_size">45dp</dimen>
+    <dimen name="track_item_margin_start">8dp</dimen>
+    <dimen name="track_name_padding_top">3dp</dimen>
+    <dimen name="track_arrow_width">8dp</dimen>
+    <dimen name="track_arrow_height">14dp</dimen>
 </resources>
