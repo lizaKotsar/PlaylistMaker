@@ -171,7 +171,8 @@
                     style="@style/RefreshButtonStyle"
                     android:text="@string/refresh_button"
                     android:layout_gravity="center"
-                    android:layout_marginTop="24dp"/>
+                    android:layout_marginTop="24dp"
+                    app:cornerRadius="54dp"/>
 
             </LinearLayout>
 
