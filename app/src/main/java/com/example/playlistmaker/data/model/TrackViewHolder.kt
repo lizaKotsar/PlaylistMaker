@@ -6,6 +6,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -14,8 +16,12 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackArtwork: ImageView = itemView.findViewById(R.id.track_artwork)
 
     fun bind(track: Track) {
-        trackName.text = track.trackName
-        trackInfo.text = "${track.artistName} • ${track.trackTime}"
+        trackName.text = track.trackName.orEmpty()
+
+        val time = track.trackTimeMillis ?: 0L
+        val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(time)
+        val artist = track.artistName.orEmpty()
+        trackInfo.text = "$artist · $formattedTime"
 
         Glide.with(itemView)
             .load(track.artworkUrl100)

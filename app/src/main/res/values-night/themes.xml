@@ -25,5 +25,6 @@
         <!-- экран поиска -->
         <item name="searchIconColor">@color/black</item>
 
+        <item name="placeholderNoteColor">@color/white</item>
     </style>
 </resources>
