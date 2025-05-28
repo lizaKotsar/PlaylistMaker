@@ -4,31 +4,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    android:background="?attr/colorSecondary"
+   >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@android:color/white"
-            android:padding="4dp"
-            android:src="@drawable/baseline_arrow_back_24"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/search"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/title_margin_start"
+            android:paddingTop="@dimen/title_margin_top"
+            android:paddingBottom="@dimen/title_margin_bottom">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="?attr/navIcon" />
+
+            <TextView
+                style="@style/SettingsTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/title_margin_left"
+                android:text="@string/search"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Поле поиска -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/search_edit_text_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+
+            >
+
+
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="@dimen/search_icon_width"
+                android:layout_height="@dimen/search_icon_height"
+                android:layout_marginStart="@dimen/search_icon_margin_start"
+                android:layout_marginEnd="@dimen/search_icon_margin_end"
+                android:src="@drawable/baseline_search"
+                app:tint="?attr/searchIconColor" />
+
+            <!-- Поле ввода -->
+            <EditText
+                android:id="@+id/search_edit_text"
+                style="@style/SearchEditTextStyle"
+                android:textCursorDrawable="@drawable/search_cursor"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/search_field_height"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                />
+            <ImageView
+                android:id="@+id/clear_icon"
+                android:layout_width="@dimen/clear_icon_size"
+                android:layout_height="@dimen/clear_icon_size"
+                android:layout_marginEnd="@dimen/search_icon_margin_end"
+                android:src="@drawable/baseline_close_24"
+                android:visibility="gone"
+                app:tint="?attr/searchIconColor" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tracksRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+
+            android:paddingBottom="8dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <!-- где пробел там вопрос -->
+
+
     </LinearLayout>
 </FrameLayout>
+

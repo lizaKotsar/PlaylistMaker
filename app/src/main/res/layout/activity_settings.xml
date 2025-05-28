@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorSecondary"
     android:id="@+id/main">
 
+    <!-- Нижнее навигационное меню -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,233 +16,209 @@
         android:paddingTop="@dimen/layout_padding_top"
         android:paddingBottom="@dimen/layout_padding_bottom">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="@dimen/margin_bottom_between_blocks"
-        android:paddingStart="@dimen/icon_padding_back"
-        >
-
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="@dimen/back_button_size"
-            android:layout_height="@dimen/back_button_size"
-            android:backgroundTint="@android:color/white"
-            android:padding="@dimen/icon_padding"
-            android:src="@drawable/baseline_arrow_back_24"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/title_margin_start"
-            android:text="@string/settings"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/title_text_size" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingVertical="@dimen/icon_padding">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dark_tema"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"/>
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
+        <!-- Верхний блок с кнопкой Назад и заголовком -->
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
-            android:layout_marginEnd="@dimen/text_margin_end"
-           />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/share_icon"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
+            android:layout_marginBottom="@dimen/margin_bottom_between_blocks"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/icon_padding_back">
 
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/icon_padding"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="?attr/navIcon"
+                />
+
+            <TextView
+                style="@style/SettingsTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/title_margin_start"
+                android:text="@string/settings" />
+        </LinearLayout>
+
+        <!-- Тумблер тёмной темы -->
+        <LinearLayout
+            android:layout_height="@dimen/item_height"
+            android:layout_width="match_parent"
+
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/icon_padding">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/dark_tema" />
+
+            <Switch
+                android:id="@+id/theme_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Кнопка «Поделиться приложением» -->
+        <LinearLayout
+            android:id="@+id/share_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin_end"
+                android:layout_weight="1"
+                android:text="@string/share" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:contentDescription="@string/share"
+                android:src="@drawable/share_icon"
+                app:tint="?attr/iconsetting" />
+        </LinearLayout>
+
+        <!-- Кнопка «Поддержка» -->
+        <LinearLayout
+            android:id="@+id/support_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin_end"
+                android:layout_weight="1"
+                android:text="@string/support" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:contentDescription="@string/support"
+                android:src="@drawable/support"
+                app:tint="?attr/iconsetting" />
+        </LinearLayout>
+
+        <!-- Кнопка «Пользовательское соглашение» -->
+        <LinearLayout
+            android:id="@+id/agreement_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/SettingsItemTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin_end"
+                android:layout_weight="1"
+                android:text="@string/user_agreement" />
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:contentDescription="@string/user_agreement"
+                android:src="@drawable/agreement"
+                app:tint="@color/YP_Text_Gray" />
+        </LinearLayout>
     </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/support"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
-            android:layout_marginEnd="@dimen/text_margin_end"
-            />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/support"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/user_agreement"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif"
-            android:layout_marginEnd="@dimen/text_margin_end"
-            />
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/agreement"
-            android:contentDescription="@string/share"
-            app:tint="@color/YP_Text_Gray" />
-    </LinearLayout>
-
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="?attr/navsetting">
 
-    <LinearLayout
-        android:id="@+id/search_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/lypa"
-            app:tint="@color/black" />
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/lypa"
+                app:tint="?attr/navIcon" />/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/media_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/media_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/media_icon"
-            app:tint="@color/black" />
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/media_icon"
+                app:tint="?attr/navIcon" />/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/media"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/settings_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
-    <LinearLayout
-        android:id="@+id/settings_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:clickable="true"
-        android:focusable="true">
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/nastroiki_icon"
+                app:tint="@color/YP_Blue" />
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:src="@drawable/nastroiki_icon"
-            app:tint="@color/YP_Blue" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:textColor="@color/YP_Blue"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            android:textAllCaps="false"/>
-    </LinearLayout>
+            <TextView
+                style="@style/BottomNavTextActiveStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
-
-
-

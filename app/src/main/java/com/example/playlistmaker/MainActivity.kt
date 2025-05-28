@@ -9,6 +9,10 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.widget.Button
 import android.content.Intent
+import android.util.Log
+import android.util.TypedValue
+import android.widget.LinearLayout
+import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+//start255567555
         val searchButton = findViewById<Button>(R.id.search_button)
         val mediaButton = findViewById<Button>(R.id.media_button)
         val settingsButton = findViewById<Button>(R.id.settings_button)
@@ -30,15 +34,20 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, SearchActivity::class.java)
                 startActivity(intent)
             }
-        }
+        }//jjjjf
 
+        val typedValue = TypedValue()
+        theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        Log.d("ColorCheck", "colorPrimary = #" + Integer.toHexString(typedValue.data))
+
+        //ssы
         searchButton.setOnClickListener(searchClickListener)
 
         mediaButton.setOnClickListener {
             val intent = Intent(this, MediaActivity::class.java)
             startActivity(intent)
         }
-
+// sprint9
         settingsButton.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)

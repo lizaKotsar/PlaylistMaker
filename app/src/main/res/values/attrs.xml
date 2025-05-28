@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="iconsetting" format="reference|color"/>
+    <attr name="navsetting" format="reference|color"/>
+    <attr name="navIcon" format="reference|color"/>
+    <!-- для экрана поиска -->
+    <attr name="searchIconColor" format="reference|color" />
+
+</resources>
