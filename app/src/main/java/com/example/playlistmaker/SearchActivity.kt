@@ -133,6 +133,9 @@ class SearchActivity : AppCompatActivity() {
         clearIcon.setOnClickListener {
             searchEditText.text.clear()
             hideKeyboard()
+            trackList.clear()
+            @Suppress("NotifyDataSetChanged")
+            adapter.notifyDataSetChanged()
             showPlaceholder(error = false, nothingFound = false)
         }
     }
