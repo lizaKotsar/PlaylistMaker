@@ -8,7 +8,7 @@
     android:paddingVertical="@dimen/track_item_padding_vertical"
     android:background="@android:color/transparent">
 
-    <!-- Обложка -->
+
     <ImageView
         android:id="@+id/track_artwork"
         android:layout_width="@dimen/track_artwork_size"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Название трека -->
+
     <TextView
         android:id="@+id/track_name"
         style="@style/TextAppearanceTrackTitle"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toStartOf="@id/track_arrow"
         app:layout_constraintTop_toTopOf="@id/track_artwork" />
 
-    <!-- Контейнер для исполнителя, точки и длительности -->
+
     <LinearLayout
         android:id="@+id/track_info_container"
         android:layout_width="0dp"
@@ -72,7 +72,7 @@
             android:text="3:55" />
     </LinearLayout>
 
-    <!-- Иконка стрелки -->
+
     <ImageView
         android:id="@+id/track_arrow"
         android:layout_width="@dimen/track_arrow_width"
