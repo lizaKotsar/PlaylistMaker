@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:background="?attr/colorSecondary"
+
    >
 
     <LinearLayout
@@ -89,21 +90,88 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tracksRecycler"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            android:paddingBottom="8dp"
-            android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/search_bar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <!-- где пробел там вопрос -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tracksRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp"
+                android:overScrollMode="never" />
+        </FrameLayout>
+            <!-- Заглушка: ничего не найдено -->
+            <LinearLayout
+                android:id="@+id/placeholder_nothing_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/nothing_found_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="110dp"
+                    android:src="@drawable/placeholder_nothing_found_light"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/nothing_found_text"
+                    style="@style/PlaceholderTextStyle"
+                    android:text="@string/nothing_found"
+                     />
+            </LinearLayout>
+
+            <!-- Заглушка: ошибка соединения -->
+            <LinearLayout
+                android:id="@+id/placeholder_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+
+                >
+                <!-- Заглушка: ошибка соединения android:layout_marginTop="458dp" заменила на  -->
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/placeholder_error_icon"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="110dp"/>
+
+                <TextView
+                    android:id="@+id/error_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PlaceholderTitleTextStyle"
+                    android:text="@string/connection_error_title"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:id="@+id/error_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PlaceholderBodyTextStyle"
+                    android:text="@string/connection_error_message"
+                    android:layout_marginTop="12dp" />
+                <Button
+                    android:id="@+id/refresh_button"
+                    style="@style/RefreshButtonStyle"
+                    android:text="@string/refresh_button"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    app:cornerRadius="54dp"/>
+
+            </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>
-

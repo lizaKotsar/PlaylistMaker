@@ -8,7 +8,7 @@
     android:paddingVertical="@dimen/track_item_padding_vertical"
     android:background="@android:color/transparent">
 
-    <!-- Обложка -->
+
     <ImageView
         android:id="@+id/track_artwork"
         android:layout_width="@dimen/track_artwork_size"
@@ -20,35 +20,59 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Название трека -->
+
     <TextView
         android:id="@+id/track_name"
         style="@style/TextAppearanceTrackTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Track name"
         android:maxLines="1"
         android:ellipsize="end"
-        android:paddingTop="@dimen/track_name_padding_top"
         android:layout_marginStart="@dimen/track_item_margin_start"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="@dimen/track_name_padding_top"
         app:layout_constraintStart_toEndOf="@id/track_artwork"
         app:layout_constraintEnd_toStartOf="@id/track_arrow"
         app:layout_constraintTop_toTopOf="@id/track_artwork" />
 
-    <!-- Исполнитель и время -->
-    <TextView
-        android:id="@+id/track_info"
-        style="@style/TextAppearanceTrackInfo"
+
+    <LinearLayout
+        android:id="@+id/track_info_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Artist • 3:30"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/track_name"
         app:layout_constraintStart_toStartOf="@id/track_name"
-        app:layout_constraintEnd_toEndOf="@id/track_name" />
+        app:layout_constraintEnd_toEndOf="@id/track_name">
 
-    <!-- Иконка стрелки -->
+        <TextView
+            android:id="@+id/track_artist"
+            style="@style/TextAppearanceTrackInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Artist name" />
+
+        <TextView
+            android:id="@+id/track_dot"
+            style="@style/TextAppearanceTrackInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="•" />
+
+        <TextView
+            android:id="@+id/track_duration"
+            style="@style/TextAppearanceTrackInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3:55" />
+    </LinearLayout>
+
+
     <ImageView
         android:id="@+id/track_arrow"
         android:layout_width="@dimen/track_arrow_width"
@@ -58,4 +82,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/track_artwork"
         app:layout_constraintBottom_toBottomOf="@id/track_artwork" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

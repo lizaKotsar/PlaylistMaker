@@ -6,4 +6,5 @@
     <!-- для экрана поиска -->
     <attr name="searchIconColor" format="reference|color" />
 
+    <attr name="placeholderNoteColor" format="reference|color"/>
 </resources>
