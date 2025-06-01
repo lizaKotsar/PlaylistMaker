@@ -139,5 +139,9 @@
 
     </style>
 
+    <style name="AppSwitchStyle" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="thumbTint">?attr/switchThumbTint</item>
+        <item name="trackTint">?attr/switchTrackTint</item>
+    </style>
 
 </resources>

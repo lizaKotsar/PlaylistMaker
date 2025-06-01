@@ -7,4 +7,7 @@
     <attr name="searchIconColor" format="reference|color" />
 
     <attr name="placeholderNoteColor" format="reference|color"/>
+    <attr name="switchThumbTint" format="reference|color" />
+    <attr name="switchTrackTint" format="reference|color" />
+
 </resources>

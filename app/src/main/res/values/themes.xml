@@ -29,5 +29,9 @@
         <item name="placeholderNoteColor">@color/black</item>
 
 
+        <item name="switchThumbTint">@color/YP_Text_Gray</item>
+        <item name="switchTrackTint">@color/YP_Light_Gray</item>
+
+
     </style>
 </resources>
