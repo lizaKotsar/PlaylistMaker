@@ -65,7 +65,7 @@
                 android:src="@drawable/baseline_search"
                 app:tint="?attr/searchIconColor" />
 
-            <!-- Поле ввода -->
+            <!-- Поле ввода новый спринт -->
             <EditText
                 android:id="@+id/search_edit_text"
                 style="@style/SearchEditTextStyle"
