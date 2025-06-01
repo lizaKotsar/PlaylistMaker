@@ -19,6 +19,7 @@ import com.example.playlistmaker.data.model.network.ITunesApi
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import android.view.inputmethod.EditorInfo
+import com.example.playlistmaker.data.model.SearchHistory
 
 class SearchActivity : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderNothingFound: View
     private lateinit var placeholderError: View
     private lateinit var refreshButton: Button
+    private lateinit var searchHistory: SearchHistory
     private var searchQuery: String = ""
     private val trackList = ArrayList<Track>()
     private val adapter = TrackAdapter(trackList)
@@ -72,6 +74,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        searchHistory = SearchHistory(getSharedPreferences("playlist_preferences", MODE_PRIVATE))
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
