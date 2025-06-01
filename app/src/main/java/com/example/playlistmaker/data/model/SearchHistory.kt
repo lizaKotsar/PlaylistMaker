@@ -3,6 +3,7 @@ package com.example.playlistmaker.data.model
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import android.util.Log
 
 class SearchHistory(private val sharedPrefs: SharedPreferences) {
 
@@ -38,5 +39,6 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
             history.removeLast()
         }
         saveHistory(history)
+        Log.d("SearchHistory", "addTrack: добавлен трек ${track.trackName}, история сейчас: ${getHistory().map { it.trackName }}")
     }
 }

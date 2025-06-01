@@ -65,7 +65,7 @@
                 android:src="@drawable/baseline_search"
                 app:tint="?attr/searchIconColor" />
 
-            <!-- Поле ввода новый спринт -->
+
             <EditText
                 android:id="@+id/search_edit_text"
                 style="@style/SearchEditTextStyle"
@@ -94,8 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+
             android:visibility="gone">
 
             <TextView
