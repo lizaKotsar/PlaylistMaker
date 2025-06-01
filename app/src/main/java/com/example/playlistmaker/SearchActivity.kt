@@ -33,13 +33,14 @@ class SearchActivity : AppCompatActivity() {
     private var searchQuery: String = ""
     private val trackList = ArrayList<Track>()
     private val adapter = TrackAdapter(trackList)
-
+    private lateinit var searchHistoryContainer: View
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val iTunesService = retrofit.create(ITunesApi::class.java)
+    private val historyAdapter = TrackAdapter(ArrayList())
 
     private fun search(query: String) {
         iTunesService.search(query)
@@ -94,9 +95,34 @@ class SearchActivity : AppCompatActivity() {
         placeholderNothingFound = findViewById(R.id.placeholder_nothing_found)
         placeholderError = findViewById(R.id.placeholder_error)
         refreshButton = findViewById(R.id.refresh_button)
-
+        searchHistoryContainer = findViewById(R.id.search_history_container)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        adapter.setOnItemClickListener { track ->
+            searchHistory.addTrack(track)
+            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+        }
+
+        val historyRecycler = findViewById<RecyclerView>(R.id.history_recycler)
+        val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
+
+        historyRecycler.layoutManager = LinearLayoutManager(this)
+
+        historyRecycler.adapter = historyAdapter
+
+        historyAdapter.setOnItemClickListener { track ->
+            searchHistory.addTrack(track)
+            hideSearchHistory()
+            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+        }
+        clearHistoryButton.setOnClickListener {
+            searchHistory.clearHistory()
+            hideSearchHistory()
+            Toast.makeText(this, "История очищена", Toast.LENGTH_SHORT).show()
+        }
+
+
 
         refreshButton.setOnClickListener {
             if (searchQuery.isNotEmpty()) {
@@ -134,6 +160,14 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) = Unit
         })
 
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && searchEditText.text.isNullOrEmpty()) {
+                showSearchHistory()
+            } else {
+                hideSearchHistory()
+            }
+        }
+
         clearIcon.setOnClickListener {
             searchEditText.text.clear()
             hideKeyboard()
@@ -155,7 +189,20 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(it, 0)
         }
     }
+    private fun showSearchHistory() {
+        val history = searchHistory.getHistory()
+        if (history.isNotEmpty()) {
+            Toast.makeText(this, "Показ истории", Toast.LENGTH_SHORT).show() // ← для отладки
 
+            searchHistoryContainer.visibility = View.VISIBLE
+            historyAdapter.updateTracks(history)
+            recyclerView.visibility = View.GONE
+        }
+    }
+
+    private fun hideSearchHistory() {
+        searchHistoryContainer.visibility = View.GONE
+    }
     companion object {
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
     }

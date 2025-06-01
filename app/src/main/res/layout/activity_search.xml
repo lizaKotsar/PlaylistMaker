@@ -96,7 +96,7 @@
             android:orientation="vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:visibility="">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/history_title"
@@ -106,18 +106,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/history_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:overScrollMode="never"
-                android:nestedScrollingEnabled="false"
+                android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="8dp"
+                android:overScrollMode="never" />
 
             <Button
                 android:id="@+id/clear_history_button"
-                style="@style/ClearHistoryButtonStyle"
+                style="@style/ClearHistoryButton"
                 android:text="@string/clear_history"
-                app:cornerRadius="54dp" />
+                app:cornerRadius="54dp"/>
         </LinearLayout>
 
 

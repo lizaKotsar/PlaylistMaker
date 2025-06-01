@@ -19,15 +19,7 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
         return gson.fromJson(json, type)
     }
 
-    fun saveTrack(track: Track) {
-        val currentHistory = getHistory().toMutableList()
-        currentHistory.removeAll { it.trackId == track.trackId }
-        currentHistory.add(0, track)
-        if (currentHistory.size > MAX_HISTORY_SIZE) {
-            currentHistory.removeLast()
-        }
-        saveHistory(currentHistory)
-    }
+
 
     fun clearHistory() {
         sharedPrefs.edit().remove(SEARCH_HISTORY_KEY).apply()
@@ -36,5 +28,15 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
     private fun saveHistory(history: List<Track>) {
         val json = gson.toJson(history)
         sharedPrefs.edit().putString(SEARCH_HISTORY_KEY, json).apply()
+    }
+
+    fun addTrack(track: Track) {
+        val history = getHistory().toMutableList()
+        history.removeAll { it.trackId == track.trackId }
+        history.add(0, track)
+        if (history.size > MAX_HISTORY_SIZE) {
+            history.removeLast()
+        }
+        saveHistory(history)
     }
 }
