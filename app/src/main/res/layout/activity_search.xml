@@ -89,34 +89,42 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/search_history_container"
+        <ScrollView
+            android:id="@+id/search_history_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:fillViewport="true">
 
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/history_title"
-                style="@style/SearchHistoryTitleStyle"
-                android:text="@string/search_history_title" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/history_recycler"
+            <LinearLayout
+                android:id="@+id/search_history_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="8dp"
-                android:overScrollMode="never" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/clear_history_button"
-                style="@style/ClearHistoryButton"
-                android:text="@string/clear_history"
-                app:cornerRadius="54dp"/>
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/history_title"
+                    style="@style/SearchHistoryTitleStyle"
+                    android:text="@string/search_history_title" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/history_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp"
+                    android:overScrollMode="never" />
+
+                <Button
+                    android:id="@+id/clear_history_button"
+                    style="@style/ClearHistoryButton"
+                    android:text="@string/clear_history"
+                    app:cornerRadius="54dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"

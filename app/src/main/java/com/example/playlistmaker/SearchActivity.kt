@@ -33,7 +33,7 @@ class SearchActivity : AppCompatActivity() {
     private var searchQuery: String = ""
     private val trackList = ArrayList<Track>()
     private val adapter = TrackAdapter(trackList)
-    private lateinit var searchHistoryContainer: View
+    private lateinit var searchHistoryScroll: View
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com")
         .addConverterFactory(GsonConverterFactory.create())
@@ -97,7 +97,7 @@ class SearchActivity : AppCompatActivity() {
         placeholderNothingFound = findViewById(R.id.placeholder_nothing_found)
         placeholderError = findViewById(R.id.placeholder_error)
         refreshButton = findViewById(R.id.refresh_button)
-        searchHistoryContainer = findViewById(R.id.search_history_container)
+        searchHistoryScroll = findViewById(R.id.search_history_scroll)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
@@ -204,7 +204,7 @@ class SearchActivity : AppCompatActivity() {
         if (history.isNotEmpty()) {
 
 
-            searchHistoryContainer.visibility = View.VISIBLE
+            searchHistoryScroll.visibility = View.VISIBLE
             historyAdapter.updateTracks(history)
             recyclerView.visibility = View.GONE
 
@@ -213,7 +213,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideSearchHistory() {
-        searchHistoryContainer.visibility = View.GONE
+        searchHistoryScroll.visibility = View.GONE
     }
     companion object {
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
