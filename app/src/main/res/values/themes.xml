@@ -33,8 +33,11 @@
         <item name="switchTrackTint">@color/YP_Light_Gray</item>
 
 
-        <item name="playerButtonBackground">@color/Gray_light</item>
+        <item name="playerButtonBackground">@color/YP_Text_Gray</item>
+        <item name="iconOnPlayerButton">@color/white</item>
 
+        <item name="playButtonBackground">@color/black</item>
+        <item name="playButtonIconColor">@color/white</item>
 
     </style>
 </resources>

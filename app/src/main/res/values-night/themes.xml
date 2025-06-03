@@ -34,8 +34,9 @@
 
 
         <item name="playerButtonBackground">@color/YP_Player_Button_Dark</item>
+        <item name="iconOnPlayerButton">@color/white</item>
 
-
-
+        <item name="playButtonBackground">@color/white</item>
+        <item name="playButtonIconColor">@color/black</item>
     </style>
 </resources>

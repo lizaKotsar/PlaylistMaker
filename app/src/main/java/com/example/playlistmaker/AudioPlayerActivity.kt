@@ -38,8 +38,19 @@ class AudioPlayerActivity : AppCompatActivity() {
                 .into(coverImage)
 
 
-            findViewById<TextView>(R.id.trackName).text = track.trackName
-            findViewById<TextView>(R.id.artistName).text = track.artistName
+            val maxTrackNameLength = 40
+            val maxArtistNameLength = 40
+
+            val trackTitle = track.trackName?.let {
+                if (it.length > maxTrackNameLength) it.take(maxTrackNameLength) + "…" else it
+            } ?: ""
+
+            val artistTitle = track.artistName?.let {
+                if (it.length > maxArtistNameLength) it.take(maxArtistNameLength) + "…" else it
+            } ?: ""
+
+            findViewById<TextView>(R.id.trackName).text = trackTitle
+            findViewById<TextView>(R.id.artistName).text = artistTitle
 
 
             val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
@@ -53,18 +64,16 @@ class AudioPlayerActivity : AppCompatActivity() {
             val albumName = track.collectionName?.let {
                 if (it.length > maxAlbumLength) it.take(maxAlbumLength) + "…" else it
             } ?: ""
-
             findViewById<TextView>(R.id.trackAlbumValue).text = albumName
+
+            val year = track.releaseDate?.take(4).orEmpty()
+            findViewById<TextView>(R.id.trackYearValue).text = year
 
 
             findViewById<TextView>(R.id.trackGenreValue).text = track.primaryGenreName.orEmpty()
 
 
             findViewById<TextView>(R.id.trackCountryValue).text = track.country.orEmpty()
-
-
-            val year = track.releaseDate?.take(4).orEmpty()
-            findViewById<TextView>(R.id.trackYearValue).text = year
         }
     }
 }

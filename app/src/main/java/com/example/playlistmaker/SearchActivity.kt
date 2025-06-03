@@ -203,7 +203,7 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(it, 0)
         }
     }
-    //sss
+
     private fun showSearchHistory() {
         val history = searchHistory.getHistory()
         if (history.isNotEmpty()) {
