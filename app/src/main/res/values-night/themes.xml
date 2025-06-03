@@ -26,5 +26,12 @@
         <item name="searchIconColor">@color/black</item>
 
         <item name="placeholderNoteColor">@color/white</item>
+
+
+        <item name="switchThumbTint">@color/YP_Blue</item>
+        <item name="switchTrackTint">@color/YP_Blue_Light</item>
+
+
+
     </style>
 </resources>

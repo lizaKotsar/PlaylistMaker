@@ -65,7 +65,7 @@
                 android:src="@drawable/baseline_search"
                 app:tint="?attr/searchIconColor" />
 
-            <!-- Поле ввода -->
+
             <EditText
                 android:id="@+id/search_edit_text"
                 style="@style/SearchEditTextStyle"
@@ -89,7 +89,42 @@
 
 
         </LinearLayout>
+        <ScrollView
+            android:id="@+id/search_history_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:fillViewport="true">
 
+            <LinearLayout
+                android:id="@+id/search_history_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/history_title"
+                    style="@style/SearchHistoryTitleStyle"
+                    android:text="@string/search_history_title" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/history_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp"
+                    android:overScrollMode="never" />
+
+                <Button
+                    android:id="@+id/clear_history_button"
+                    style="@style/ClearHistoryButton"
+                    android:text="@string/clear_history"
+                    app:cornerRadius="54dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -173,5 +208,6 @@
 
             </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
 </FrameLayout>

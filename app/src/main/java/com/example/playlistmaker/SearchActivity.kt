@@ -19,7 +19,8 @@ import com.example.playlistmaker.data.model.network.ITunesApi
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import android.view.inputmethod.EditorInfo
-
+import com.example.playlistmaker.data.model.SearchHistory
+import android.util.Log
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchEditText: EditText
@@ -28,16 +29,18 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderNothingFound: View
     private lateinit var placeholderError: View
     private lateinit var refreshButton: Button
+    private lateinit var searchHistory: SearchHistory
     private var searchQuery: String = ""
     private val trackList = ArrayList<Track>()
     private val adapter = TrackAdapter(trackList)
-
+    private lateinit var searchHistoryScroll: View
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val iTunesService = retrofit.create(ITunesApi::class.java)
+    private val historyAdapter = TrackAdapter(ArrayList())
 
     private fun search(query: String) {
         iTunesService.search(query)
@@ -73,10 +76,14 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        searchHistory = SearchHistory(getSharedPreferences("playlist_preferences", MODE_PRIVATE))
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+
+
         }
 
         val backButton = findViewById<ImageButton>(R.id.back_button)
@@ -90,9 +97,34 @@ class SearchActivity : AppCompatActivity() {
         placeholderNothingFound = findViewById(R.id.placeholder_nothing_found)
         placeholderError = findViewById(R.id.placeholder_error)
         refreshButton = findViewById(R.id.refresh_button)
-
+        searchHistoryScroll = findViewById(R.id.search_history_scroll)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        adapter.setOnItemClickListener { track ->
+            searchHistory.addTrack(track)
+            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+        }
+
+        val historyRecycler = findViewById<RecyclerView>(R.id.history_recycler)
+        val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
+
+        historyRecycler.layoutManager = LinearLayoutManager(this)
+
+        historyRecycler.adapter = historyAdapter
+
+        historyAdapter.setOnItemClickListener { track ->
+            searchHistory.addTrack(track)
+            historyAdapter.updateTracks(searchHistory.getHistory())
+            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+        }
+        clearHistoryButton.setOnClickListener {
+            searchHistory.clearHistory()
+            hideSearchHistory()
+
+        }
+
+
 
         refreshButton.setOnClickListener {
             if (searchQuery.isNotEmpty()) {
@@ -111,6 +143,7 @@ class SearchActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val query = searchEditText.text.toString()
                 if (query.isNotEmpty()) {
+                    hideSearchHistory()
                     search(query)
                 }
                 true
@@ -125,10 +158,19 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchQuery = s.toString()
                 clearIcon.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+
             }
 
             override fun afterTextChanged(s: Editable?) = Unit
         })
+
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && searchEditText.text.isNullOrEmpty()) {
+                showSearchHistory()
+            } else {
+                hideSearchHistory()
+            }
+        }
 
         clearIcon.setOnClickListener {
             searchEditText.text.clear()
@@ -137,7 +179,13 @@ class SearchActivity : AppCompatActivity() {
             @Suppress("NotifyDataSetChanged")
             adapter.notifyDataSetChanged()
             showPlaceholder(error = false, nothingFound = false)
+
+            if (searchEditText.hasFocus() && searchEditText.text.isNullOrEmpty()) {
+                showSearchHistory()
+            }
         }
+
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -151,7 +199,22 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(it, 0)
         }
     }
+    private fun showSearchHistory() {
+        val history = searchHistory.getHistory()
+        if (history.isNotEmpty()) {
 
+
+            searchHistoryScroll.visibility = View.VISIBLE
+            historyAdapter.updateTracks(history)
+            recyclerView.visibility = View.GONE
+
+            Log.d("SearchActivity", "showSearchHistory: история = ${history.map { it.trackName }}")
+        }
+    }
+
+    private fun hideSearchHistory() {
+        searchHistoryScroll.visibility = View.GONE
+    }
     companion object {
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
     }
