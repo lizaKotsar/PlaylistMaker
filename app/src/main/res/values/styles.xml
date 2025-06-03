@@ -179,4 +179,40 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:fontWeight">500</item>
     </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+
+    <!-- Трек: Название -->
+    <style name="TrackTitleText">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:fontWeight">400</item>
+    </style>
+
+    <!-- Артист -->
+    <style name="TrackArtistText">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:fontWeight">400</item>
+    </style>
+
+    <!-- Подписи слева: Альбом, Жанр и т.д. -->
+    <style name="TrackLabelText">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/YP_Text_Gray</item>
+    </style>
+
+    <!-- Значения справа: Help!, UK и т.д. -->
+    <style name="TrackValueText">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+
 </resources>

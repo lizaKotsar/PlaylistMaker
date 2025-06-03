@@ -33,5 +33,9 @@
 
 
 
+        <item name="playerButtonBackground">@color/YP_Player_Button_Dark</item>
+
+
+
     </style>
 </resources>

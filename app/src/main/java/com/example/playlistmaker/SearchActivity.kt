@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -103,7 +104,9 @@ class SearchActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener { track ->
             searchHistory.addTrack(track)
-            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AudioPlayerActivity::class.java)
+            intent.putExtra("track", track)
+            startActivity(intent)
         }
 
         val historyRecycler = findViewById<RecyclerView>(R.id.history_recycler)
@@ -115,8 +118,9 @@ class SearchActivity : AppCompatActivity() {
 
         historyAdapter.setOnItemClickListener { track ->
             searchHistory.addTrack(track)
-            historyAdapter.updateTracks(searchHistory.getHistory())
-            Toast.makeText(this, "Вы выбрали: ${track.trackName}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AudioPlayerActivity::class.java)
+            intent.putExtra("track", track)
+            startActivity(intent)
         }
         clearHistoryButton.setOnClickListener {
             searchHistory.clearHistory()
