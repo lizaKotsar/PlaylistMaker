@@ -52,6 +52,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation("com.github.bumptech.glide:glide:4.15.1")
 
-//sprint14start
+//sprint14start2
 
 }
