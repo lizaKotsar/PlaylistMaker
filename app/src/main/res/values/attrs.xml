@@ -9,5 +9,9 @@
     <attr name="placeholderNoteColor" format="reference|color"/>
     <attr name="switchThumbTint" format="reference|color" />
     <attr name="switchTrackTint" format="reference|color" />
+    <attr name="playerButtonBackground" format="reference|color" />
+    <attr name="iconOnPlayerButton" format="reference|color"/>
 
+    <attr name="playButtonBackground" format="color|reference" />
+    <attr name="playButtonIconColor" format="color|reference" />
 </resources>

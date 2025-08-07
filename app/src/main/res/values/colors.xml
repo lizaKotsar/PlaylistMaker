@@ -6,5 +6,7 @@
     <color name="YP_Text_Gray">#AEAFB4</color>
     <color name="YP_Light_Gray">#E6E8EB</color>
     <color name="YP_Blue_Light">#9FBBF3</color>
+    <color name="YP_Player_Button_Dark">#4B4B4B</color>
+    <color name="Gray_light">#1A1B22</color>
 
 </resources>
