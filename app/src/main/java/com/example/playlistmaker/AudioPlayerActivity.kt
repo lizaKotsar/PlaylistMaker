@@ -22,12 +22,13 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private var playerState = STATE_DEFAULT
 
-    private lateinit var playButton: ImageView   // если у тебя Button — поменяй тип и setImageResource на setText
+    private lateinit var playButton: ImageView
     private lateinit var playbackTimer: TextView
     private lateinit var durationText: TextView
 
     private val mediaPlayer = MediaPlayer()
-    private val handler = android.os.Handler(mainLooper)
+    private lateinit var handler: android.os.Handler
+
     private val progressRunnable = object : Runnable {
         override fun run() {
             if (playerState == STATE_PLAYING) {
@@ -43,23 +44,22 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player)
+        handler = android.os.Handler(mainLooper)
 
-        // Навигация назад
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         // UI
         val coverImage = findViewById<ImageView>(R.id.coverImage)
         val trackNameTv = findViewById<TextView>(R.id.trackName)
         val artistNameTv = findViewById<TextView>(R.id.artistName)
-        playbackTimer = findViewById(R.id.playbackTimer)     // ← текущий прогресс (mm:ss)
-        durationText = findViewById(R.id.trackDurationValue) // ← фиксированная длительность трека
+        playbackTimer = findViewById(R.id.playbackTimer)
+        durationText = findViewById(R.id.trackDurationValue)
         val albumTv = findViewById<TextView>(R.id.trackAlbumValue)
         val yearTv = findViewById<TextView>(R.id.trackYearValue)
         val genreTv = findViewById<TextView>(R.id.trackGenreValue)
         val countryTv = findViewById<TextView>(R.id.trackCountryValue)
-        playButton = findViewById(R.id.playButton) // проверь id
+        playButton = findViewById(R.id.playButton)
 
-        // Получаем трек из интента
         track = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("track", Track::class.java)!!
         } else {
@@ -67,22 +67,22 @@ class AudioPlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra<Track>("track")!!
         }
 
-        // Обложка
+
         val artworkUrl512 = track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(this)
             .load(artworkUrl512)
             .placeholder(R.drawable.ic_placeholder)
             .into(coverImage)
 
-        // Тексты (с усечением, как было у тебя)
+
         val trackTitle = track.trackName?.let { if (it.length > 40) it.take(40) + "…" else it }.orEmpty()
         val artistTitle = track.artistName?.let { if (it.length > 40) it.take(40) + "…" else it }.orEmpty()
         trackNameTv.text = trackTitle
         artistNameTv.text = artistTitle
 
         val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
-        durationText.text = formatter.format(track.trackTimeMillis ?: 0L) // фиксированная длительность
-        playbackTimer.text = "00:00" // прогресс всегда начинается с 00:00
+        durationText.text = formatter.format(track.trackTimeMillis ?: 0L)
+        playbackTimer.text = "00:00"
 
         val albumName = track.collectionName?.let { if (it.length > 30) it.take(30) + "…" else it }.orEmpty()
         albumTv.text = albumName
@@ -90,10 +90,11 @@ class AudioPlayerActivity : AppCompatActivity() {
         genreTv.text = track.primaryGenreName.orEmpty()
         countryTv.text = track.country.orEmpty()
 
-        // Готовим плеер
+
+        android.util.Log.d("AudioPlayerActivity", "previewUrl = ${track.previewUrl}")
         preparePlayer(track.previewUrl)
 
-        // Кнопка Play/Pause
+
         playButton.setOnClickListener { playbackControl() }
     }
 
@@ -112,7 +113,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             stopProgressUpdates()
             playbackTimer.text = "00:00"
-            // если у тебя иконки — поставь play-иконку; если текст — playButton.text = "PLAY"
+
             playButton.setImageResource(R.drawable.ic_play)
             playerState = STATE_PREPARED
         }
@@ -120,14 +121,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun startPlayer() {
         mediaPlayer.start()
-        playButton.setImageResource(R.drawable.ic_pause) // или playButton.text = "PAUSE"
+        playButton.setImageResource(R.drawable.ic_pause)
         playerState = STATE_PLAYING
         startProgressUpdates()
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
-        playButton.setImageResource(R.drawable.ic_play) // или playButton.text = "PLAY"
+        playButton.setImageResource(R.drawable.ic_play)
         playerState = STATE_PAUSED
         stopProgressUpdates()
     }

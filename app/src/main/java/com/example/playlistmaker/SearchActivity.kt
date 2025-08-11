@@ -3,6 +3,7 @@ package com.example.playlistmaker
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -37,13 +38,13 @@ class SearchActivity : AppCompatActivity() {
     private val adapter = TrackAdapter(trackList)
     private lateinit var searchHistoryScroll: View
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://itunes.apple.com")
+        .baseUrl("https://itunes.apple.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val iTunesService = retrofit.create(ITunesApi::class.java)
     private val historyAdapter = TrackAdapter(ArrayList())
-    private val handler = android.os.Handler(mainLooper)
+    private lateinit var handler: Handler
 
 
     companion object {
@@ -73,6 +74,9 @@ class SearchActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                     if (response.code() == 200) {
                         val tracks = response.body()?.results.orEmpty()
+                        for (t in tracks) {
+                            Log.d("API_TRACK", "Name=${t.trackName}, previewUrl=${t.previewUrl}")
+                        }
                         adapter.updateTracks(tracks)
                         if (tracks.isEmpty()) {
                             showPlaceholder(error = false, nothingFound = true)
@@ -108,6 +112,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+         handler = Handler(mainLooper)
+
         searchHistory = SearchHistory(getSharedPreferences("playlist_preferences", MODE_PRIVATE))
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -135,6 +141,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         adapter.setOnItemClickListener { track ->
+            Log.d("SearchActivity", "track.previewUrl = ${track.previewUrl}")
             searchHistory.addTrack(track)
             val intent = Intent(this, AudioPlayerActivity::class.java)
             intent.putExtra("track", track)
@@ -175,7 +182,7 @@ class SearchActivity : AppCompatActivity() {
             clearIcon.visibility = if (searchQuery.isEmpty()) View.GONE else View.VISIBLE
         }
 
-        
+
 
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

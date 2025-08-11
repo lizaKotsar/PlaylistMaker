@@ -41,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("ColorCheck", "colorPrimary = #" + Integer.toHexString(typedValue.data))
 
         //ssы
-        searchButton.setOnClickListener(searchClickListener)
+        searchButton.setOnClickListener{
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)}
 
         mediaButton.setOnClickListener {
             val intent = Intent(this, MediaActivity::class.java)
