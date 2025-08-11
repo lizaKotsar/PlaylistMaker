@@ -19,11 +19,12 @@ import com.example.playlistmaker.data.model.TrackResponse
 import com.example.playlistmaker.data.model.network.ITunesApi
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import android.view.inputmethod.EditorInfo
+
 import com.example.playlistmaker.data.model.SearchHistory
 import android.util.Log
 class SearchActivity : AppCompatActivity() {
 
+    private lateinit var progressBar: ProgressBar
     private lateinit var searchEditText: EditText
     private lateinit var clearIcon: ImageView
     private lateinit var recyclerView: RecyclerView
@@ -42,15 +43,37 @@ class SearchActivity : AppCompatActivity() {
 
     private val iTunesService = retrofit.create(ITunesApi::class.java)
     private val historyAdapter = TrackAdapter(ArrayList())
+    private val handler = android.os.Handler(mainLooper)
 
+
+    companion object {
+        private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+
+    private val searchRunnable = Runnable {
+        if (searchQuery.isNotEmpty()) {
+            hideSearchHistory()
+            search(searchQuery)
+        }
+    }
     private fun search(query: String) {
+
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        placeholderNothingFound.visibility = View.GONE
+        placeholderError.visibility = View.GONE
+
         iTunesService.search(query)
             .enqueue(object : Callback<TrackResponse> {
-                override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+                override fun onResponse(
+                    call: Call<TrackResponse>,
+                    response: Response<TrackResponse>
+                ) {
+                    progressBar.visibility = View.GONE
                     if (response.code() == 200) {
                         val tracks = response.body()?.results.orEmpty()
                         adapter.updateTracks(tracks)
-
                         if (tracks.isEmpty()) {
                             showPlaceholder(error = false, nothingFound = true)
                         } else {
@@ -62,12 +85,20 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    progressBar.visibility = View.GONE
                     showPlaceholder(error = true, nothingFound = false)
                 }
             })
     }
 
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+
     private fun showPlaceholder(error: Boolean, nothingFound: Boolean) {
+        progressBar.visibility = View.GONE
         placeholderError.visibility = if (error) View.VISIBLE else View.GONE
         placeholderNothingFound.visibility = if (nothingFound) View.VISIBLE else View.GONE
         recyclerView.visibility = if (!error && !nothingFound) View.VISIBLE else View.GONE
@@ -92,6 +123,7 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
+        progressBar = findViewById(R.id.progressBar)
         searchEditText = findViewById(R.id.search_edit_text)
         clearIcon = findViewById(R.id.clear_icon)
         recyclerView = findViewById(R.id.tracksRecycler)
@@ -143,18 +175,7 @@ class SearchActivity : AppCompatActivity() {
             clearIcon.visibility = if (searchQuery.isEmpty()) View.GONE else View.VISIBLE
         }
 
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val query = searchEditText.text.toString()
-                if (query.isNotEmpty()) {
-                    hideSearchHistory()
-                    search(query)
-                }
-                true
-            } else {
-                false
-            }
-        }
+        
 
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -162,7 +183,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchQuery = s.toString()
                 clearIcon.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-
+                searchDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) = Unit
@@ -220,7 +241,9 @@ class SearchActivity : AppCompatActivity() {
     private fun hideSearchHistory() {
         searchHistoryScroll.visibility = View.GONE
     }
-    companion object {
-        private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
     }
 }
