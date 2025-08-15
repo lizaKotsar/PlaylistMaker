@@ -254,4 +254,4 @@ class SearchActivity : AppCompatActivity() {
         handler.removeCallbacks(searchRunnable)
     }
 }
-//new 15
+//new 152
