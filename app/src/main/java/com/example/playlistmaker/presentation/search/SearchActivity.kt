@@ -14,8 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.data.model.Track
-import com.example.playlistmaker.data.model.TrackAdapter
+import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.data.model.TrackResponse
 import com.example.playlistmaker.data.model.network.ITunesApi
 import retrofit2.*

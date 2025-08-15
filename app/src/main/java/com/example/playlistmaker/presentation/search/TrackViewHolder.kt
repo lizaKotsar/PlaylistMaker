@@ -1,4 +1,4 @@
-package com.example.playlistmaker.data.model
+package com.example.playlistmaker.presentation.search
 
 import android.text.TextUtils
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 

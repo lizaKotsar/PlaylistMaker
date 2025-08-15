@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.*
 

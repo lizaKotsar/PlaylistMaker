@@ -11,7 +11,6 @@ import android.widget.Button
 import android.content.Intent
 import android.util.Log
 import android.util.TypedValue
-import com.example.playlistmaker.MediaActivity
 import com.example.playlistmaker.R
 import com.example.playlistmaker.presentation.search.SearchActivity
 import com.example.playlistmaker.presentation.settings.SettingsActivity
