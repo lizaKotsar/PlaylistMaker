@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.search
 
 import android.content.Context
 import android.content.Intent
@@ -23,6 +23,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import com.example.playlistmaker.data.model.SearchHistory
 import android.util.Log
+import com.example.playlistmaker.presentation.player.AudioPlayerActivity
+import com.example.playlistmaker.R
+
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var progressBar: ProgressBar

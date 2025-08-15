@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -11,8 +11,10 @@ import android.widget.Button
 import android.content.Intent
 import android.util.Log
 import android.util.TypedValue
-import android.widget.LinearLayout
-import android.widget.TextView
+import com.example.playlistmaker.MediaActivity
+import com.example.playlistmaker.R
+import com.example.playlistmaker.presentation.search.SearchActivity
+import com.example.playlistmaker.presentation.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
