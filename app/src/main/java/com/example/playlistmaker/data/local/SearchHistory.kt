@@ -1,4 +1,4 @@
-package com.example.playlistmaker.data.model
+package com.example.playlistmaker.data.local
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
