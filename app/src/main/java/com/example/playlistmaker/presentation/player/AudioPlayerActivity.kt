@@ -1,13 +1,15 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.player
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.R
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.domain.api.PlayerInteractor
+import com.example.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,14 +28,14 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var playbackTimer: TextView
     private lateinit var durationText: TextView
 
-    private val mediaPlayer = MediaPlayer()
     private lateinit var handler: android.os.Handler
+    private lateinit var player: PlayerInteractor
 
     private val progressRunnable = object : Runnable {
         override fun run() {
             if (playerState == STATE_PLAYING) {
                 playbackTimer.text = SimpleDateFormat("mm:ss", Locale.getDefault())
-                    .format(mediaPlayer.currentPosition)
+                    .format(player.getPositionMs())
                 handler.postDelayed(this, 300L)
             }
         }
@@ -44,7 +46,9 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player)
+
         handler = android.os.Handler(mainLooper)
+        player = Creator.providePlayerInteractor()
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
@@ -67,13 +71,11 @@ class AudioPlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra<Track>("track")!!
         }
 
-
         val artworkUrl512 = track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(this)
             .load(artworkUrl512)
             .placeholder(R.drawable.ic_placeholder)
             .into(coverImage)
-
 
         val trackTitle = track.trackName?.let { if (it.length > 40) it.take(40) + "…" else it }.orEmpty()
         val artistTitle = track.artistName?.let { if (it.length > 40) it.take(40) + "…" else it }.orEmpty()
@@ -91,43 +93,48 @@ class AudioPlayerActivity : AppCompatActivity() {
         countryTv.text = track.country.orEmpty()
 
 
-        android.util.Log.d("AudioPlayerActivity", "previewUrl = ${track.previewUrl}")
-        preparePlayer(track.previewUrl)
-
+        val preview = track.previewUrl
+        if (preview.isNullOrEmpty()) {
+            playButton.isEnabled = false
+        } else {
+            preparePlayer(preview)
+        }
 
         playButton.setOnClickListener { playbackControl() }
     }
 
-    private fun preparePlayer(url: String?) {
+    private fun preparePlayer(url: String) {
         playbackTimer.text = "00:00"
         playButton.isEnabled = false
 
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-
-        mediaPlayer.setOnPreparedListener {
-            playButton.isEnabled = true
-            playerState = STATE_PREPARED
-        }
-        mediaPlayer.setOnCompletionListener {
-            stopProgressUpdates()
-            playbackTimer.text = "00:00"
-
-            playButton.setImageResource(R.drawable.ic_play)
-            playerState = STATE_PREPARED
-        }
+        player.prepare(
+            url,
+            onPrepared = {
+                runOnUiThread {
+                    playButton.isEnabled = true
+                    playerState = STATE_PREPARED
+                }
+            },
+            onCompletion = {
+                runOnUiThread {
+                    stopProgressUpdates()
+                    playbackTimer.text = "00:00"
+                    playButton.setImageResource(R.drawable.ic_play)
+                    playerState = STATE_PREPARED
+                }
+            }
+        )
     }
 
     private fun startPlayer() {
-        mediaPlayer.start()
+        player.play()
         playButton.setImageResource(R.drawable.ic_pause)
         playerState = STATE_PLAYING
         startProgressUpdates()
     }
 
     private fun pausePlayer() {
-        mediaPlayer.pause()
+        player.pause()
         playButton.setImageResource(R.drawable.ic_play)
         playerState = STATE_PAUSED
         stopProgressUpdates()
@@ -157,7 +164,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopProgressUpdates()
-        mediaPlayer.release()
+        player.release()
     }
 
     override fun onBackPressed() {
