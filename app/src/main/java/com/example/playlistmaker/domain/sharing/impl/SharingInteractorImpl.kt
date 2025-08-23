@@ -1,11 +1,15 @@
 package com.example.playlistmaker.domain.sharing.impl
 
+import android.content.Context
+import androidx.core.content.contentValuesOf
+import com.example.playlistmaker.R
 import com.example.playlistmaker.data.sharing.ExternalNavigator
 import com.example.playlistmaker.domain.sharing.SharingInteractor
 import com.example.playlistmaker.domain.sharing.model.EmailData
 
 class SharingInteractorImpl(
     private val externalNavigator: ExternalNavigator,
+    private val context: Context,
 ) : SharingInteractor {
 
     override fun shareApp() {
@@ -28,8 +32,8 @@ class SharingInteractorImpl(
 
     private fun getSupportEmailData(): EmailData =
         EmailData(
-            email = "yelizaveta.kotsar@bk.ru",
-            subject = "Сообщение разработчикам и разработчицам приложения Playlist Maker",
-            body = "Спасибо разработчикам и разработчицам за крутое приложение!"
+            email = context.getString(R.string.support_email),
+            subject = context.getString(R.string.support_tema),
+            body = context.getString(R.string.support_message)
         )
 }

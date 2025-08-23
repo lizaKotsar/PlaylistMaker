@@ -74,7 +74,7 @@ object Creator {
 
     fun provideSharingInteractor(context: Context): SharingInteractor {
         val externalNavigator: ExternalNavigator = ExternalNavigatorImpl(context)
-        return SharingInteractorImpl(externalNavigator)
+        return SharingInteractorImpl(externalNavigator,context)
     }
 
 
