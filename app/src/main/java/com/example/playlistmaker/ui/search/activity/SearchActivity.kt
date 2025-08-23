@@ -70,13 +70,13 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        // VM
+
         viewModel = ViewModelProvider(
             this,
             Creator.provideSearchViewModelFactory(this)
         ).get(SearchViewModel::class.java)
 
-        // подписки
+
         viewModel.observeState().observe(this) { state ->
             when (state) {
                 is SearchState.Loading -> showLoading()

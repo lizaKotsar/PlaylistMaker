@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.R
 
-// -------- SEARCH --------
+
 import com.example.playlistmaker.data.search.impl.SearchHistoryRepositoryImpl
 import com.example.playlistmaker.data.search.impl.TracksRepositoryImpl
 import com.example.playlistmaker.data.search.local.SearchHistory
@@ -19,31 +19,31 @@ import com.example.playlistmaker.domain.search.TracksRepository
 import com.example.playlistmaker.domain.search.impl.SearchHistoryInteractorImpl
 import com.example.playlistmaker.domain.search.impl.TracksInteractorImpl
 
-// -------- SETTINGS --------
+
 import com.example.playlistmaker.data.settings.impl.SettingsRepositoryImpl
 import com.example.playlistmaker.domain.settings.SettingsInteractor
 import com.example.playlistmaker.domain.settings.SettingsRepository
 import com.example.playlistmaker.domain.settings.impl.SettingsInteractorImpl
 
-// -------- PLAYER --------
+
 import com.example.playlistmaker.data.player.impl.PlayerRepositoryImpl
 import com.example.playlistmaker.domain.player.PlayerInteractor
 import com.example.playlistmaker.domain.player.impl.PlayerInteractorImpl
 
-// -------- SHARING --------
+
 import com.example.playlistmaker.data.sharing.ExternalNavigator
 import com.example.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.domain.sharing.SharingInteractor
 import com.example.playlistmaker.domain.sharing.impl.SharingInteractorImpl
 
-// -------- VIEWMODELS --------
+
 import com.example.playlistmaker.ui.player.viewmodel.PlayerViewModel
 import com.example.playlistmaker.ui.search.viewmodel.SearchViewModel
 import com.example.playlistmaker.ui.settings.viewmodel.SettingsViewModel
 
 object Creator {
 
-    // -------- SEARCH --------
+
     private fun networkClient(): NetworkClient = RetrofitNetworkClient()
 
     private fun tracksRepository(): TracksRepository =
@@ -59,25 +59,25 @@ object Creator {
         return SearchHistoryInteractorImpl(repo)
     }
 
-    // -------- SETTINGS --------
+
     fun provideSettingsInteractor(context: Context): SettingsInteractor {
         val repo: SettingsRepository = SettingsRepositoryImpl(context)
         return SettingsInteractorImpl(repo)
     }
 
-    // -------- PLAYER --------
+
     fun providePlayerInteractor(): PlayerInteractor {
         val repo = PlayerRepositoryImpl()
         return PlayerInteractorImpl(repo)
     }
 
-    // -------- SHARING --------
+
     fun provideSharingInteractor(context: Context): SharingInteractor {
         val externalNavigator: ExternalNavigator = ExternalNavigatorImpl(context)
         return SharingInteractorImpl(externalNavigator)
     }
 
-    // -------- ViewModel factories --------
+
     fun provideSettingsViewModelFactory(context: Context): ViewModelProvider.Factory =
         viewModelFactory {
             initializer {

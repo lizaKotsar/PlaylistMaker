@@ -28,7 +28,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
-        // UI refs
+
         val coverImage = findViewById<ImageView>(R.id.coverImage)
         val trackNameTv = findViewById<TextView>(R.id.trackName)
         val artistNameTv = findViewById<TextView>(R.id.artistName)
@@ -40,7 +40,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         val countryTv = findViewById<TextView>(R.id.trackCountryValue)
         playButton = findViewById(R.id.playButton)
 
-        // track from intent
+
         track = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("track", Track::class.java)!!
         } else {
@@ -48,7 +48,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra<Track>("track")!!
         }
 
-        // static UI
+
         val artworkUrl512 = track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(this).load(artworkUrl512).placeholder(R.drawable.ic_placeholder).into(coverImage)
 
@@ -61,21 +61,21 @@ class AudioPlayerActivity : AppCompatActivity() {
         genreTv.text = track.primaryGenreName.orEmpty()
         countryTv.text = track.country.orEmpty()
 
-        // VM
+
         viewModel = ViewModelProvider(this, Creator.providePlayerViewModelFactory())
             .get(PlayerViewModel::class.java)
 
-        // observe state
+
         viewModel.observeState().observe(this) { state ->
             playButton.isEnabled = state.isPlayEnabled
             playbackTimer.text = state.timerText
             playButton.setImageResource(if (state.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
         }
 
-        // actions
+
         playButton.setOnClickListener { viewModel.onPlayPauseClicked() }
 
-        // prepare
+
         viewModel.prepare(track.previewUrl)
     }
 
