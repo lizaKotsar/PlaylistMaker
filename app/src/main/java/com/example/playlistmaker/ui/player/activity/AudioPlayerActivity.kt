@@ -62,8 +62,10 @@ class AudioPlayerActivity : AppCompatActivity() {
         countryTv.text = track.country.orEmpty()
 
 
-        viewModel = ViewModelProvider(this, Creator.providePlayerViewModelFactory())
-            .get(PlayerViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            Creator.providePlayerViewModelFactory(this)
+        ).get(PlayerViewModel::class.java)
 
 
         viewModel.observeState().observe(this) { state ->

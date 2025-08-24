@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.domain.settings.SettingsInteractor
 import com.example.playlistmaker.domain.sharing.SharingInteractor
+import com.example.playlistmaker.domain.sharing.model.EmailData
 
 class SettingsViewModel(
     private val sharingInteractor: SharingInteractor,
@@ -12,11 +13,19 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     private val isDarkLiveData = MutableLiveData<Boolean>()
-
     fun observeIsDark(): LiveData<Boolean> = isDarkLiveData
 
-    init {
 
+    private val _shareText = MutableLiveData<String>()
+    val shareText: LiveData<String> = _shareText
+
+    private val _openUrl = MutableLiveData<String>()
+    val openUrl: LiveData<String> = _openUrl
+
+    private val _sendEmail = MutableLiveData<EmailData>()
+    val sendEmail: LiveData<EmailData> = _sendEmail
+
+    init {
         isDarkLiveData.value = settingsInteractor.isDarkThemeEnabled()
     }
 
@@ -25,7 +34,15 @@ class SettingsViewModel(
         isDarkLiveData.postValue(enabled)
     }
 
-    fun shareApp() = sharingInteractor.shareApp()
-    fun openTerms() = sharingInteractor.openTerms()
-    fun openSupport() = sharingInteractor.openSupport()
+    fun onShareAppClicked() {
+        _shareText.value = sharingInteractor.getShareAppText()
+    }
+
+    fun onOpenTermsClicked() {
+        _openUrl.value = sharingInteractor.getTermsUrl()
+    }
+
+    fun onOpenSupportClicked() {
+        _sendEmail.value = sharingInteractor.getSupportEmailData()
+    }
 }

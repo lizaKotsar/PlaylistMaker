@@ -1,5 +1,7 @@
 package com.example.playlistmaker.ui.settings.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -26,7 +28,6 @@ class SettingsActivity : AppCompatActivity() {
             v.setPadding(sb.left, sb.top, sb.right, sb.bottom); insets
         }
 
-
         viewModel = ViewModelProvider(
             this,
             Creator.provideSettingsViewModelFactory(this)
@@ -40,18 +41,40 @@ class SettingsActivity : AppCompatActivity() {
 
 
         viewModel.observeIsDark().observe(this) { enabled ->
-
             if (themeSwitcher.isChecked != enabled) themeSwitcher.isChecked = enabled
             (applicationContext as App).switchTheme(enabled)
+        }
+
+
+        viewModel.shareText.observe(this) { text ->
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, text)
+            }
+            startActivity(Intent.createChooser(intent, null))
+        }
+
+        viewModel.openUrl.observe(this) { url ->
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }
+
+        viewModel.sendEmail.observe(this) { data ->
+            val uri = Uri.parse("mailto:")
+            val intent = Intent(Intent.ACTION_SENDTO, uri).apply {
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(data.email))
+                putExtra(Intent.EXTRA_SUBJECT, data.subject)
+                putExtra(Intent.EXTRA_TEXT, data.body)
+            }
+            startActivity(intent)
         }
 
 
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
             viewModel.onThemeToggled(checked)
         }
-        shareButton.setOnClickListener { viewModel.shareApp() }
-        supportButton.setOnClickListener { viewModel.openSupport() }
-        agreementButton.setOnClickListener { viewModel.openTerms() }
+        shareButton.setOnClickListener { viewModel.onShareAppClicked() }
+        supportButton.setOnClickListener { viewModel.onOpenSupportClicked() }
+        agreementButton.setOnClickListener { viewModel.onOpenTermsClicked() }
         backButton.setOnClickListener { finish() }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.playlistmaker.domain.sharing
 
+import com.example.playlistmaker.domain.sharing.model.EmailData
+
 interface SharingInteractor {
-    fun shareApp()
-    fun openTerms()
-    fun openSupport()
+    fun getShareAppText(): String
+    fun getTermsUrl(): String
+    fun getSupportEmailData(): EmailData
 }
