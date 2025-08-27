@@ -40,8 +40,14 @@ import com.example.playlistmaker.ui.settings.viewmodel.SettingsViewModel
 import com.example.playlistmaker.ui.search.viewmodel.SearchViewModel
 import com.example.playlistmaker.ui.player.viewmodel.PlayerViewModel
 
+import com.example.playlistmaker.data.search.network.ITunesApi
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.Gson
+
 object Creator {
 
+    // -------------------- Settings / Sharing --------------------
 
     private fun provideSharingRepository(
         context: Context
@@ -50,7 +56,6 @@ object Creator {
 
     private fun provideSharingInteractor(context: Context): SharingInteractor =
         SharingInteractorImpl(repository = provideSharingRepository(context))
-
 
     private fun provideSettingsRepository(
         context: Context
@@ -79,16 +84,28 @@ object Creator {
         }
     }
 
+    // -------------------- Search (Network + History) --------------------
 
+    // NEW: локальный конструктор API для совместимости до Koin
+    private fun createITunesApi(): ITunesApi =
+        Retrofit.Builder()
+            .baseUrl("https://itunes.apple.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ITunesApi::class.java)
 
-    private fun provideNetworkClient() = RetrofitNetworkClient() // без Context
+    // UPDATED: теперь клиент получает API извне
+    private fun provideNetworkClient() = RetrofitNetworkClient(createITunesApi())
 
     private fun provideTracksRepository(): TracksRepository =
         TracksRepositoryImpl(provideNetworkClient())
 
-
+    // UPDATED: SearchHistory теперь зависит от SharedPreferences и Gson
     private fun provideSearchHistoryStorage(context: Context): SearchHistory =
-        SearchHistory(context.getSharedPreferences("search_history", Context.MODE_PRIVATE))
+        SearchHistory(
+            context.getSharedPreferences("search_history", Context.MODE_PRIVATE),
+            Gson()
+        )
 
     private fun provideSearchHistoryRepository(context: Context): SearchHistoryRepository =
         SearchHistoryRepositoryImpl(storage = provideSearchHistoryStorage(context))
@@ -118,6 +135,7 @@ object Creator {
         }
     }
 
+    // -------------------- Player --------------------
 
     private fun providePlayerRepository(): PlayerRepository = PlayerRepositoryImpl()
 

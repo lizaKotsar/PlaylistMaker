@@ -6,22 +6,21 @@ import com.google.gson.reflect.TypeToken
 import android.util.Log
 import com.example.playlistmaker.domain.search.model.Track
 
-class SearchHistory(private val sharedPrefs: SharedPreferences) {
+class SearchHistory(
+    private val sharedPrefs: SharedPreferences,
+    private val gson: Gson
+) {
 
     companion object {
         private const val SEARCH_HISTORY_KEY = "search_history"
         private const val MAX_HISTORY_SIZE = 10
     }
 
-    private val gson = Gson()
-
     fun getHistory(): List<Track> {
         val json = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: return emptyList()
         val type = object : TypeToken<List<Track>>() {}.type
         return gson.fromJson(json, type)
     }
-
-
 
     fun clearHistory() {
         sharedPrefs.edit().remove(SEARCH_HISTORY_KEY).apply()
@@ -36,9 +35,7 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
         val history = getHistory().toMutableList()
         history.removeAll { it.trackId == track.trackId }
         history.add(0, track)
-        if (history.size > MAX_HISTORY_SIZE) {
-            history.removeLast()
-        }
+        if (history.size > MAX_HISTORY_SIZE) history.removeLast()
         saveHistory(history)
         Log.d("SearchHistory", "addTrack: добавлен трек ${track.trackName}, история сейчас: ${getHistory().map { it.trackName }}")
     }
