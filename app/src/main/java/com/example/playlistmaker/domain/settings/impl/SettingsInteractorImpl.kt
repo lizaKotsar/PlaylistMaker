@@ -6,7 +6,7 @@ import com.example.playlistmaker.domain.settings.model.SettingsRepository
 class SettingsInteractorImpl(
     private val repository: SettingsRepository
 ) : SettingsInteractor {
-//sprint172
+
     override fun isDarkThemeEnabled(): Boolean = repository.isDarkThemeEnabled()
 
     override fun setDarkThemeEnabled(enabled: Boolean) {
