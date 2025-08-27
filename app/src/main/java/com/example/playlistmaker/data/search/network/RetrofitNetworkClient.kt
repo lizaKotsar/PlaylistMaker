@@ -3,8 +3,7 @@ package com.example.playlistmaker.data.search.network
 import com.example.playlistmaker.data.search.dto.Response
 import com.example.playlistmaker.data.search.dto.TrackResponse
 import com.example.playlistmaker.data.search.dto.TracksSearchRequest
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class RetrofitNetworkClient(
