@@ -8,6 +8,7 @@ import org.koin.android.ext.koin.androidContext
 import com.example.playlistmaker.di.dataModule
 import com.example.playlistmaker.di.repositoryModule
 import com.example.playlistmaker.di.interactorModule
+import com.example.playlistmaker.di.viewModelModule
 
 const val SETTINGS_PREFERENCES = "settings_preferences"
 const val IS_DARK_THEME_ENABLED = "is_dark_theme_enabled"
@@ -25,7 +26,8 @@ class App : Application() {
             modules(
                 dataModule,
                 repositoryModule,
-                interactorModule
+                interactorModule,
+                viewModelModule
             )
         }
 

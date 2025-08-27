@@ -1,5 +1,6 @@
 package com.example.playlistmaker.ui.settings.activity
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,16 +9,16 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.App
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.ui.settings.viewmodel.SettingsViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SettingsViewModel
+
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +26,9 @@ class SettingsActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val sb = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(sb.left, sb.top, sb.right, sb.bottom); insets
+            v.setPadding(sb.left, sb.top, sb.right, sb.bottom)
+            insets
         }
-
-        viewModel = ViewModelProvider(
-            this,
-            Creator.provideSettingsViewModelFactory(this)
-        ).get(SettingsViewModel::class.java)
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
         val shareButton = findViewById<LinearLayout>(R.id.share_button)
@@ -44,7 +41,6 @@ class SettingsActivity : AppCompatActivity() {
             if (themeSwitcher.isChecked != enabled) themeSwitcher.isChecked = enabled
             (applicationContext as App).switchTheme(enabled)
         }
-
 
         viewModel.shareText.observe(this) { text ->
             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -59,8 +55,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         viewModel.sendEmail.observe(this) { data ->
-            val uri = Uri.parse("mailto:")
-            val intent = Intent(Intent.ACTION_SENDTO, uri).apply {
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:")).apply {
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(data.email))
                 putExtra(Intent.EXTRA_SUBJECT, data.subject)
                 putExtra(Intent.EXTRA_TEXT, data.body)
