@@ -2,33 +2,56 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/main">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:layout_marginBottom="24dp">
+    android:background="?attr/colorSecondary">
 
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@android:color/white"
-        android:padding="4dp"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:tint="@color/black" />
+    <!-- общий вертикальный контейнер экрана -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/media"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="20dp" />
-</LinearLayout>
+        <!-- твоя шапка (как была) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="?attr/navIcon" />
+
+            <TextView
+                style="@style/MediaTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/media"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- вкладки (как были) -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabIndicatorFullWidth="false"
+            android:background="?attr/colorSecondary"/>
+
+        <!-- пейджер (занимает оставшееся место) -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 </FrameLayout>
