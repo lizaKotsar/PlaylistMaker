@@ -8,22 +8,28 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.ui.player.activity.AudioPlayerActivity
 import com.example.playlistmaker.ui.search.adapter.TrackAdapter
 import com.example.playlistmaker.ui.search.viewmodel.SearchState
 import com.example.playlistmaker.ui.search.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
+
+
+    private val viewModel: SearchViewModel by viewModel()
 
     private lateinit var progressBar: ProgressBar
     private lateinit var searchEditText: EditText
@@ -33,8 +39,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderError: View
     private lateinit var refreshButton: Button
     private lateinit var searchHistoryScroll: View
-
-    private lateinit var viewModel: SearchViewModel
 
     private var searchQuery: String = ""
 
@@ -71,12 +75,6 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
 
-        viewModel = ViewModelProvider(
-            this,
-            Creator.provideSearchViewModelFactory(this)
-        ).get(SearchViewModel::class.java)
-
-
         viewModel.observeState().observe(this) { state ->
             when (state) {
                 is SearchState.Loading -> showLoading()
@@ -94,7 +92,8 @@ class SearchActivity : AppCompatActivity() {
                     showPlaceholder(error = true, nothingFound = false)
                 }
                 is SearchState.History -> {
-                    searchHistoryScroll.visibility = if (state.tracks.isNotEmpty()) View.VISIBLE else View.GONE
+                    searchHistoryScroll.visibility =
+                        if (state.tracks.isNotEmpty()) View.VISIBLE else View.GONE
                     if (state.tracks.isNotEmpty()) {
                         (findViewById<RecyclerView>(R.id.history_recycler)).apply {
                             layoutManager = LinearLayoutManager(this@SearchActivity)
@@ -111,6 +110,7 @@ class SearchActivity : AppCompatActivity() {
             viewModel.addToHistory(track)
             startActivity(Intent(this, AudioPlayerActivity::class.java).putExtra("track", track))
         }
+
         val historyRecycler = findViewById<RecyclerView>(R.id.history_recycler)
         val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
         historyRecycler.layoutManager = LinearLayoutManager(this)
@@ -119,9 +119,7 @@ class SearchActivity : AppCompatActivity() {
             viewModel.addToHistory(track)
             startActivity(Intent(this, AudioPlayerActivity::class.java).putExtra("track", track))
         }
-        clearHistoryButton.setOnClickListener {
-            viewModel.clearHistory()
-        }
+        clearHistoryButton.setOnClickListener { viewModel.clearHistory() }
 
         refreshButton.setOnClickListener {
             viewModel.forceSearch(searchEditText.text.toString())

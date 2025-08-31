@@ -1,20 +1,22 @@
 package com.example.playlistmaker.ui.player.activity
 
+
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.ui.player.viewmodel.PlayerViewModel
+import com.example.playlistmaker.ui.player.viewmodel.TimeFormats
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: PlayerViewModel
+
+    private val viewModel: PlayerViewModel by viewModel()
 
     private lateinit var playButton: ImageButton
     private lateinit var playbackTimer: TextView
@@ -27,7 +29,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_audio_player)
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
-
 
         val coverImage = findViewById<ImageView>(R.id.coverImage)
         val trackNameTv = findViewById<TextView>(R.id.trackName)
@@ -52,20 +53,16 @@ class AudioPlayerActivity : AppCompatActivity() {
         val artworkUrl512 = track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(this).load(artworkUrl512).placeholder(R.drawable.ic_placeholder).into(coverImage)
 
-        trackNameTv.text = track.trackName.orEmpty().let { if (it.length > 40) it.take(40) + "…" else it }
-        artistNameTv.text = track.artistName.orEmpty().let { if (it.length > 40) it.take(40) + "…" else it }
-        durationText.text = com.example.playlistmaker.ui.player.viewmodel.TimeFormats.mmss(track.trackTimeMillis ?: 0L)
+        fun limit(text: String?, max: Int) = text.orEmpty().let { if (it.length > max) it.take(max) + "…" else it }
+
+        trackNameTv.text = limit(track.trackName, 40)
+        artistNameTv.text = limit(track.artistName, 40)
+        durationText.text = TimeFormats.mmss(track.trackTimeMillis ?: 0L)
         playbackTimer.text = getString(R.string.time)
-        albumTv.text = track.collectionName.orEmpty().let { if (it.length > 30) it.take(30) + "…" else it }
+        albumTv.text = limit(track.collectionName, 30)
         yearTv.text = (track.releaseDate?.take(4)).orEmpty()
         genreTv.text = track.primaryGenreName.orEmpty()
         countryTv.text = track.country.orEmpty()
-
-
-        viewModel = ViewModelProvider(
-            this,
-            Creator.providePlayerViewModelFactory(this)
-        ).get(PlayerViewModel::class.java)
 
 
         viewModel.observeState().observe(this) { state ->

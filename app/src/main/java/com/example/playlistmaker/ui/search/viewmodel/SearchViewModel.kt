@@ -6,6 +6,8 @@ import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.R
+import com.example.playlistmaker.common.ResourceProvider
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.TracksInteractor
 import com.example.playlistmaker.domain.search.model.Track
@@ -13,6 +15,7 @@ import com.example.playlistmaker.domain.search.model.Track
 class SearchViewModel(
     private val tracksInteractor: TracksInteractor,
     private val historyInteractor: SearchHistoryInteractor,
+    private val resources: ResourceProvider,
 ) : ViewModel() {
 
     companion object {
@@ -53,7 +56,7 @@ class SearchViewModel(
             override fun consume(tracks: List<Track>) {
                 mainHandler.post {
                     if (tracks.isEmpty()) {
-                        state.value = SearchState.Empty("Ничего не найдено")
+                        state.value = SearchState.Empty(resources.getString(R.string.nothing_found))
                     } else {
                         state.value = SearchState.Content(tracks)
                     }

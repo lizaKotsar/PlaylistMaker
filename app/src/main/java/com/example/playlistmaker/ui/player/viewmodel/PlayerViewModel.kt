@@ -5,12 +5,15 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.player.PlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.example.playlistmaker.common.ResourceProvider
 
 class PlayerViewModel(
-    private val playerInteractor: PlayerInteractor
+    private val playerInteractor: PlayerInteractor,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _state = MutableLiveData(PlayerState())
@@ -30,20 +33,35 @@ class PlayerViewModel(
     }
 
     fun prepare(url: String?) {
+        val time = resourceProvider.getString(R.string.time)
+
         if (url.isNullOrEmpty()) {
-            _state.postValue(_state.value?.copy(isPlayEnabled = false, timerText = "00:00"))
+            _state.postValue(_state.value?.copy(isPlayEnabled = false, timerText = time))
             return
         }
-        _state.postValue(_state.value?.copy(isPlayEnabled = false, timerText = "00:00"))
+
+        _state.postValue(_state.value?.copy(isPlayEnabled = false, timerText = time))
 
         playerInteractor.prepare(
             url,
             onPrepared = {
-                _state.postValue(_state.value?.copy(isPlayEnabled = true, isPlaying = false, timerText = "00:00"))
+                _state.postValue(
+                    _state.value?.copy(
+                        isPlayEnabled = true,
+                        isPlaying = false,
+                        timerText = time
+                    )
+                )
             },
             onCompletion = {
                 stopProgress()
-                _state.postValue(_state.value?.copy(isPlaying = false, isPlayEnabled = true, timerText = "00:00"))
+                _state.postValue(
+                    _state.value?.copy(
+                        isPlaying = false,
+                        isPlayEnabled = true,
+                        timerText = time
+                    )
+                )
             }
         )
     }
