@@ -41,11 +41,11 @@
         <!-- вкладки (как были) -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
+            style="@style/MediaTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabIndicatorFullWidth="false"
-            android:background="?attr/colorSecondary"/>
+            android:layout_height="48dp"
+            android:background="?attr/colorSecondary"
+            app:tabMode="fixed" />
 
         <!-- пейджер (занимает оставшееся место) -->
         <androidx.viewpager2.widget.ViewPager2
@@ -53,5 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
+
     </LinearLayout>
 </FrameLayout>
