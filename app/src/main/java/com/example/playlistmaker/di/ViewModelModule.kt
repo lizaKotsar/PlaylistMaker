@@ -14,7 +14,7 @@ val viewModelModule = module {
 
     single<ResourceProvider> { AndroidResourceProvider(androidContext()) }
 
-
+//sprint18
     viewModel { SearchViewModel(get(), get(), get()) }
     viewModel { PlayerViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
