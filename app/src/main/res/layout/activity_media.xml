@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary">
 
-    <!-- общий вертикальный контейнер экрана -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- твоя шапка (как была) -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- вкладки (как были) -->
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             style="@style/MediaTabLayout"
@@ -47,7 +47,7 @@
             android:background="?attr/colorSecondary"
             app:tabMode="fixed" />
 
-        <!-- пейджер (занимает оставшееся место) -->
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
