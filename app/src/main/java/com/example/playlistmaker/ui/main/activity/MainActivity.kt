@@ -9,7 +9,7 @@ import android.content.Intent
 import com.example.playlistmaker.R
 import com.example.playlistmaker.ui.media.activity.MediaActivity
 import com.example.playlistmaker.ui.search.activity.SearchActivity
-import com.example.playlistmaker.ui.settings.activity.SettingsActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, MediaActivity::class.java))
         }
 
-        findViewById<Button>(R.id.settings_button).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
+
     }
 }

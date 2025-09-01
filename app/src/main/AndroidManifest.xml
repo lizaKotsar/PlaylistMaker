@@ -21,9 +21,6 @@
         <activity
             android:name=".ui.search.activity.SearchActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.settings.activity.SettingsActivity"
-            android:exported="false" />
         <activity android:name=".ui.player.activity.AudioPlayerActivity"
             android:exported="false" />
         <activity
