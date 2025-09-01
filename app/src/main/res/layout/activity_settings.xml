@@ -161,7 +161,7 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="gone">
+            >
 
             <ImageView
                 android:layout_width="@dimen/icon_size"
@@ -185,7 +185,7 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="gone">
+            >
 
             <ImageView
                 android:layout_width="@dimen/icon_size"
@@ -209,7 +209,7 @@
             android:gravity="center"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="gone">
+            >
 
             <ImageView
                 android:layout_width="@dimen/icon_size"
