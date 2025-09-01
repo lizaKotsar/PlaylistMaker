@@ -28,8 +28,11 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.activity.MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.root.RootActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="true">
-
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

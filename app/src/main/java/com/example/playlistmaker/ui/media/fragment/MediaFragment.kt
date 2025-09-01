@@ -19,7 +19,7 @@ class MediaFragment : Fragment() {
 
     companion object {
         private const val KEY_SELECTED_PAGE = "media_selected_page"
-        fun newInstance() = MediaFragment()
+
     }
 
     override fun onCreateView(

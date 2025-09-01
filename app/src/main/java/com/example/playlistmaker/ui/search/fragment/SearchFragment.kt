@@ -1,8 +1,8 @@
 package com.example.playlistmaker.ui.search.fragment
 
 
+
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.search.model.Track
-import com.example.playlistmaker.ui.player.activity.AudioPlayerActivity
 import com.example.playlistmaker.ui.search.adapter.TrackAdapter
 import com.example.playlistmaker.ui.search.viewmodel.SearchState
 import com.example.playlistmaker.ui.search.viewmodel.SearchViewModel
@@ -51,7 +53,6 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.tracksRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.tracksRecycler.adapter = adapter
@@ -59,7 +60,6 @@ class SearchFragment : Fragment() {
         binding.historyRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.historyRecycler.adapter = historyAdapter
-
 
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -91,12 +91,16 @@ class SearchFragment : Fragment() {
 
         adapter.setOnItemClickListener { track ->
             viewModel.addToHistory(track)
-            startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).putExtra("track", track))
+            val args = bundleOf("track" to track)
+            findNavController().navigate(R.id.action_search_to_player, args)
         }
         historyAdapter.setOnItemClickListener { track ->
             viewModel.addToHistory(track)
-            startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).putExtra("track", track))
+            val args = bundleOf("track" to track)
+            findNavController().navigate(R.id.action_search_to_player, args)
         }
+
+
         binding.clearHistoryButton.setOnClickListener { viewModel.clearHistory() }
         binding.refreshButton.setOnClickListener {
             viewModel.forceSearch(binding.searchEditText.text.toString())
@@ -105,11 +109,11 @@ class SearchFragment : Fragment() {
             binding.searchEditText.text?.clear()
             hideKeyboard()
             trackList.clear()
+            @Suppress("NotifyDataSetChanged")
             adapter.notifyDataSetChanged()
             showPlaceholder(error = false, nothingFound = false)
             if (binding.searchEditText.hasFocus()) viewModel.loadHistory()
         }
-
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(SEARCH_QUERY_KEY, "")
@@ -117,7 +121,6 @@ class SearchFragment : Fragment() {
             binding.searchEditText.setSelection(searchQuery.length)
             binding.clearIcon.visibility = if (searchQuery.isEmpty()) View.GONE else View.VISIBLE
         }
-
 
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

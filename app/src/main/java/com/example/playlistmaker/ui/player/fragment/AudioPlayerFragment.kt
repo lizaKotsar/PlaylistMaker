@@ -21,7 +21,7 @@ class AudioPlayerFragment : Fragment() {
     private val viewModel: PlayerViewModel by viewModel()
 
     companion object {
-        private const val ARG_TRACK = "arg_track"
+        private const val ARG_TRACK = "track"
 
         fun newInstance(track: Track) = AudioPlayerFragment().apply {
             arguments = bundleOf(ARG_TRACK to track)
@@ -36,11 +36,8 @@ class AudioPlayerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("DEPRECATION")
-        track = when {
-            requireArguments().containsKey(ARG_TRACK) ->
-                requireArguments().getParcelable(ARG_TRACK)!!
-            else -> error("Track argument is required")
-        }
+        track = requireArguments().getParcelable<Track>(ARG_TRACK)
+            ?: error("Track argument is required")
     }
 
     override fun onCreateView(
