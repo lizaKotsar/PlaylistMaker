@@ -25,6 +25,9 @@
     <dimen name="back_button_size">48dp</dimen>
     <dimen name="margin_bottom_between_blocks">24dp</dimen>
 
+
+
+
     <dimen name="search_field_height">36dp</dimen>
     <dimen name="search_field_margin">16dp</dimen>
     <dimen name="search_field_radius">8dp</dimen>

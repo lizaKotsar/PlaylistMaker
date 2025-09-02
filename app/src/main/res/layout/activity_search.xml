@@ -23,13 +23,7 @@
             android:paddingTop="@dimen/title_margin_top"
             android:paddingBottom="@dimen/title_margin_bottom">
 
-            <ImageButton
-                android:id="@+id/back_button"
-                android:layout_width="@dimen/back_button_size"
-                android:layout_height="@dimen/back_button_size"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_arrow_back_24"
-                app:tint="?attr/navIcon" />
+
 
             <TextView
                 style="@style/SettingsTitleStyle"

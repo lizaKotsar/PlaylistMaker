@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/title_margin_start"
             android:paddingTop="@dimen/title_margin_top"
             android:paddingBottom="@dimen/title_margin_bottom">
+
 
 
             <TextView
@@ -54,9 +54,10 @@
                 android:layout_width="@dimen/search_icon_width"
                 android:layout_height="@dimen/search_icon_height"
                 android:layout_marginStart="@dimen/search_icon_margin_start"
-                android:layout_marginEnd="@dimen/search_icon_margin_end"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/baseline_search"
-                app:tint="?attr/searchIconColor" />
+                app:tint="?attr/searchIconColor"
+                />
 
 
             <EditText
