@@ -19,18 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Нижняя панель -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="?attr/navsetting"
-        app:menu="@menu/navigation_items"
-        app:itemIconTint="@color/tint"
-        app:itemTextColor="@color/tint"
-        app:itemIconSize="24dp"
-        app:labelVisibilityMode="labeled"
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/bottomDivider"
+        style="@style/BottomNavDividerStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/AppBottomNav"
+        android:layout_width="0dp"
+        app:menu="@menu/navigation_items"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

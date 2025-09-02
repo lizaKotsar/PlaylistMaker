@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
         binding.supportButton.setOnClickListener { viewModel.onOpenSupportClicked() }
         binding.agreementButton.setOnClickListener { viewModel.onOpenTermsClicked() }
 
-        // синхронизация свитча без смены темы
+
         viewModel.observeIsDark().observe(viewLifecycleOwner) { enabled ->
             binding.themeSwitcher.setOnCheckedChangeListener(null)
             if (binding.themeSwitcher.isChecked != enabled) {
@@ -50,7 +50,7 @@ class SettingsFragment : Fragment() {
         }
         binding.themeSwitcher.setOnCheckedChangeListener(themeListener)
 
-        // действия
+
         viewModel.shareText.observe(viewLifecycleOwner) { text ->
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
