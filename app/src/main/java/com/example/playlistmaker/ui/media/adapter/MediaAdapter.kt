@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.playlistmaker.ui.media.fragment.FavoritesFragment
 import com.example.playlistmaker.ui.media.fragment.PlaylistsFragment
-//20
+//20 startt
 class MediaAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle
