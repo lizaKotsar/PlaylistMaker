@@ -1,7 +1,5 @@
 package com.example.playlistmaker.ui.search.fragment
 
-
-
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
@@ -20,12 +19,15 @@ import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.ui.search.adapter.TrackAdapter
 import com.example.playlistmaker.ui.search.viewmodel.SearchState
 import com.example.playlistmaker.ui.search.viewmodel.SearchViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
     companion object {
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY"
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
         fun newInstance() = SearchFragment()
     }
 
@@ -40,6 +42,7 @@ class SearchFragment : Fragment() {
     private val historyAdapter = TrackAdapter(ArrayList())
 
     private var textWatcher: TextWatcher? = null
+    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,18 +91,20 @@ class SearchFragment : Fragment() {
             }
         }
 
-
         adapter.setOnItemClickListener { track ->
-            viewModel.addToHistory(track)
-            val args = bundleOf("track" to track)
-            findNavController().navigate(R.id.action_search_to_player, args)
+            if (clickDebounce()) {
+                viewModel.addToHistory(track)
+                val args = bundleOf("track" to track)
+                findNavController().navigate(R.id.action_search_to_player, args)
+            }
         }
         historyAdapter.setOnItemClickListener { track ->
-            viewModel.addToHistory(track)
-            val args = bundleOf("track" to track)
-            findNavController().navigate(R.id.action_search_to_player, args)
+            if (clickDebounce()) {
+                viewModel.addToHistory(track)
+                val args = bundleOf("track" to track)
+                findNavController().navigate(R.id.action_search_to_player, args)
+            }
         }
-
 
         binding.clearHistoryButton.setOnClickListener { viewModel.clearHistory() }
         binding.refreshButton.setOnClickListener {
@@ -153,6 +158,18 @@ class SearchFragment : Fragment() {
         textWatcher = null
         _binding = null
         super.onDestroyView()
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+        }
+        return current
     }
 
     private fun showLoading() = with(binding) {
