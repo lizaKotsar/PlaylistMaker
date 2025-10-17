@@ -1,10 +1,8 @@
 package com.example.playlistmaker.ui.search.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.playlistmaker.R
+import com.example.playlistmaker.common.Resource
 import com.example.playlistmaker.common.ResourceProvider
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.TracksInteractor
@@ -24,14 +22,13 @@ class SearchViewModel(
     }
 
     private var latestQuery: String = ""
+    private var searchJob: Job? = null
 
     private val state = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = state
 
-
-    private var searchJob: Job? = null
-
     fun onTextChanged(text: String) {
+        if (latestQuery == text) return
         latestQuery = text
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
@@ -48,21 +45,32 @@ class SearchViewModel(
 
     private fun doSearch(query: String) {
         if (query.isBlank()) {
-            val history = historyInteractor.getHistory()
-            state.postValue(SearchState.History(history))
+            state.postValue(SearchState.History(historyInteractor.getHistory()))
             return
         }
-
         state.postValue(SearchState.Loading)
+        viewModelScope.launch {
+            tracksInteractor.searchTracks(query).collect { res ->
+                when (res) {
+                    is Resource.Success -> {
+                        val tracks = res.data
+                        if (tracks.isEmpty()) {
+                            state.postValue(
+                                SearchState.Empty(resources.getString(R.string.nothing_found))
+                            )
+                        } else {
+                            state.postValue(SearchState.Content(tracks))
+                        }
+                    }
+                    is Resource.Error -> {
 
-
-        tracksInteractor.searchTracks(query, TracksInteractor.Consumer { tracks ->
-            if (tracks.isEmpty()) {
-                state.postValue(SearchState.Empty(resources.getString(R.string.nothing_found)))
-            } else {
-                state.postValue(SearchState.Content(tracks))
+                        state.postValue(
+                            SearchState.Error(resources.getString(R.string.connection_error_message))
+                        )
+                    }
+                }
             }
-        })
+        }
     }
 
     fun addToHistory(track: Track) = historyInteractor.addTrack(track)
