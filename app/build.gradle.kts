@@ -56,7 +56,9 @@ dependencies {
     implementation(libs.converter.gson)
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation ("io.insert-koin:koin-android:3.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
-//sprint14start2
+
 
 }

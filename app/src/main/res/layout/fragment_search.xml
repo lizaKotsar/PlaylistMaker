@@ -7,7 +7,7 @@
     android:id="@+id/main"
     android:background="?attr/colorSecondary"
 
-   >
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,17 +19,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/title_margin_start"
             android:paddingTop="@dimen/title_margin_top"
             android:paddingBottom="@dimen/title_margin_bottom">
 
-            <ImageButton
-                android:id="@+id/back_button"
-                android:layout_width="@dimen/back_button_size"
-                android:layout_height="@dimen/back_button_size"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_arrow_back_24"
-                app:tint="?attr/navIcon" />
+
 
             <TextView
                 style="@style/SettingsTitleStyle"
@@ -61,9 +54,10 @@
                 android:layout_width="@dimen/search_icon_width"
                 android:layout_height="@dimen/search_icon_height"
                 android:layout_marginStart="@dimen/search_icon_margin_start"
-                android:layout_marginEnd="@dimen/search_icon_margin_end"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/baseline_search"
-                app:tint="?attr/searchIconColor" />
+                app:tint="?attr/searchIconColor"
+                />
 
 
             <EditText
@@ -148,75 +142,75 @@
                 android:paddingBottom="8dp"
                 android:overScrollMode="never" />
         </FrameLayout>
-            <!-- Заглушка: ничего не найдено -->
-            <LinearLayout
-                android:id="@+id/placeholder_nothing_found"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:visibility="gone">
+        <!-- Заглушка: ничего не найдено -->
+        <LinearLayout
+            android:id="@+id/placeholder_nothing_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/nothing_found_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="110dp"
-                    android:src="@drawable/placeholder_nothing_found_light"
-                    android:scaleType="centerInside" />
+            <ImageView
+                android:id="@+id/nothing_found_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="110dp"
+                android:src="@drawable/placeholder_nothing_found_light"
+                android:scaleType="centerInside" />
 
-                <TextView
-                    android:id="@+id/nothing_found_text"
-                    style="@style/PlaceholderTextStyle"
-                    android:text="@string/nothing_found"
-                     />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/nothing_found_text"
+                style="@style/PlaceholderTextStyle"
+                android:text="@string/nothing_found"
+                />
+        </LinearLayout>
 
-            <!-- Заглушка: ошибка соединения -->
-            <LinearLayout
-                android:id="@+id/placeholder_error"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:visibility="gone"
-                android:clipToPadding="false"
-                android:clipChildren="false"
+        <!-- Заглушка: ошибка соединения -->
+        <LinearLayout
+            android:id="@+id/placeholder_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:clipToPadding="false"
+            android:clipChildren="false"
 
-                >
+            >
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/placeholder_error_icon"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="110dp"/>
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/placeholder_error_icon"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="110dp"/>
 
-                <TextView
-                    android:id="@+id/error_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/PlaceholderTitleTextStyle"
-                    android:text="@string/connection_error_title"
-                    android:layout_marginTop="24dp" />
+            <TextView
+                android:id="@+id/error_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/PlaceholderTitleTextStyle"
+                android:text="@string/connection_error_title"
+                android:layout_marginTop="24dp" />
 
-                <TextView
-                    android:id="@+id/error_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/PlaceholderBodyTextStyle"
-                    android:text="@string/connection_error_message"
-                    android:layout_marginTop="12dp" />
-                <Button
-                    android:id="@+id/refresh_button"
-                    style="@style/RefreshButtonStyle"
-                    android:text="@string/refresh_button"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    app:cornerRadius="54dp"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/PlaceholderBodyTextStyle"
+                android:text="@string/connection_error_message"
+                android:layout_marginTop="12dp" />
+            <Button
+                android:id="@+id/refresh_button"
+                style="@style/RefreshButtonStyle"
+                android:text="@string/refresh_button"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                app:cornerRadius="54dp"/>
 
         </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

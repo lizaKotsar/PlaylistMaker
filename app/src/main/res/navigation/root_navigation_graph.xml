@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_navigation_graph"
+    app:startDestination="@id/mediaFragment">
+
+    <!-- Медиатека (фрагмент с ViewPager: Избранное / Плейлисты) -->
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
+        android:label="@string/media" />
+
+    <!-- Поиск -->
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.playlistmaker.ui.search.fragment.SearchFragment"
+        android:label="@string/search">
+
+        <!-- Переход из Поиска в Плеер -->
+        <action
+            android:id="@+id/action_search_to_player"
+            app:destination="@id/audioPlayerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <!-- Настройки -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.playlistmaker.ui.settings.fragment.SettingsFragment"
+        android:label="@string/settings" />
+
+    <!-- Аудиоплеер -->
+    <fragment
+        android:id="@+id/audioPlayerFragment"
+        android:name="com.example.playlistmaker.ui.player.fragment.AudioPlayerFragment"
+        android:label="@string/player">
+        <!-- Аргумент с треком -->
+        <argument
+            android:name="track"
+            app:argType="com.example.playlistmaker.domain.search.model.Track"
+            app:nullable="false" />
+    </fragment>
+
+</navigation>

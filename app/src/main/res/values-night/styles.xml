@@ -8,7 +8,7 @@
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:layout_marginBottom">@dimen/title_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/title_margin_left</item>
-        <item name="android:layout_marginTop">@dimen/title_margin_top</item>
+        <item name="android:layout_marginTop">@dimen/title_margin_top</item>X
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textFontWeight">500</item>
     </style>
@@ -128,6 +128,14 @@
         <item name="tabRippleColor">@android:color/transparent</item>
     </style>
 
+    <style name="BottomNavDividerStyle" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="dividerThickness">1dp</item>
+        <item name="dividerInsetStart">0dp</item>
+        <item name="dividerInsetEnd">0dp</item>
+        <item name="dividerColor">@color/YP_Light_Gray</item>
+    </style>
 
 
 

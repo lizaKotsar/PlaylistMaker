@@ -74,13 +74,13 @@
 
         <item name="android:drawablePadding">8dp</item>
         <item name="android:tint">?attr/searchIconColor</item>
-      <!--  <item name="android:paddingStart">@dimen/search_field_margin</item> -->
-        <item name="android:paddingEnd">@dimen/search_field_margin</item>
+    <!--<item name="android:paddingStart">@dimen/search_field_margin</item> -->
+      <item name="android:paddingEnd">@dimen/search_field_margin</item>
 
 
 
-    </style>
-    <!-- треки -->
+  </style>
+  <!-- треки -->
     <style name="TextAppearanceTrackTitle">
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">16sp</item>
@@ -138,7 +138,7 @@
 
     </style>
 
-    <style name="AppSwitchStyle" parent="Widget.Material3.CompoundButton.Switch">
+    <style name="AppSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
         <item name="thumbTint">?attr/switchThumbTint</item>
         <item name="trackTint">?attr/switchTrackTint</item>
     </style>
@@ -287,5 +287,25 @@
         <item name="tabTextColor">?attr/colorOnPrimary</item>
         <item name="tabRippleColor">@android:color/transparent</item>
     </style>
+
+    <style name="BottomNavDividerStyle" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="dividerThickness">1dp</item>
+        <item name="dividerInsetStart">0dp</item>
+        <item name="dividerInsetEnd">0dp</item>
+        <item name="dividerColor">@color/YP_Light_Gray</item>
+    </style>
+
+    <style name="AppBottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
+    <item name="android:layout_height">56dp</item>
+    <item name="android:background">?attr/navsetting</item>
+    <item name="labelVisibilityMode">labeled</item>
+    <item name="itemIconSize">24dp</item>
+    <item name="itemIconTint">@color/tint</item>
+    <item name="itemTextColor">@color/tint</item>
+
+</style>
+
 
 </resources>

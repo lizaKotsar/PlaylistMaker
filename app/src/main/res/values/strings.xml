@@ -30,4 +30,5 @@
     <string name="no_playlists">Вы не создавали\nни одного плейлиста</string>
     <string name="favorites_tab">Избранные треки</string>
     <string name="playlists_tab">Плейлисты</string>
+    <string name="player">Аудиоплеер</string>
 </resources>
