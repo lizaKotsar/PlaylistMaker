@@ -1,15 +1,19 @@
 package com.example.playlistmaker.ui.player.viewmodel
 
-import android.os.Handler
-import android.os.Looper
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
+import com.example.playlistmaker.common.ResourceProvider
 import com.example.playlistmaker.domain.player.PlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import com.example.playlistmaker.common.ResourceProvider
+
 
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
@@ -19,18 +23,8 @@ class PlayerViewModel(
     private val _state = MutableLiveData(PlayerState())
     fun observeState(): LiveData<PlayerState> = _state
 
-    private val handler = Handler(Looper.getMainLooper())
     private val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
-
-    private val progressRunnable = object : Runnable {
-        override fun run() {
-            if (_state.value?.isPlaying == true) {
-                val pos = playerInteractor.getPositionMs()
-                _state.postValue(_state.value?.copy(timerText = formatter.format(pos)))
-                handler.postDelayed(this, 300L)
-            }
-        }
-    }
+    private var timerJob: Job? = null
 
     fun prepare(url: String?) {
         val time = resourceProvider.getString(R.string.time)
@@ -46,21 +40,13 @@ class PlayerViewModel(
             url,
             onPrepared = {
                 _state.postValue(
-                    _state.value?.copy(
-                        isPlayEnabled = true,
-                        isPlaying = false,
-                        timerText = time
-                    )
+                    _state.value?.copy(isPlayEnabled = true, isPlaying = false, timerText = time)
                 )
             },
             onCompletion = {
-                stopProgress()
+                stopTimer()
                 _state.postValue(
-                    _state.value?.copy(
-                        isPlaying = false,
-                        isPlayEnabled = true,
-                        timerText = time
-                    )
+                    _state.value?.copy(isPlaying = false, isPlayEnabled = true, timerText = time)
                 )
             }
         )
@@ -76,32 +62,39 @@ class PlayerViewModel(
 
     private fun play() {
         playerInteractor.play()
-        _state.postValue(_state.value?.copy(isPlaying = true))
-        startProgress()
+        _state.value = _state.value?.copy(isPlaying = true)
+        startTimer()
     }
 
     private fun pause() {
         playerInteractor.pause()
-        _state.postValue(_state.value?.copy(isPlaying = false))
-        stopProgress()
+        _state.value = _state.value?.copy(isPlaying = false)
+        stopTimer()
     }
 
     fun onPause() {
         if (_state.value?.isPlaying == true) pause()
     }
 
-    private fun startProgress() {
-        handler.removeCallbacks(progressRunnable)
-        handler.post(progressRunnable)
+    private fun startTimer() {
+        stopTimer()
+        timerJob = viewModelScope.launch {
+            while (playerInteractor.isPlaying()) {
+                val posMs = playerInteractor.getPositionMs().toLong()
+                _state.postValue(_state.value?.copy(timerText = formatter.format(posMs)))
+                delay(300L)
+            }
+        }
     }
 
-    private fun stopProgress() {
-        handler.removeCallbacks(progressRunnable)
+    private fun stopTimer() {
+        timerJob?.cancel()
+        timerJob = null
     }
 
     override fun onCleared() {
-        super.onCleared()
-        stopProgress()
+        stopTimer()
         playerInteractor.release()
+        super.onCleared()
     }
 }
