@@ -22,13 +22,13 @@ class AudioPlayerFragment : Fragment() {
 
     companion object {
         private const val ARG_TRACK = "track"
-
         fun newInstance(track: Track) = AudioPlayerFragment().apply {
             arguments = bundleOf(ARG_TRACK to track)
         }
     }
 
     private lateinit var playButton: ImageButton
+    private lateinit var favoriteButton: ImageButton
     private lateinit var playbackTimer: TextView
     private lateinit var durationText: TextView
     private lateinit var track: Track
@@ -50,9 +50,7 @@ class AudioPlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<ImageButton>(R.id.backButton).setOnClickListener {
-
             activity?.onBackPressedDispatcher?.onBackPressed()
-
         }
 
         val coverImage = view.findViewById<ImageView>(R.id.coverImage)
@@ -65,13 +63,15 @@ class AudioPlayerFragment : Fragment() {
         val genreTv = view.findViewById<TextView>(R.id.trackGenreValue)
         val countryTv = view.findViewById<TextView>(R.id.trackCountryValue)
         playButton = view.findViewById(R.id.playButton)
+        favoriteButton = view.findViewById(R.id.button_favorite)
 
         val artworkUrl512 = track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(view).load(artworkUrl512)
             .placeholder(R.drawable.ic_placeholder)
             .into(coverImage)
 
-        fun limit(text: String?, max: Int) = text.orEmpty().let { if (it.length > max) it.take(max) + "…" else it }
+        fun limit(text: String?, max: Int) =
+            text.orEmpty().let { if (it.length > max) it.take(max) + "…" else it }
 
         trackNameTv.text = limit(track.trackName, 40)
         artistNameTv.text = limit(track.artistName, 40)
@@ -82,13 +82,25 @@ class AudioPlayerFragment : Fragment() {
         genreTv.text = track.primaryGenreName.orEmpty()
         countryTv.text = track.country.orEmpty()
 
+
+        viewModel.setTrack(track)
+
+
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             playButton.isEnabled = state.isPlayEnabled
             playbackTimer.text = state.timerText
-            playButton.setImageResource(if (state.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+            playButton.setImageResource(
+                if (state.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
+            )
+            favoriteButton.setImageResource(
+                if (state.isFavorite) R.drawable.ic_favorite_red else R.drawable.ic_favorite
+            )
         }
 
+
         playButton.setOnClickListener { viewModel.onPlayPauseClicked() }
+        favoriteButton.setOnClickListener { viewModel.onFavoriteClicked() }
+
 
         viewModel.prepare(track.previewUrl)
     }

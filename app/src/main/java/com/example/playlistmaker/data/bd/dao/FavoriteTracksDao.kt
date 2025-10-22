@@ -7,10 +7,10 @@ import com.example.playlistmaker.data.bd.entity.FavoriteTrackEntity
 interface FavoriteTracksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(track: FavoriteTrackEntity)
+    suspend fun insert(track: FavoriteTrackEntity): Long
 
     @Delete
-    suspend fun delete(track: FavoriteTrackEntity)
+    suspend fun delete(track: FavoriteTrackEntity): Int
 
     @Query("SELECT * FROM favorite_tracks ORDER BY added_at DESC")
     suspend fun getAll(): List<FavoriteTrackEntity>

@@ -18,7 +18,7 @@ val viewModelModule = module {
 
 //sprint18
     viewModel { SearchViewModel(get(), get(), get()) }
-    viewModel { PlayerViewModel(get(), get()) }
+    viewModel { PlayerViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { FavoritesViewModel() }
     viewModel { PlaylistsViewModel() }
