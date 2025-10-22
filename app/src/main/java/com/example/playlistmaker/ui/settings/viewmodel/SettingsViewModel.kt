@@ -46,3 +46,4 @@ class SettingsViewModel(
         _sendEmail.value = sharingInteractor.getSupportEmailData()
     }
 }
+//sprint21
