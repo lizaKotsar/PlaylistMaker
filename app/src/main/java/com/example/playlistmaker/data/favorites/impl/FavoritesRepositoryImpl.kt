@@ -5,7 +5,6 @@ import com.example.playlistmaker.data.bd.dao.FavoriteTracksDao
 import com.example.playlistmaker.domain.favorites.FavoritesRepository
 import com.example.playlistmaker.domain.search.model.Track
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class FavoritesRepositoryImpl(
@@ -21,7 +20,7 @@ class FavoritesRepositoryImpl(
         dao.delete(converter.toEntity(track))
     }
 
-    override fun getFavorites(): Flow<List<Track>> = flow {
-        emit(dao.getAll())
-    }.map { list -> list.map(converter::fromEntity) }
+    override fun getFavorites(): Flow<List<Track>> =
+        dao.observeAll()
+            .map { entities -> entities.map(converter::fromEntity) }
 }

@@ -22,9 +22,7 @@ class MediaFragment : Fragment() {
         private const val KEY_SELECTED_PAGE = "media_selected_page"
     }
 
-
     private var selectedPage: Int = 0
-
 
     private val pageCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -49,10 +47,12 @@ class MediaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewPager.adapter = MediaAdapter(
-            childFragmentManager,
-            viewLifecycleOwner.lifecycle
-        )
+        binding.viewPager.apply {
+            adapter = MediaAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
+            offscreenPageLimit = 2
+            registerOnPageChangeCallback(pageCallback)
+            setCurrentItem(selectedPage, false)
+        }
 
         mediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
             tab.text = when (pos) {
@@ -60,20 +60,14 @@ class MediaFragment : Fragment() {
                 else -> getString(R.string.playlists_tab)
             }
         }.also { it.attach() }
-
-
-        binding.viewPager.setCurrentItem(selectedPage, false)
-        binding.viewPager.registerOnPageChangeCallback(pageCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-
         outState.putInt(KEY_SELECTED_PAGE, selectedPage)
         super.onSaveInstanceState(outState)
     }
 
     override fun onDestroyView() {
-
         binding.viewPager.unregisterOnPageChangeCallback(pageCallback)
         mediator?.detach()
         mediator = null

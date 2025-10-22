@@ -17,6 +17,7 @@ class FavoriteDbConverter {
             country = track.country,
             trackTimeMillis = track.trackTimeMillis,
             previewUrl = track.previewUrl
+
         )
     }
 
@@ -32,6 +33,9 @@ class FavoriteDbConverter {
             primaryGenreName = entity.primaryGenreName,
             country = entity.country,
             previewUrl = entity.previewUrl
-        )
+        ).apply {
+
+            isFavorite = true
+        }
     }
 }

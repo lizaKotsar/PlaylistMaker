@@ -2,18 +2,20 @@ package com.example.playlistmaker.data.bd.dao
 
 import androidx.room.*
 import com.example.playlistmaker.data.bd.entity.FavoriteTrackEntity
+import kotlinx.coroutines.flow.Flow
+
 
 @Dao
 interface FavoriteTracksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(track: FavoriteTrackEntity): Long
-
+    suspend fun insert(track: FavoriteTrackEntity)
     @Delete
-    suspend fun delete(track: FavoriteTrackEntity): Int
+    suspend fun delete(track: FavoriteTrackEntity)
+
 
     @Query("SELECT * FROM favorite_tracks ORDER BY added_at DESC")
-    suspend fun getAll(): List<FavoriteTrackEntity>
+    fun observeAll(): Flow<List<FavoriteTrackEntity>>
 
     @Query("SELECT track_id FROM favorite_tracks")
     suspend fun getAllIds(): List<Long>

@@ -4,11 +4,16 @@
     android:id="@+id/root_navigation_graph"
     app:startDestination="@id/mediaFragment">
 
-    <!-- Медиатека (фрагмент с ViewPager: Избранное / Плейлисты) -->
+
     <fragment
         android:id="@+id/mediaFragment"
         android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
-        android:label="@string/media" />
+        android:label="@string/media">
+
+        <action
+            android:id="@+id/action_media_to_player"
+            app:destination="@id/audioPlayerFragment" />
+    </fragment>
 
     <!-- Поиск -->
     <fragment
@@ -43,5 +48,7 @@
             app:argType="com.example.playlistmaker.domain.search.model.Track"
             app:nullable="false" />
     </fragment>
+
+
 
 </navigation>

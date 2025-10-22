@@ -15,7 +15,7 @@ class MediaAdapter(
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment = when (position) {
-        0 -> FavoritesFragment.newInstance()
-        else -> PlaylistsFragment.newInstance()
+        0 -> FavoritesFragment()
+        else -> PlaylistsFragment()
     }
 }
