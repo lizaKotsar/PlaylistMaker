@@ -18,4 +18,7 @@ interface FavoriteTracksDao {
 
     @Query("SELECT track_id FROM favorite_tracks")
     suspend fun getAllIds(): List<Long>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM favorite_tracks WHERE track_id = :id)")
+    suspend fun isFavorite(id: Long): Boolean
 }

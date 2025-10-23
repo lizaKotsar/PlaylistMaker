@@ -31,11 +31,15 @@ class PlayerViewModel(
     private var timerJob: Job? = null
     private var currentTrack: Track? = null
 
-
     fun setTrack(track: Track) {
         currentTrack = track
-        _state.value = _state.value?.copy(isFavorite = track.isFavorite)
+        viewModelScope.launch {
+            val fav = track.trackId?.let { favoritesInteractor.isFavorite(it) } ?: false
+            track.isFavorite = fav
+            _state.postValue(_state.value?.copy(isFavorite = fav))
+        }
     }
+
 
     fun prepare(url: String?) {
         val time = resourceProvider.getString(R.string.time)

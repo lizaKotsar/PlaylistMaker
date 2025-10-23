@@ -23,4 +23,6 @@ class FavoritesRepositoryImpl(
     override fun getFavorites(): Flow<List<Track>> =
         dao.observeAll()
             .map { entities -> entities.map(converter::fromEntity) }
+
+    override suspend fun isFavorite(trackId: Long): Boolean = dao.isFavorite(trackId)
 }
