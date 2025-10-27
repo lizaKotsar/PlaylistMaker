@@ -9,9 +9,11 @@ import com.example.playlistmaker.domain.search.TracksRepository
 import com.example.playlistmaker.domain.search.model.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import com.example.playlistmaker.data.bd.dao.FavoriteTracksDao
 
 class TracksRepositoryImpl(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val favoritesDao: FavoriteTracksDao
 ) : TracksRepository {
 
     override fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
@@ -19,7 +21,10 @@ class TracksRepositoryImpl(
         when (response.resultCode) {
             200 -> {
                 val body = response as TrackResponse
-                val data = body.results.map { it.toDomain() }
+                val favoriteIds = favoritesDao.getAllIds().toSet()
+                val data = body.results.map { it.toDomain().apply {
+                    isFavorite = trackId != null && favoriteIds.contains(trackId)
+                } }
                 emit(Resource.Success(data))
             }
             else -> emit(Resource.Error("SERVER_ERROR"))

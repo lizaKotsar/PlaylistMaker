@@ -87,8 +87,8 @@
             android:id="@+id/search_history_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:visibility="gone"
             android:fillViewport="true">
 
@@ -96,12 +96,14 @@
                 android:id="@+id/search_history_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/history_title"
                     style="@style/SearchHistoryTitleStyle"
-                    android:text="@string/search_history_title" />
+                    android:text="@string/search_history_title"
+                    android:paddingBottom="20dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/history_recycler"

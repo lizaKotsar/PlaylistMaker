@@ -14,11 +14,14 @@ import com.example.playlistmaker.domain.settings.model.SettingsRepository
 import com.example.playlistmaker.domain.sharing.model.SharingRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
+import com.example.playlistmaker.data.favorites.impl.FavoritesRepositoryImpl
+import com.example.playlistmaker.domain.favorites.FavoritesRepository
+import com.example.playlistmaker.data.bd.dao.FavoriteTracksDao
 
 val repositoryModule = module {
 
 
-    single<TracksRepository> { TracksRepositoryImpl(get()) }
+    single<TracksRepository> { TracksRepositoryImpl(get(), get<FavoriteTracksDao>()) }
     single<SearchHistoryRepository> { SearchHistoryRepositoryImpl(get()) }
 
 
@@ -30,4 +33,5 @@ val repositoryModule = module {
 
     single<ExternalNavigator> { ExternalNavigatorImpl(androidContext()) }
     single<SharingRepository> { SharingRepositoryImpl(androidContext()) }
+    single<FavoritesRepository> { FavoritesRepositoryImpl(get(), get()) }
 }
