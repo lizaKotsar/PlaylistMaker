@@ -15,6 +15,9 @@ import androidx.room.Room
 import com.example.playlistmaker.data.bd.AppDatabase
 import com.example.playlistmaker.data.bd.dao.FavoriteTracksDao
 import com.example.playlistmaker.data.bd.converters.FavoriteDbConverter
+import com.example.playlistmaker.data.bd.dao.PlaylistsDao
+
+import com.example.playlistmaker.data.files.ImageStorage
 
 
 val dataModule = module {
@@ -34,7 +37,6 @@ val dataModule = module {
     }
 
     single { SearchHistory(get(), get()) }
-
     single<NetworkClient> { RetrofitNetworkClient(get()) }
 
     single {
@@ -43,12 +45,15 @@ val dataModule = module {
             AppDatabase::class.java,
             "playlist_bd"
         )
-
+            .fallbackToDestructiveMigration()
             .build()
     }
 
     single<FavoriteTracksDao> { get<AppDatabase>().favoriteTracksDao() }
-
+    single<PlaylistsDao> { get<AppDatabase>().playlistsDao() }
 
     factory { FavoriteDbConverter() }
+
+    single { ImageStorage(androidContext()) }
+
 }

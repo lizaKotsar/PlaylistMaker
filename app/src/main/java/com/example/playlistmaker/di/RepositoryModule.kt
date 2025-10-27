@@ -17,21 +17,19 @@ import org.koin.dsl.module
 import com.example.playlistmaker.data.favorites.impl.FavoritesRepositoryImpl
 import com.example.playlistmaker.domain.favorites.FavoritesRepository
 import com.example.playlistmaker.data.bd.dao.FavoriteTracksDao
+import com.example.playlistmaker.domain.playlists.PlaylistsRepository
+import com.example.playlistmaker.data.playlists.impl.PlaylistsRepositoryImpl
+
 
 val repositoryModule = module {
 
 
     single<TracksRepository> { TracksRepositoryImpl(get(), get<FavoriteTracksDao>()) }
     single<SearchHistoryRepository> { SearchHistoryRepositoryImpl(get()) }
-
-
     single<SettingsRepository> { SettingsRepositoryImpl(androidContext()) }
-
-
     single<PlayerRepository> { PlayerRepositoryImpl() }
-
-
     single<ExternalNavigator> { ExternalNavigatorImpl(androidContext()) }
     single<SharingRepository> { SharingRepositoryImpl(androidContext()) }
     single<FavoritesRepository> { FavoritesRepositoryImpl(get(), get()) }
+    single<PlaylistsRepository> { PlaylistsRepositoryImpl(get(), get()) }
 }
