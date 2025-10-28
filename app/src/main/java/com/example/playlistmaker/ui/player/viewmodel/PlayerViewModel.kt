@@ -9,20 +9,23 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.common.ResourceProvider
 import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.player.PlayerInteractor
+import com.example.playlistmaker.domain.playlists.PlaylistsInteractor
+import com.example.playlistmaker.domain.playlists.model.Playlist
 import com.example.playlistmaker.domain.search.model.Track
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
-
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
     private val resourceProvider: ResourceProvider,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val playlistsInteractor: PlaylistsInteractor,
 ) : ViewModel() {
+
 
     private val _state = MutableLiveData(PlayerState())
     fun observeState(): LiveData<PlayerState> = _state
@@ -33,13 +36,12 @@ class PlayerViewModel(
 
     fun setTrack(track: Track) {
         currentTrack = track
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val fav = track.trackId?.let { favoritesInteractor.isFavorite(it) } ?: false
             track.isFavorite = fav
             _state.postValue(_state.value?.copy(isFavorite = fav))
         }
     }
-
 
     fun prepare(url: String?) {
         val time = resourceProvider.getString(R.string.time)
@@ -71,10 +73,9 @@ class PlayerViewModel(
         )
     }
 
-
     fun onFavoriteClicked() {
         val track = currentTrack ?: return
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val isFavNow = _state.value?.isFavorite == true
             if (isFavNow) {
                 favoritesInteractor.removeFromFavorites(track)
@@ -132,6 +133,36 @@ class PlayerViewModel(
         stopTimer()
         playerInteractor.release()
         super.onCleared()
+    }
+
+
+
+    private val _bsPlaylists = MutableLiveData<List<Playlist>>()
+    val bsPlaylists: LiveData<List<Playlist>> = _bsPlaylists
+
+    private val _addResult = MutableLiveData<String>()
+    val addResult: LiveData<String> = _addResult
+
+
+    fun loadPlaylists() = viewModelScope.launch(Dispatchers.IO) {
+        val list = playlistsInteractor.getAll()
+        _bsPlaylists.postValue(list)
+    }
+
+
+    fun addTrackToPlaylist(playlist: Playlist) = viewModelScope.launch(Dispatchers.IO) {
+        val track = currentTrack ?: return@launch
+        val id = track.trackId ?: return@launch
+
+        if (playlist.trackIds.contains(id)) {
+            _addResult.postValue("Трек уже добавлен в плейлист ${playlist.name}")
+        } else {
+            playlistsInteractor.addTrackToPlaylist(track, playlist)
+            _addResult.postValue("Добавлено в плейлист ${playlist.name}")
+
+            val refreshed = playlistsInteractor.getAll()
+            _bsPlaylists.postValue(refreshed)
+        }
     }
 }
 //sprint22

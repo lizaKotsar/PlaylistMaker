@@ -1,107 +1,89 @@
 package com.example.playlistmaker.ui.media.fragment
 
-import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.addCallback
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
+import com.example.playlistmaker.ui.playlists.viewmodel.CreatePlaylistViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreatePlaylistFragment : Fragment() {
+class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
 
     private var _binding: FragmentCreatePlaylistBinding? = null
     private val binding get() = _binding!!
 
-    private var pickedImageUri: Uri? = null
-    private var isDirty: Boolean = false
+    private val vm: CreatePlaylistViewModel by viewModel()
 
-
-    private val pickMedia = registerForActivityResult(
-        ActivityResultContracts.PickVisualMedia()
-    ) { uri ->
+    private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
-            pickedImageUri = uri
-            with(binding) {
-                ivCover.isVisible = true
-                ivCover.setImageURI(uri)
-                ivAddIcon.isGone = true
-            }
-            isDirty = true
+            vm.pickedImageUri = uri
+            binding.ivCover.visibility = View.VISIBLE
+            binding.ivCover.setImageURI(uri)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCreatePlaylistBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCreatePlaylistBinding.bind(view)
 
 
-        binding.toolbar.setNavigationOnClickListener { tryClose() }
-
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            tryClose()
-        }
+        binding.toolbar.setNavigationOnClickListener { handleBack() }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = handleBack()
+            }
+        )
 
 
         binding.coverContainer.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
 
-        val watcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateCreateEnabled()
-                isDirty = isDirty || !s.isNullOrBlank()
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        }
-        binding.etName.addTextChangedListener(watcher)
-        binding.etDesc.addTextChangedListener(watcher)
+        val nameEt = binding.tilName.editText!!
+        val descEt = binding.tilDesc.editText!!
+
+        nameEt.doAfterTextChanged { vm.onNameChanged(it) }
+        descEt.doAfterTextChanged { vm.onDescriptionChanged(it) }
 
 
-        binding.btnCreate.setOnClickListener {
-
+        vm.isCreateEnabled.observe(viewLifecycleOwner) { enabled ->
+            binding.btnCreate.isEnabled = enabled
         }
 
-        updateCreateEnabled()
+
+        binding.btnCreate.setOnClickListener { vm.save() }
+
+
+        vm.closeWithSuccess.observe(viewLifecycleOwner) { name ->
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.playlist_created_toast, name),
+                Toast.LENGTH_SHORT
+            ).show()
+            findNavController().navigateUp()
+        }
     }
 
-    private fun updateCreateEnabled() {
-        binding.btnCreate.isEnabled = !binding.etName.text.isNullOrBlank()
-    }
-
-    private fun tryClose() {
-        val nothingEntered = pickedImageUri == null &&
-                binding.etName.text.isNullOrBlank() &&
-                binding.etDesc.text.isNullOrBlank()
-
-        if (nothingEntered) {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+    private fun handleBack() {
+        val hasInput = vm.name.isNotBlank() || vm.description.isNotBlank() || vm.pickedImageUri != null
+        if (!hasInput) {
+            findNavController().navigateUp()
         } else {
-            MaterialAlertDialogBuilder(requireContext())
+            MaterialAlertDialogBuilder(requireContext(), R.style.AppAlertDialogTheme)
                 .setTitle(R.string.finish_creation_title)
                 .setMessage(R.string.finish_creation_message)
                 .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.finish) { _, _ ->
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                }
+                .setPositiveButton(R.string.finish) { _, _ -> findNavController().navigateUp() }
                 .show()
         }
     }

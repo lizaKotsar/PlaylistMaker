@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content">
+
+    <!-- Обложка 1:1, скругления 8dp, плейсхолдер в src -->
+    <ImageView
+        android:id="@+id/ivCover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        app:srcCompat="@drawable/ic_placeholder"/>
+
+    <!-- Название (1 строка, троеточие), отступ 8dp от обложки -->
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/ivCover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Best songs 2021"/>
+
+    <!-- Кол-во треков (1 строка), 4dp между строками, низ у родителя -->
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:textColor="?attr/colorOnPrimary"
+        android:text="98 треков"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

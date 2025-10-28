@@ -55,5 +55,8 @@ val dataModule = module {
     factory { FavoriteDbConverter() }
 
     single { ImageStorage(androidContext()) }
-
+    single { get<AppDatabase>().tracksInPlaylistsDao() }
+    single { get<AppDatabase>().playlistsDao() }
+    single { get<AppDatabase>().tracksInPlaylistsDao() }
+    single { com.google.gson.Gson() }
 }

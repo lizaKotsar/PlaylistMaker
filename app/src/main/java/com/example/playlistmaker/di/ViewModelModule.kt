@@ -12,6 +12,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.example.playlistmaker.ui.playlists.viewmodel.CreatePlaylistViewModel
 
+
 val viewModelModule = module {
 
 
@@ -19,9 +20,9 @@ val viewModelModule = module {
 
 //sprint18
     viewModel { SearchViewModel(get(), get(), get()) }
-    viewModel { PlayerViewModel(get(), get(), get()) }
+    viewModel { PlayerViewModel(get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { FavoritesViewModel(get()) }
-    viewModel { PlaylistsViewModel() }
+    viewModel { PlaylistsViewModel(get()) }
     viewModel { CreatePlaylistViewModel(get(), androidContext()) }
 }

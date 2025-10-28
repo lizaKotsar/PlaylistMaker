@@ -252,7 +252,7 @@
     </style>
 
 
-    <style name="MediaTextButtonStyle" parent="Widget.Material3.Button">
+    <style name="MediaTextButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">133dp</item>
@@ -307,6 +307,8 @@
     <item name="itemTextColor">@color/tint</item>
 
 </style>
-
+    <style name="AppAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/black</item> <!-- цвет текста кнопок -->
+    </style>
 
 </resources>
