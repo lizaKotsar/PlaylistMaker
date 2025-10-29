@@ -1,0 +1,62 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Базовая форма с радиусом 8dp (просто чтобы была «коробка») -->
+    <item android:width="312dp" android:height="312dp" android:gravity="center">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+
+    <!-- TOP: 312 - 8 - 8 = 296dp -->
+    <item android:width="296dp" android:height="1dp" android:gravity="top|center_horizontal">
+        <shape android:shape="rectangle">
+            <size android:width="296dp" android:height="1dp"/>
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/YP_Text_Gray"
+                android:dashWidth="30dp"
+                android:dashGap="30dp"/>
+        </shape>
+    </item>
+
+    <!-- BOTTOM -->
+    <item android:width="296dp" android:height="1dp" android:gravity="bottom|center_horizontal">
+        <shape android:shape="rectangle">
+            <size android:width="296dp" android:height="1dp"/>
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/YP_Text_Gray"
+                android:dashWidth="30dp"
+                android:dashGap="30dp"/>
+        </shape>
+    </item>
+
+    <!-- LEFT -->
+    <item android:width="1dp" android:height="296dp" android:gravity="left|center_vertical">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" android:height="296dp"/>
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/YP_Text_Gray"
+                android:dashWidth="30dp"
+                android:dashGap="30dp"/>
+        </shape>
+    </item>
+
+    <!-- RIGHT -->
+    <item android:width="1dp" android:height="296dp" android:gravity="right|center_vertical">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" android:height="296dp"/>
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/YP_Text_Gray"
+                android:dashWidth="30dp"
+                android:dashGap="30dp"/>
+        </shape>
+    </item>
+</layer-list>

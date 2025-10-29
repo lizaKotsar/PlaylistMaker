@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,43 +6,50 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary">
 
+
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Widget.MaterialComponents.Toolbar"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:background="?attr/colorSecondary"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="@string/new_playlist"
-        app:titleTextColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:navigationIconTint="?attr/colorOnSecondary"
+        app:title="@string/new_playlist"
+        app:titleTextColor="?attr/colorOnSecondary"
+        app:titleTextAppearance="@style/App.Toolbar.Title"
+        app:titleMarginStart="16dp"/>
 
-    <!-- Обложка: квадрат 1:1, пунктир -->
     <FrameLayout
         android:id="@+id/coverContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="26dp"
-        android:background="@drawable/cover_placeholder"
+        android:background="@drawable/bg_cover_placeholder_dashed"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1:1">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+        <!-- сама картинка, обрежется по радиусу 8dp -->
         <ImageView
             android:id="@+id/ivCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_round_8dp"
+            android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:visibility="gone"
-            android:background="@drawable/vector"
-            android:clipToOutline="true" />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/ivAddIcon"
@@ -53,84 +59,72 @@
             android:src="@drawable/addplaylist" />
     </FrameLayout>
 
-    <!-- Поле "Название" — прозрачная outlined-рамка -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/App.TextInput.Outlined"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxStrokeColor="@color/YP_Light_Gray"
+        android:layout_marginTop="24dp"
+        android:hint="@string/playlist_name_required"
         app:layout_constraintTop_toBottomOf="@id/coverContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:boxBackgroundMode="outline">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/playlist_name_required"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences"
+            style="@style/App.TextInput.Outlined"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Поле "Описание" -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDesc"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/App.TextInput.Outlined"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxStrokeColor="@color/YP_Light_Gray"
+        android:hint="@string/playlist_description"
         app:layout_constraintTop_toBottomOf="@id/tilName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:boxBackgroundMode="outline">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDesc"
+            style="@style/App.TextInput.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/playlist_description"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences|textMultiLine"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Кнопка: снизу, 326×44 при ширине 360dp (лев/прав по 17dp), отступ снизу 32 -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreate"
+        style="@style/App.Button.CreateGray"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="17dp"
         android:layout_marginEnd="17dp"
         android:layout_marginBottom="32dp"
-        android:enabled="false"
         android:text="@string/create"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/YP_Text_Gray"
-        app:cornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilDesc" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
