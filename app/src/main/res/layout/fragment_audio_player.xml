@@ -265,9 +265,9 @@
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        android:background="@drawable/bottom_sheet_bg"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp">
@@ -312,14 +312,17 @@
             app:backgroundTint="?attr/colorOnSecondary"/>
 
         <!-- Список плейлистов (item высотой 61dp) -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPlaylists"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:paddingBottom="16dp"
-            android:clipToPadding="false"/>
+            android:layout_height="@dimen/bs_playlists_list_max">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPlaylists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"/>
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

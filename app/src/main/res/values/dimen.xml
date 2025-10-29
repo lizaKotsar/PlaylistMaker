@@ -47,4 +47,7 @@
     <dimen name="track_name_padding_top">3dp</dimen>
     <dimen name="track_arrow_width">8dp</dimen>
     <dimen name="track_arrow_height">14dp</dimen>
+
+    <dimen name="bs_playlists_peek">505dp</dimen>
+    <dimen name="bs_playlists_list_max">360dp</dimen>
 </resources>
