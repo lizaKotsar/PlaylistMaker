@@ -1,11 +1,15 @@
 package com.example.playlistmaker.ui.playlists.fragment
 
+import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -13,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
 import com.example.playlistmaker.ui.playlists.viewmodel.CreatePlaylistViewModel
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,9 +31,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
             vm.pickedImageUri = uri
-            binding.ivCover.isVisible = true
-            binding.ivAddIcon.isVisible = false
-            binding.ivCover.setImageURI(uri)
+            renderCover(uri)
         }
     }
 
@@ -36,47 +39,39 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCreatePlaylistBinding.bind(view)
 
-
+        // back (тулбар + системная)
         binding.toolbar.setNavigationOnClickListener { handleBack() }
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() = handleBack()
-            }
+            object : OnBackPressedCallback(true) { override fun handleOnBackPressed() = handleBack() }
         )
 
-
+        // восстановление текста из VM
         binding.etName.setText(vm.name)
         binding.etName.setSelection(binding.etName.text?.length ?: 0)
         binding.etDesc.setText(vm.description)
 
-        vm.pickedImageUri?.let {
-            binding.ivCover.isVisible = true
-            binding.ivAddIcon.isVisible = false
-            binding.ivCover.setImageURI(it)
-        } ?: run {
-            binding.ivCover.isVisible = false
-            binding.ivAddIcon.isVisible = true
-        }
-        binding.btnCreate.isEnabled = vm.isCreateEnabled.value == true
+        // восстановление обложки из VM
+        renderCover(vm.pickedImageUri)
 
+        // первичная инициализация кнопки
+        updateCreateButton(vm.isCreateEnabled.value == true)
 
+        // выбор обложки
         binding.coverContainer.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
-
+        // поля
         binding.etName.doAfterTextChanged { vm.onNameChanged(it) }
         binding.etDesc.doAfterTextChanged { vm.onDescriptionChanged(it) }
 
-
+        // observe
         vm.isCreateEnabled.observe(viewLifecycleOwner) { enabled ->
-            binding.btnCreate.isEnabled = enabled
+            updateCreateButton(enabled)
         }
 
-
         binding.btnCreate.setOnClickListener { vm.save() }
-
 
         vm.closeWithSuccess.observe(viewLifecycleOwner) { name ->
             Toast.makeText(
@@ -86,13 +81,47 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
             ).show()
             findNavController().navigateUp()
         }
+
+        // опционально: длинное нажатие по обложке — очистить
+        binding.ivCover.setOnLongClickListener {
+            vm.pickedImageUri = null
+            renderCover(null)
+            true
+        }
+    }
+
+    private fun renderCover(uri: Uri?) {
+        if (uri == null) {
+            // нет обложки — показываем пунктир + иконку
+            binding.ivCover.setImageDrawable(null)
+            binding.ivCover.isGone = true
+            binding.ivAddIcon.isVisible = true
+            // замените на свой ресурс, если у вас другое имя
+            binding.coverContainer.setBackgroundResource(R.drawable.bg_cover_placeholder_dashed)
+        } else {
+            // есть обложка — прячем иконку и фон-пунктир
+            binding.ivCover.isVisible = true
+            binding.ivCover.setImageURI(uri)
+            binding.ivCover.bringToFront()
+            binding.ivAddIcon.isGone = true
+            binding.coverContainer.background = null
+        }
+    }
+
+    private fun updateCreateButton(enabled: Boolean) {
+        binding.btnCreate.isEnabled = enabled
+
+        val primary    = MaterialColors.getColor(binding.btnCreate, com.google.android.material.R.attr.colorPrimary)
+        val onPrimary  = MaterialColors.getColor(binding.btnCreate, com.google.android.material.R.attr.colorOnPrimary)
+        val disabledBg = ContextCompat.getColor(requireContext(), R.color.YP_Text_Gray)
+        val disabledTx = MaterialColors.getColor(binding.btnCreate, com.google.android.material.R.attr.colorOnSecondary)
+
+        binding.btnCreate.backgroundTintList = ColorStateList.valueOf(if (enabled) primary else disabledBg)
+        binding.btnCreate.setTextColor(if (enabled) onPrimary else disabledTx)
     }
 
     private fun handleBack() {
-        val hasInput = vm.name.isNotBlank() ||
-                vm.description.isNotBlank() ||
-                vm.pickedImageUri != null
-
+        val hasInput = vm.name.isNotBlank() || vm.description.isNotBlank() || vm.pickedImageUri != null
         if (!hasInput) {
             findNavController().navigateUp()
         } else {
@@ -100,9 +129,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
                 .setTitle(R.string.finish_creation_title)
                 .setMessage(R.string.finish_creation_message)
                 .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.finish) { _, _ ->
-                    findNavController().navigateUp()
-                }
+                .setPositiveButton(R.string.finish) { _, _ -> findNavController().navigateUp() }
                 .show()
         }
     }

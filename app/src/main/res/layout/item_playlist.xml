@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <!-- Обложка 1:1, скругления 8dp, плейсхолдер в src -->
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCover"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,35 +15,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         android:scaleType="centerCrop"
-        android:clipToOutline="true"
+        app:shapeAppearanceOverlay="@style/RoundedImageView8"
         app:srcCompat="@drawable/ic_placeholder"/>
 
     <!-- Название (1 строка, троеточие), отступ 8dp от обложки -->
     <TextView
         android:id="@+id/tvName"
+        style="@style/PlaylistItemTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/ivCover"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:text="Best songs 2021"/>
+        android:layout_marginTop="4dp"/>
 
-    <!-- Кол-во треков (1 строка), 4dp между строками, низ у родителя -->
     <TextView
         android:id="@+id/tvCount"
+        style="@style/PlaylistItemCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="98 треков"/>
+        android:layout_marginTop="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

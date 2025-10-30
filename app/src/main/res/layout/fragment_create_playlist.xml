@@ -23,7 +23,9 @@
         app:title="@string/new_playlist"
         app:titleTextColor="?attr/colorOnSecondary"
         app:titleTextAppearance="@style/App.Toolbar.Title"
-        app:titleMarginStart="16dp"/>
+        app:contentInsetStartWithNavigation="0dp"
+        app:contentInsetStart="0dp"
+        app:titleMarginStart="12dp"/>
 
     <FrameLayout
         android:id="@+id/coverContainer"
@@ -41,6 +43,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+
+        <ImageView
+            android:id="@+id/ivAddIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/addplaylist"
+            />
+
         <!-- сама картинка, обрежется по радиусу 8dp -->
         <ImageView
             android:id="@+id/ivCover"
@@ -49,14 +60,10 @@
             android:background="@drawable/bg_round_8dp"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
-        <ImageView
-            android:id="@+id/ivAddIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/addplaylist" />
+
     </FrameLayout>
 
     <com.google.android.material.textfield.TextInputLayout
