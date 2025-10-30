@@ -52,7 +52,7 @@
             android:src="@drawable/addplaylist"
             />
 
-        <!-- сама картинка, обрежется по радиусу 8dp -->
+
         <ImageView
             android:id="@+id/ivCover"
             android:layout_width="match_parent"

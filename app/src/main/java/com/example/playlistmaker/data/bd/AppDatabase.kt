@@ -9,7 +9,7 @@ import com.example.playlistmaker.data.bd.entity.PlaylistEntity
 import com.example.playlistmaker.data.bd.entity.TrackInPlaylistEntity
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         FavoriteTrackEntity::class,
         PlaylistEntity::class,

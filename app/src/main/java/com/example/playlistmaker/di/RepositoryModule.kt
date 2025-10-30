@@ -37,9 +37,9 @@ val repositoryModule = module {
 
     single<PlaylistsRepository> {
         PlaylistsRepositoryImpl(
-            dao      = get(),
-            gson     = get(),
-            tracksDao = get()
+            dao = get(),
+            tracksDao = get(),
+            gson = get()
         )
     }
 }

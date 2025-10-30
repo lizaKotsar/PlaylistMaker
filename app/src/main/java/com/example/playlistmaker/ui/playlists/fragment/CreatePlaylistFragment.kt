@@ -38,35 +38,28 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCreatePlaylistBinding.bind(view)
-
-        // back (тулбар + системная)
         binding.toolbar.setNavigationOnClickListener { handleBack() }
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) { override fun handleOnBackPressed() = handleBack() }
         )
 
-        // восстановление текста из VM
+
         binding.etName.setText(vm.name)
         binding.etName.setSelection(binding.etName.text?.length ?: 0)
         binding.etDesc.setText(vm.description)
 
-        // восстановление обложки из VM
         renderCover(vm.pickedImageUri)
-
-        // первичная инициализация кнопки
         updateCreateButton(vm.isCreateEnabled.value == true)
 
-        // выбор обложки
+
         binding.coverContainer.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
-        // поля
         binding.etName.doAfterTextChanged { vm.onNameChanged(it) }
         binding.etDesc.doAfterTextChanged { vm.onDescriptionChanged(it) }
 
-        // observe
         vm.isCreateEnabled.observe(viewLifecycleOwner) { enabled ->
             updateCreateButton(enabled)
         }
@@ -82,7 +75,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
             findNavController().navigateUp()
         }
 
-        // опционально: длинное нажатие по обложке — очистить
+
         binding.ivCover.setOnLongClickListener {
             vm.pickedImageUri = null
             renderCover(null)
@@ -92,14 +85,13 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
 
     private fun renderCover(uri: Uri?) {
         if (uri == null) {
-            // нет обложки — показываем пунктир + иконку
+
             binding.ivCover.setImageDrawable(null)
             binding.ivCover.isGone = true
             binding.ivAddIcon.isVisible = true
-            // замените на свой ресурс, если у вас другое имя
             binding.coverContainer.setBackgroundResource(R.drawable.bg_cover_placeholder_dashed)
         } else {
-            // есть обложка — прячем иконку и фон-пунктир
+
             binding.ivCover.isVisible = true
             binding.ivCover.setImageURI(uri)
             binding.ivCover.bringToFront()

@@ -253,65 +253,58 @@
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Полупрозрачный оверлей (показываем, когда BottomSheet открыт) -->
+
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#99000000"/>
+        android:background="#99000000"
+        android:visibility="gone"/>
 
-    <!-- Bottom Sheet со списком плейлистов -->
+
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bottom_sheet_bg"
+        android:background="@drawable/bg_bottom_sheet_16"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp">
+        app:behavior_peekHeight="0dp"
+        >
 
-        <!-- "ручка" -->
+
         <View
-            android:layout_width="48dp"
+            android:layout_width="50dp"
             android:layout_height="4dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-           />
+            android:background="@drawable/bs_handle"/>
 
-        <!-- Заголовок: 360 x 52, top 24 -->
+
         <TextView
             android:id="@+id/tvBsTitle"
+            style="@style/App.BottomSheet.Title"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/add_to_playlist"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="?attr/colorOnSecondary"/>
 
-        <!-- Кнопка "Новый плейлист": 135 x 36 -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNewPlaylist"
+            style="@style/App.Button.Chip"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:minWidth="0dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:textAllCaps="false"
-            android:text="@string/new_playlist"
-            android:textSize="14sp"
-            android:textColor="?attr/colorSecondary"
-            app:cornerRadius="54dp"
-            app:backgroundTint="?attr/colorOnSecondary"/>
+            android:text="@string/new_playlist"/>
 
-        <!-- Список плейлистов (item высотой 61dp) -->
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/bs_playlists_list_max">
@@ -319,9 +312,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPlaylists"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="16dp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false"/>
         </FrameLayout>
     </LinearLayout>
 

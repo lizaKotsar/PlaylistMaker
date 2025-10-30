@@ -5,7 +5,7 @@
     android:layout_width="160dp"
     android:layout_height="wrap_content">
 
-    <!-- Обложка 1:1, скругления 8dp, плейсхолдер в src -->
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCover"
         android:layout_width="0dp"
@@ -18,7 +18,7 @@
         app:shapeAppearanceOverlay="@style/RoundedImageView8"
         app:srcCompat="@drawable/ic_placeholder"/>
 
-    <!-- Название (1 строка, троеточие), отступ 8dp от обложки -->
+
     <TextView
         android:id="@+id/tvName"
         style="@style/PlaylistItemTitle"

@@ -14,7 +14,7 @@
         android:paddingTop="@dimen/layout_padding_top"
         android:paddingBottom="@dimen/layout_padding_bottom">
 
-        <!-- Заголовок без кнопки "Назад" -->
+
         <TextView
             style="@style/SettingsTitleStyle"
             android:id="@+id/title"
@@ -23,7 +23,7 @@
             android:layout_marginBottom="@dimen/margin_bottom_between_blocks"
             android:text="@string/settings" />
 
-        <!-- Тумблер тёмной темы -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height"
@@ -46,7 +46,7 @@
                 android:layout_marginEnd="1dp" />
         </LinearLayout>
 
-        <!-- Поделиться -->
+
         <LinearLayout
             android:id="@+id/share_button"
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 app:tint="?attr/iconsetting" />
         </LinearLayout>
 
-        <!-- Поддержка -->
+
         <LinearLayout
             android:id="@+id/support_button"
             android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                 app:tint="?attr/iconsetting" />
         </LinearLayout>
 
-        <!-- Пользовательское соглашение -->
+
         <LinearLayout
             android:id="@+id/agreement_button"
             android:layout_width="match_parent"

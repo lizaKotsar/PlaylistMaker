@@ -15,7 +15,11 @@ class PlaylistsRepositoryImpl(
     private val gson: Gson
 ) : PlaylistsRepository {
 
-    override suspend fun createPlaylist(name: String, description: String?, coverPath: String?): Long {
+    override suspend fun createPlaylist(
+        name: String,
+        description: String?,
+        coverPath: String?
+    ): Long {
         val entity = PlaylistEntity(
             name = name,
             description = description,
@@ -34,11 +38,11 @@ class PlaylistsRepositoryImpl(
         val id = track.trackId ?: return false
 
 
-        if (playlist.trackIds.contains(id)) return false
+        val rowId = tracksDao.insert(track.toTracksInPlaylistEntity(playlist.id))
+        if (rowId == -1L) {
 
-
-        tracksDao.insert(track.toTracksInPlaylistEntity())
-
+            return false
+        }
 
 
         val newIds = playlist.trackIds.toMutableList().apply { add(0, id) }
@@ -48,11 +52,12 @@ class PlaylistsRepositoryImpl(
             description = playlist.description,
             coverPath = playlist.coverPath,
             trackIdsJson = gson.toJson(newIds),
-            tracksCount = (playlist.tracksCount + 1)
+            tracksCount = playlist.tracksCount + 1
         )
         dao.update(updated)
         return true
     }
+
 
 
     private fun PlaylistEntity.toDomain(gson: Gson) = Playlist(
@@ -64,7 +69,8 @@ class PlaylistsRepositoryImpl(
         tracksCount = tracksCount
     )
 
-    private fun Track.toTracksInPlaylistEntity() = TrackInPlaylistEntity(
+    private fun Track.toTracksInPlaylistEntity(playlistId: Long) = TrackInPlaylistEntity(
+        playlistId = playlistId,
         trackId = trackId ?: 0L,
         trackName = trackName.orEmpty(),
         artistName = artistName.orEmpty(),

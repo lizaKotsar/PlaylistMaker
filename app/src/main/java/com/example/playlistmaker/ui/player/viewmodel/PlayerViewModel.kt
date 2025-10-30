@@ -1,6 +1,7 @@
 package com.example.playlistmaker.ui.player.viewmodel
 
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,13 +20,15 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
+data class AddResult(val success: Boolean, val message: String)
+
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
     private val resourceProvider: ResourceProvider,
     private val favoritesInteractor: FavoritesInteractor,
     private val playlistsInteractor: PlaylistsInteractor,
 ) : ViewModel() {
-
 
     private val _state = MutableLiveData(PlayerState())
     fun observeState(): LiveData<PlayerState> = _state
@@ -140,28 +143,25 @@ class PlayerViewModel(
     private val _bsPlaylists = MutableLiveData<List<Playlist>>()
     val bsPlaylists: LiveData<List<Playlist>> = _bsPlaylists
 
-    private val _addResult = MutableLiveData<String>()
-    val addResult: LiveData<String> = _addResult
-
+    private val _addResult = MutableLiveData<AddResult>()
+    val addResult: LiveData<AddResult> = _addResult
 
     fun loadPlaylists() = viewModelScope.launch(Dispatchers.IO) {
-        val list = playlistsInteractor.getAll()
-        _bsPlaylists.postValue(list)
+        _bsPlaylists.postValue(playlistsInteractor.getAll())
     }
-
 
     fun addTrackToPlaylist(playlist: Playlist) = viewModelScope.launch(Dispatchers.IO) {
         val track = currentTrack ?: return@launch
-        val id = track.trackId ?: return@launch
 
-        if (playlist.trackIds.contains(id)) {
-            _addResult.postValue("Трек уже добавлен в плейлист ${playlist.name}")
+
+        val added = playlistsInteractor.addTrackToPlaylist(track, playlist)
+
+        if (added) {
+            _addResult.postValue(AddResult(true, "Добавлено в плейлист ${playlist.name}"))
+
+            _bsPlaylists.postValue(playlistsInteractor.getAll())
         } else {
-            playlistsInteractor.addTrackToPlaylist(track, playlist)
-            _addResult.postValue("Добавлено в плейлист ${playlist.name}")
-
-            val refreshed = playlistsInteractor.getAll()
-            _bsPlaylists.postValue(refreshed)
+            _addResult.postValue(AddResult(false, "Трек уже добавлен в плейлист ${playlist.name}"))
         }
     }
 }

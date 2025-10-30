@@ -1,10 +1,9 @@
 package com.example.playlistmaker.ui.media.fragment
 
-
-
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
 
     private val vm: PlaylistsViewModel by viewModel()
+
     private lateinit var rv: RecyclerView
     private lateinit var adapter: PlaylistsAdapter
     private lateinit var btnNew: MaterialButton
@@ -39,14 +39,15 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         adapter = PlaylistsAdapter()
         rv.layoutManager = GridLayoutManager(requireContext(), 2)
         rv.adapter = adapter
-        rv.addItemDecoration(SpacingDecoration(h = dp(16), v = dp(16)))
+        rv.setHasFixedSize(true)
+        rv.addItemDecoration(SpacingDecoration(h = 16.dp, v = 16.dp))
 
         vm.playlists.observe(viewLifecycleOwner) { list ->
             val isEmpty = list.isNullOrEmpty()
-            rv.visibility = if (isEmpty) View.GONE else View.VISIBLE
-            emptyIcon.visibility = if (isEmpty) View.VISIBLE else View.GONE
-            emptyText.visibility = if (isEmpty) View.VISIBLE else View.GONE
-            if (!isEmpty) adapter.submit(list)
+            rv.isVisible = !isEmpty
+            emptyIcon.isVisible = isEmpty
+            emptyText.isVisible = isEmpty
+            adapter.submitList(list ?: emptyList())
         }
     }
 
@@ -55,15 +56,19 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         vm.load()
     }
 
-    private fun dp(value: Int): Int =
-        (value * resources.displayMetrics.density).toInt()
 
-    private class SpacingDecoration(private val h: Int, private val v: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            outRect.left = h / 2
-            outRect.right = h / 2
-            outRect.top = v / 2
-            outRect.bottom = v / 2
+    private val Int.dp: Int
+        get() = (this * resources.displayMetrics.density).toInt()
+
+    private class SpacingDecoration(private val h: Int, private val v: Int) :
+        RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.set(h / 2, v / 2, h / 2, v / 2)
         }
     }
 }

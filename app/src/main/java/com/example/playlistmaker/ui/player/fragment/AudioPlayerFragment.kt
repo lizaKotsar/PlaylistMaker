@@ -42,7 +42,7 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player) {
     private lateinit var durationText: TextView
     private lateinit var track: Track
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>   // FIX: не out View, просто View
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private lateinit var overlay: View
     private lateinit var rvPlaylists: RecyclerView
     private lateinit var btnNewPlaylist: MaterialButton
@@ -146,7 +146,7 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player) {
             viewModel.loadPlaylists()
             overlay.alpha = 0f
             overlay.visibility = View.VISIBLE
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED   // FIX: было STATE_COLLAPSED
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         btnNewPlaylist.setOnClickListener {
@@ -157,9 +157,10 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player) {
         viewModel.bsPlaylists.observe(viewLifecycleOwner) { list ->
             sheetAdapter.submit(list)
         }
-        viewModel.addResult.observe(viewLifecycleOwner) { msg ->
-            if (!msg.isNullOrBlank()) {
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        viewModel.addResult.observe(viewLifecycleOwner) { res ->
+
+            Toast.makeText(requireContext(), res.message, Toast.LENGTH_SHORT).show()
+            if (res.success) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
         }

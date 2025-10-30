@@ -8,5 +8,5 @@ import com.example.playlistmaker.data.bd.entity.TrackInPlaylistEntity
 @Dao
 interface TracksInPlaylistsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(entity: TrackInPlaylistEntity)
+    suspend fun insert(entity: TrackInPlaylistEntity): Long
 }
