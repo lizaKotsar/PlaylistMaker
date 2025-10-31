@@ -21,8 +21,14 @@ class RootActivity : AppCompatActivity() {
         val bnv = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bnv.setupWithNavController(navController)
 
+
+        val hideBottomBarOn = setOf(
+            R.id.audioPlayerFragment,
+            R.id.createPlaylistFragment
+        )
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            bnv.isVisible = destination.id != R.id.audioPlayerFragment
+            bnv.isVisible = destination.id !in hideBottomBarOn
         }
     }
 }

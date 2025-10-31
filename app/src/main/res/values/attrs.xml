@@ -14,4 +14,7 @@
 
     <attr name="playButtonBackground" format="color|reference" />
     <attr name="playButtonIconColor" format="color|reference" />
+
+
+
 </resources>

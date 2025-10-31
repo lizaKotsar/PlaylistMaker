@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation_graph"
     app:startDestination="@id/mediaFragment">
 
@@ -10,9 +11,19 @@
         android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
         android:label="@string/media">
 
+        <fragment
+            android:id="@+id/createPlaylistFragment"
+            android:name="com.example.playlistmaker.ui.playlists.fragment.CreatePlaylistFragment"
+            android:label="@string/new_playlist"
+            tools:layout="@layout/fragment_create_playlist" />
+
         <action
             android:id="@+id/action_media_to_player"
-            app:destination="@id/audioPlayerFragment" />
+            app:destination="@id/audioPlayerFragment"
+            />
+        <action
+            android:id="@+id/action_media_to_createPlaylist"
+            app:destination="@id/createPlaylistFragment" />
     </fragment>
 
     <!-- Поиск -->
@@ -47,8 +58,14 @@
             android:name="track"
             app:argType="com.example.playlistmaker.domain.search.model.Track"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_audioPlayer_to_createPlaylist"
+            app:destination="@id/createPlaylistFragment"/>
     </fragment>
 
-
+    <fragment
+        android:id="@+id/createPlaylistFragment"
+        android:name="com.example.playlistmaker.ui.media.fragment.CreatePlaylistFragment"
+        android:label="@string/new_playlist" />
 
 </navigation>

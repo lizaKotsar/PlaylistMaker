@@ -38,5 +38,7 @@
 
         <item name="playButtonBackground">@color/white</item>
         <item name="playButtonIconColor">@color/Gray_light</item>
+
+
     </style>
 </resources>

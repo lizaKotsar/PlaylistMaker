@@ -252,7 +252,7 @@
     </style>
 
 
-    <style name="MediaTextButtonStyle" parent="Widget.Material3.Button">
+    <style name="MediaTextButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">133dp</item>
@@ -307,6 +307,172 @@
     <item name="itemTextColor">@color/tint</item>
 
 </style>
+    <style name="AppAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">?attr/colorOnSecondary</item>
 
+    </style>
+
+
+
+
+    <style name="Shape.Rounded8" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+
+    <style name="App.Button.CreateGray" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearanceOverlay">@style/Shape.Rounded8</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="backgroundTint">@color/btn_create_tint</item>
+        <item name="elevation">0dp</item>
+        <item name="android:translationZ">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/btn_create_text_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+
+
+
+    <style name="Shape.TextField.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/tf_corner</item>
+
+    </style>
+
+
+    <style name="App.TextInput.Outlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/Shape.TextField.Rounded</item>
+
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="boxStrokeColor">@color/til_stroke</item>
+        <item name="hintTextColor">@color/et_hint</item>
+        <item name="android:textColorHint">@color/et_hint</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="App.Toolbar.Title" parent="TextAppearance.MaterialComponents.Headline6">
+
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0</item>
+
+    </style>
+
+
+    <!-- треки 2 -->
+    <style name="AppPlaylistRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">61dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <style name="AppPlaylistCover">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearanceOverlay">@style/RoundedImageView</item>
+    </style>
+
+    <style name="AppPlaylistTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+    <style name="AppPlaylistCount">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">?attr/iconsetting</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+
+    <style name="RoundedImageView8">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+
+    <style name="PlaylistItemTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
+    <style name="PlaylistItemCount">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+
+    <style name="RoundedImage.Small" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">2dp</item>
+    </style>
+
+
+
+
+    <style name="App.BottomSheet.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">19sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="App.Button.Chip" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">133dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="backgroundTint">?attr/colorOnSecondary</item>
+        <item name="cornerRadius">54dp</item>
+        <item name="android:textFontWeight">500</item>
+
+    </style>
 
 </resources>

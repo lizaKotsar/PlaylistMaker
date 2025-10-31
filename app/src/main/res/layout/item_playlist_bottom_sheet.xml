@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/AppPlaylistRow">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivCover"
+        style="@style/AppPlaylistCover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_placeholder"
+        android:contentDescription="@null"
+        app:shapeAppearanceOverlay="@style/RoundedImage.Small"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/AppPlaylistTitle"
+        app:layout_constraintStart_toEndOf="@id/ivCover"
+        app:layout_constraintTop_toTopOf="@id/ivCover"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/pl_gap"
+        android:paddingTop="6dp"
+
+        />
+
+    <TextView
+        android:id="@+id/tvCount"
+        style="@style/AppPlaylistCount"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="6dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

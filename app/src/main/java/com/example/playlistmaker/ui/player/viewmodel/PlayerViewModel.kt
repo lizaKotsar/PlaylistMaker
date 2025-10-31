@@ -1,6 +1,7 @@
 package com.example.playlistmaker.ui.player.viewmodel
 
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,10 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.common.ResourceProvider
 import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.player.PlayerInteractor
+import com.example.playlistmaker.domain.playlists.PlaylistsInteractor
+import com.example.playlistmaker.domain.playlists.model.Playlist
 import com.example.playlistmaker.domain.search.model.Track
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -17,11 +21,13 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
+data class AddResult(val success: Boolean, val message: String)
 
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
     private val resourceProvider: ResourceProvider,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val playlistsInteractor: PlaylistsInteractor,
 ) : ViewModel() {
 
     private val _state = MutableLiveData(PlayerState())
@@ -33,13 +39,12 @@ class PlayerViewModel(
 
     fun setTrack(track: Track) {
         currentTrack = track
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val fav = track.trackId?.let { favoritesInteractor.isFavorite(it) } ?: false
             track.isFavorite = fav
             _state.postValue(_state.value?.copy(isFavorite = fav))
         }
     }
-
 
     fun prepare(url: String?) {
         val time = resourceProvider.getString(R.string.time)
@@ -71,10 +76,9 @@ class PlayerViewModel(
         )
     }
 
-
     fun onFavoriteClicked() {
         val track = currentTrack ?: return
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val isFavNow = _state.value?.isFavorite == true
             if (isFavNow) {
                 favoritesInteractor.removeFromFavorites(track)
@@ -133,4 +137,32 @@ class PlayerViewModel(
         playerInteractor.release()
         super.onCleared()
     }
+
+
+
+    private val _bsPlaylists = MutableLiveData<List<Playlist>>()
+    val bsPlaylists: LiveData<List<Playlist>> = _bsPlaylists
+
+    private val _addResult = MutableLiveData<AddResult>()
+    val addResult: LiveData<AddResult> = _addResult
+
+    fun loadPlaylists() = viewModelScope.launch(Dispatchers.IO) {
+        _bsPlaylists.postValue(playlistsInteractor.getAll())
+    }
+
+    fun addTrackToPlaylist(playlist: Playlist) = viewModelScope.launch(Dispatchers.IO) {
+        val track = currentTrack ?: return@launch
+
+
+        val added = playlistsInteractor.addTrackToPlaylist(track, playlist)
+
+        if (added) {
+            _addResult.postValue(AddResult(true, "Добавлено в плейлист ${playlist.name}"))
+
+            _bsPlaylists.postValue(playlistsInteractor.getAll())
+        } else {
+            _addResult.postValue(AddResult(false, "Трек уже добавлен в плейлист ${playlist.name}"))
+        }
+    }
 }
+//sprint22

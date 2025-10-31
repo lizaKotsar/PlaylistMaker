@@ -13,6 +13,8 @@ import com.example.playlistmaker.domain.sharing.impl.SharingInteractorImpl
 import org.koin.dsl.module
 import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.favorites.impl.FavoritesInteractorImpl
+import com.example.playlistmaker.domain.playlists.PlaylistsInteractor
+import com.example.playlistmaker.domain.playlists.impl.PlaylistsInteractorImpl
 
 val interactorModule = module {
     single<TracksInteractor> { TracksInteractorImpl(get()) }
@@ -21,4 +23,5 @@ val interactorModule = module {
     single<PlayerInteractor> { PlayerInteractorImpl(get()) }
     single<SharingInteractor> { SharingInteractorImpl(get()) }
     single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
+    single<PlaylistsInteractor> { PlaylistsInteractorImpl(get()) }
 }
