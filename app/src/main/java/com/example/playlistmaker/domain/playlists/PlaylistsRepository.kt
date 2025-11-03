@@ -8,4 +8,8 @@ interface PlaylistsRepository {
     suspend fun getPlaylists(): List<Playlist>
     suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean
 
+
+    suspend fun getPlaylistById(id: Long): Playlist?
+    suspend fun getTracksByIds(ids: List<Long>): List<Track>
+
 }

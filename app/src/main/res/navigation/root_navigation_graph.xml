@@ -9,22 +9,34 @@
     <fragment
         android:id="@+id/mediaFragment"
         android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
-        android:label="@string/media">
-
-        <fragment
-            android:id="@+id/createPlaylistFragment"
-            android:name="com.example.playlistmaker.ui.playlists.fragment.CreatePlaylistFragment"
-            android:label="@string/new_playlist"
-            tools:layout="@layout/fragment_create_playlist" />
+        android:label="@string/media"
+        tools:layout="@layout/fragment_media">
 
         <action
             android:id="@+id/action_media_to_player"
-            app:destination="@id/audioPlayerFragment"
-            />
+            app:destination="@id/audioPlayerFragment" />
+
+        <!-- НОВЫЙ переход из media в экран плейлиста -->
         <action
-            android:id="@+id/action_media_to_createPlaylist"
-            app:destination="@id/createPlaylistFragment" />
+            android:id="@+id/action_media_to_playlist"
+            app:destination="@id/playlistFragment" />
     </fragment>
+
+    <!-- НОВЫЙ фрагмент плейлиста -->
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.example.playlistmaker.ui.playlists.fragment.PlaylistFragment"
+        android:label="@string/playlist">
+
+        <argument
+            android:name="playlistId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_playlist_to_player"
+            app:destination="@id/audioPlayerFragment" />
+    </fragment>
+
 
     <!-- Поиск -->
     <fragment

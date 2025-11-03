@@ -3,9 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     kotlin("kapt")
-
+    id("androidx.navigation.safeargs.kotlin")
 }
-
 android {
     namespace = "com.example.playlistmaker"
     compileSdk = 34
@@ -67,6 +66,9 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
 
 
 }
