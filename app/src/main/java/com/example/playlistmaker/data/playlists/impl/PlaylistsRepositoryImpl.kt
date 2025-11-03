@@ -34,36 +34,53 @@ class PlaylistsRepositoryImpl(
     override suspend fun getPlaylists(): List<Playlist> =
         dao.getAll().map { it.toDomain(gson) }
 
+    override suspend fun getPlaylistById(id: Long): Playlist? =
+        dao.getById(id)?.toDomain(gson)
+
     override suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean {
-
-        val id: Long = track.trackId ?: return false
-
+        val id = track.trackId ?: return false
 
         val rowId = tracksDao.insert(track.toTracksInPlaylistEntity(playlist.id))
         if (rowId == -1L) return false
 
         val newIds = playlist.trackIds.toMutableList().apply { add(0, id) }
-        val updated = PlaylistEntity(
-            id = playlist.id,
-            name = playlist.name,
-            description = playlist.description,
-            coverPath = playlist.coverPath,
-            trackIdsJson = gson.toJson(newIds),
-            tracksCount = playlist.tracksCount + 1
+        dao.update(
+            PlaylistEntity(
+                id = playlist.id,
+                name = playlist.name,
+                description = playlist.description,
+                coverPath = playlist.coverPath,
+                trackIdsJson = gson.toJson(newIds),
+                tracksCount = newIds.size
+            )
         )
-        dao.update(updated)
         return true
     }
 
-    override suspend fun getPlaylistById(id: Long): Playlist? =
-        dao.getById(id)?.toDomain(gson)
-
     override suspend fun getTracksByIds(ids: List<Long>): List<Track> {
         if (ids.isEmpty()) return emptyList()
-        val byId = tracksDao.getAll().associateBy { it.trackId }
+        val all = tracksDao.getAll()
+        val byId = all.associateBy { it.trackId }
         return ids.mapNotNull { byId[it] }.map { it.toDomain() }
     }
 
+    override suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean {
+        val affected = tracksDao.delete(playlist.id, trackId)
+        if (affected <= 0) return false
+
+        val newIds = playlist.trackIds.toMutableList().apply { remove(trackId) }
+        dao.update(
+            PlaylistEntity(
+                id = playlist.id,
+                name = playlist.name,
+                description = playlist.description,
+                coverPath = playlist.coverPath,
+                trackIdsJson = gson.toJson(newIds),
+                tracksCount = newIds.size
+            )
+        )
+        return true
+    }
 
 
     private fun PlaylistEntity.toDomain(gson: Gson) = Playlist(

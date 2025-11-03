@@ -27,6 +27,8 @@ class PlaylistViewModel(
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
 
+    private var current: Playlist? = null
+
     fun load(playlistId: Long) {
         _state.value = State.Loading
         viewModelScope.launch {
@@ -36,19 +38,23 @@ class PlaylistViewModel(
                     _state.value = State.Empty
                     return@launch
                 }
-
+                current = pl
                 val tracks = interactor.getTracksForPlaylist(playlistId)
                 val totalMs = tracks.sumOf { it.trackTimeMillis ?: 0L }
                 val minutes = (totalMs / 1000L / 60L).toInt()
-
-                _state.value = State.Content(
-                    playlist = pl,
-                    tracks = tracks,
-                    totalMinutes = minutes
-                )
+                _state.value = State.Content(pl, tracks, minutes)
             } catch (e: Throwable) {
                 _state.value = State.Error(e.message ?: "Ошибка загрузки")
             }
         }
     }
-}
+
+    fun removeTrack(track: Track) {
+        val pl = current ?: return
+        val id = track.trackId ?: return
+        viewModelScope.launch {
+            interactor.removeTrackFromPlaylist(pl, id)
+            load(pl.id) // перезагрузим состояние
+        }
+    }
+    }

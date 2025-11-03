@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -86,14 +86,12 @@
     <LinearLayout
         android:id="@+id/sheet"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_bottom_sheet_16"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="160dp"
-        app:layout_anchor="@id/header"
-        app:layout_anchorGravity="bottom">
+        app:behavior_peekHeight="160dp">
 
         <View
             android:layout_width="40dp"
@@ -110,8 +108,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
-            android:clipToPadding="false"/>
-
+            android:clipToPadding="false"
+            tools:listitem="@layout/track_item"/>
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

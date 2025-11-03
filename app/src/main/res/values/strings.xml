@@ -54,7 +54,9 @@
 
     <string name="tracks_count_mask">%1$d треков</string>
     <string name="minutes_and_tracks_mask">%1$d минут · %2$d треков</string>
-
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="delete_track_question">Удалить трек из плейлиста?</string>
 
     <plurals name="tracks_count">
         <item quantity="one">%d трек</item>

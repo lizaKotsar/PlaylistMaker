@@ -6,10 +6,8 @@ import com.example.playlistmaker.domain.search.model.Track
 interface PlaylistsRepository {
     suspend fun createPlaylist(name: String, description: String?, coverPath: String?): Long
     suspend fun getPlaylists(): List<Playlist>
-    suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean
-
-
     suspend fun getPlaylistById(id: Long): Playlist?
+    suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean
     suspend fun getTracksByIds(ids: List<Long>): List<Track>
-
+    suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean
 }

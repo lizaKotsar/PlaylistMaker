@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.search.model.Track
 import com.example.playlistmaker.ui.playlists.adapter.PlaylistTracksAdapter
 import com.example.playlistmaker.ui.playlists.viewmodel.PlaylistViewModel
 import com.example.playlistmaker.ui.playlists.viewmodel.PlaylistViewModel.State
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
@@ -30,6 +34,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
     private lateinit var rvTracks: RecyclerView
 
     private lateinit var tracksAdapter: PlaylistTracksAdapter
+    private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,14 +48,23 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
         btnBack.setOnClickListener { findNavController().navigateUp() }
 
-        tracksAdapter = PlaylistTracksAdapter { /* пока без действий по клику */ }
+        // BottomSheet: не скрываемый
+        val sheet: View = view.findViewById(R.id.sheet)
+        sheetBehavior = BottomSheetBehavior.from(sheet).apply {
+            isHideable = false
+            // peekHeight задан в XML, можно оставить так
+        }
+
+        tracksAdapter = PlaylistTracksAdapter(
+            onClick = { track -> navigateToPlayer(track) },
+            onLongClick = { track -> confirmDelete(track) }
+        )
         rvTracks.layoutManager = LinearLayoutManager(requireContext())
         rvTracks.adapter = tracksAdapter
 
         vm.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is State.Loading -> Unit
-
                 is State.Content -> {
                     val pl = state.playlist
                     val tracks = state.tracks
@@ -78,22 +92,34 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         tracks.size
                     )
                 }
-
                 is State.Empty -> {
                     tvTitle.text = ""
                     tvDescription.visibility = View.GONE
                     tvMeta.text = ""
                     tracksAdapter.submitList(emptyList())
                 }
-
                 is State.Error -> {
                     tvMeta.text = state.message
-                    tvDescription.visibility = View.GONE
-                    tracksAdapter.submitList(emptyList())
                 }
             }
         }
 
         vm.load(args.playlistId)
+    }
+
+    private fun navigateToPlayer(track: Track) {
+        val action = PlaylistFragmentDirections.actionPlaylistToPlayer(track)
+        findNavController().navigate(action)
+    }
+
+    private fun confirmDelete(track: Track) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(R.string.delete_track_question)
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                vm.removeTrack(track)
+                dialog.dismiss()
+            }
+            .show()
     }
 }
