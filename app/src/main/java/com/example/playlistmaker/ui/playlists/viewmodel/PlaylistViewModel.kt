@@ -61,7 +61,7 @@ class PlaylistViewModel(
         val id = track.trackId ?: return
         viewModelScope.launch {
             interactor.removeTrackFromPlaylist(pl, id)
-            load(pl.id) // перезагрузим состояние
+            load(pl.id)
         }
     }
 

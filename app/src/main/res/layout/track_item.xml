@@ -55,7 +55,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="Artist name"
-            android:layout_marginStart="0dp"/>
+            android:layout_marginStart="0dp"
+            android:textColor="?attr/trak"/>
 
         <TextView
             android:id="@+id/track_dot"
@@ -64,14 +65,16 @@
             android:layout_height="wrap_content"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:text="•" />
+            android:text="•"
+            android:textColor="?attr/trak"/>
 
         <TextView
             android:id="@+id/track_duration"
             style="@style/TextAppearanceTrackInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3:55" />
+            android:text="3:55"
+            android:textColor="?attr/trak"/>
     </LinearLayout>
 
 

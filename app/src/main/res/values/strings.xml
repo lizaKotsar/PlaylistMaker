@@ -56,7 +56,7 @@
     <string name="minutes_and_tracks_mask">%1$d минут · %2$d треков</string>
     <string name="yes">ДА</string>
     <string name="no">НЕТ</string>
-    <string name="delete_track_question">Удалить трек из плейлиста?</string>
+    <string name="delete_track_question">Хотите удалить трек?</string>
     <string name="in_development">В разработке</string>
     <string name="playlist_menu_share">Поделиться</string>
     <string name="playlist_menu_edit">Редактировать информацию</string>
@@ -66,8 +66,8 @@
     В этом плейлисте нет списка треков, которым можно поделиться
 </string>
 
-    <string name="delete_playlist_title">Удалить плейлист</string>
-    <string name="delete_playlist_question">Хотите удалить плейлист «%1$s»?</string>
+    <string name="delete_playlist_title">Хотите удалить плейлист «%1$s»?</string>
+    <string name="delete_playlist_question"></string>
 
     <plurals name="tracks_count">
         <item quantity="one">%d трек</item>

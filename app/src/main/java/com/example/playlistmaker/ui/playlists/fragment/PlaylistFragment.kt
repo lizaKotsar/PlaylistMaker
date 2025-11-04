@@ -64,7 +64,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         tvMeta = view.findViewById(R.id.tvMeta)
         rvTracks = view.findViewById(R.id.rvTracks)
 
-        // Вторая шторка (меню)
+
         scrim = view.findViewById(R.id.scrim)
         menuSheet = view.findViewById(R.id.menuSheet)
         menuShare = view.findViewById(R.id.menuShare)
@@ -76,12 +76,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
         btnBack.setOnClickListener { findNavController().navigateUp() }
 
-        // BottomSheet со списком треков
+
         val sheet: View = view.findViewById(R.id.sheet)
         sheetBehavior = BottomSheetBehavior.from(sheet).apply { isHideable = false }
         view.post { updatePeekForTracks() }
 
-        // BottomSheet меню
+
         menuBehavior = BottomSheetBehavior.from(menuSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
             isHideable = true
@@ -142,10 +142,10 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         tvDescription.visibility = View.GONE
                     }
 
-                    // ВАЖНО: показываем либо полноэкранную обложку, либо компактный плейсхолдер
+
                     showCoverOrPlaceholder(pl.coverPath)
 
-                    // заголовок меню
+
                     menuTitle.text = pl.name
                     menuCount.text = "${tracks.size} треков"
                     Glide.with(menuCover)
@@ -191,7 +191,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         view?.post { updatePeekForTracks() }
     }
 
-    /** Делает верх списка треков почти под кнопками Share/⋯ */
+
     private fun updatePeekForTracks() {
         val root  = requireView().findViewById<View>(R.id.root)
         val share = requireView().findViewById<View>(R.id.btnShare)
@@ -206,7 +206,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         if (available > 0) sheetBehavior.peekHeight = available
     }
 
-    /** Открывает меню строго под заголовком, перекрывая список треков */
+
     private fun openMenu() {
         val root = requireView().findViewById<View>(R.id.root)
         val title = requireView().findViewById<View>(R.id.tvTitle)
@@ -223,31 +223,23 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         menuBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    // --- ВСПОМОГАТЕЛЬНОЕ ---
 
-    /**
-     * Если coverPath пустой → показываем маленький плейсхолдер по центру квадрата
-     * с полями 16dp слева/справа/сверху и внутренним паддингом,
-     * иначе — полноэкранную обложку без полей.
-     */
     private fun showCoverOrPlaceholder(coverPath: String?) {
         val lp = ivCover.layoutParams as ConstraintLayout.LayoutParams
         if (coverPath.isNullOrBlank()) {
-            // квадрат поменьше, с внешними отступами 16dp
+
             lp.marginStart = dp(16)
             lp.marginEnd  = dp(16)
             lp.topMargin  = dp(16)
             ivCover.layoutParams = lp
 
-            // крупный плейсхолдер внутри квадрата
-            ivCover.setPadding(dp(40), dp(40), dp(40), dp(40)) // можно 36–48, при желании подправить
+
+            ivCover.setPadding(dp(40), dp(40), dp(40), dp(40))
             ivCover.scaleType = ImageView.ScaleType.FIT_CENTER
             ivCover.setImageResource(R.drawable.ic_placeholder)
 
-            // (если вдруг раньше ставили фон под плейсхолдер — можно вернуть)
-            // ivCover.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.placeholder_bg))
         } else {
-            // полноэкранная обложка без полей
+
             lp.marginStart = 0
             lp.marginEnd  = 0
             lp.topMargin  = 0
@@ -276,12 +268,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
     }
 
     private fun confirmDeleteTrack(track: Track) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.delete_track_question)
-            .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton(R.string.yes) { dialog, _ ->
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_Playlist_BlueDialog)
+            .setTitle(getString(R.string.delete_track_question))
+            .setNegativeButton(R.string.no) { d, _ -> d.dismiss() }
+            .setPositiveButton(R.string.yes) { d, _ ->
                 vm.removeTrack(track)
-                dialog.dismiss()
+                d.dismiss()
             }
             .show()
     }
@@ -301,9 +293,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
     private fun confirmDeletePlaylist() {
         val name = (vm.state.value as? State.Content)?.playlist?.name.orEmpty()
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.delete_playlist_title)
-            .setMessage(getString(R.string.delete_playlist_question, name))
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_Playlist_BlueDialog)
+            .setTitle(getString(R.string.delete_playlist_title, name))
             .setNegativeButton(R.string.no) { d, _ -> d.dismiss() }
             .setPositiveButton(R.string.yes) { d, _ ->
                 vm.deletePlaylist()

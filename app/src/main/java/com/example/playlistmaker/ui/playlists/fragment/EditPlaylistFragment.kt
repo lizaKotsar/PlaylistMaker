@@ -39,22 +39,22 @@ class EditPlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCreatePlaylistBinding.bind(view)
 
-        // Заголовок и кнопка под режим редактирования
+
         binding.toolbar.title = "Редактировать"
         binding.btnCreate.text = "Сохранить"
 
-        // Назад — просто закрываемся без сохранения
+
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigateUp() // ничего не возвращаем
+                    findNavController().navigateUp()
                 }
             }
         )
 
-        // Подписки
+
         vm.initialData.observe(viewLifecycleOwner) { data ->
             binding.etName.setText(data.name)
             binding.etName.setSelection(binding.etName.text?.length ?: 0)
@@ -68,21 +68,21 @@ class EditPlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
             findNavController().navigateUp()
         }
 
-        // Изменения полей
+
         binding.etName.doAfterTextChanged { vm.onNameChanged(it) }
         binding.etDesc.doAfterTextChanged { vm.onDescriptionChanged(it) }
 
-        // Выбор/очистка обложки
+
         binding.coverContainer.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
         binding.ivCover.setOnLongClickListener {
             vm.onClearCover()
-            renderCover(uri = null) // <— явно укажем перегрузку
+            renderCover(uri = null)
             true
         }
 
-        // Сохранить
+
         binding.btnCreate.setOnClickListener { vm.save() }
     }
 

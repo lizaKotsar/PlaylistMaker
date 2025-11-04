@@ -33,8 +33,8 @@ class EditPlaylistViewModel(
 
     private var original: Playlist? = null
 
-    var pickedImageUri: Uri? = null          // новая выбранная обложка (если выберут)
-    var clearedCover: Boolean = false        // пользователь очистил обложку долгим нажатием
+    var pickedImageUri: Uri? = null
+    var clearedCover: Boolean = false
 
     var name: String = ""
     var description: String = ""
