@@ -3,6 +3,7 @@ package com.example.playlistmaker.ui.media.fragment
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -32,11 +33,18 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         emptyIcon = view.findViewById(R.id.iv_note)
         emptyText = view.findViewById(R.id.tv_empty)
 
+
         btnNew.setOnClickListener {
-            findNavController().navigate(R.id.action_media_to_createPlaylist)
+            findNavController().navigate(R.id.createPlaylistFragment)
         }
 
-        adapter = PlaylistsAdapter()
+        adapter = PlaylistsAdapter { playlist ->
+            findNavController().navigate(
+                R.id.playlistFragment,
+                bundleOf("playlistId" to playlist.id)
+            )
+        }
+
         rv.layoutManager = GridLayoutManager(requireContext(), 2)
         rv.adapter = adapter
         rv.setHasFixedSize(true)

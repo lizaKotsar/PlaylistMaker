@@ -6,13 +6,31 @@ import com.example.playlistmaker.domain.playlists.model.Playlist
 import com.example.playlistmaker.domain.search.model.Track
 
 class PlaylistsInteractorImpl(
-private val repo: PlaylistsRepository
+    private val repo: PlaylistsRepository
 ) : PlaylistsInteractor {
+
     override suspend fun create(name: String, description: String?, coverPath: String?) =
         repo.createPlaylist(name, description, coverPath)
 
     override suspend fun getAll(): List<Playlist> = repo.getPlaylists()
 
+    override suspend fun getPlaylist(id: Long): Playlist? = repo.getPlaylistById(id)
+
+    override suspend fun getTracksForPlaylist(playlistId: Long): List<Track> {
+        val pl = repo.getPlaylistById(playlistId) ?: return emptyList()
+        return repo.getTracksByIds(pl.trackIds)
+    }
+
     override suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean =
         repo.addTrackToPlaylist(track, playlist)
+
+    override suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean =
+        repo.removeTrackFromPlaylist(playlist, trackId)
+
+    override suspend fun deletePlaylist(playlistId: Long) =
+        repo.deletePlaylist(playlistId)
+
+
+    override suspend fun update(playlist: Playlist) =
+        repo.updatePlaylist(playlist)
 }

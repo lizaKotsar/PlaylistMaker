@@ -1,5 +1,6 @@
 package com.example.playlistmaker.data.playlists.impl
 
+
 import com.example.playlistmaker.data.bd.dao.PlaylistsDao
 import com.example.playlistmaker.data.bd.dao.TracksInPlaylistsDao
 import com.example.playlistmaker.data.bd.entity.PlaylistEntity
@@ -33,32 +34,71 @@ class PlaylistsRepositoryImpl(
     override suspend fun getPlaylists(): List<Playlist> =
         dao.getAll().map { it.toDomain(gson) }
 
+    override suspend fun getPlaylistById(id: Long): Playlist? =
+        dao.getById(id)?.toDomain(gson)
 
     override suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Boolean {
         val id = track.trackId ?: return false
 
-
         val rowId = tracksDao.insert(track.toTracksInPlaylistEntity(playlist.id))
-        if (rowId == -1L) {
-
-            return false
-        }
-
+        if (rowId == -1L) return false
 
         val newIds = playlist.trackIds.toMutableList().apply { add(0, id) }
-        val updated = PlaylistEntity(
+        dao.update(
+            PlaylistEntity(
+                id = playlist.id,
+                name = playlist.name,
+                description = playlist.description,
+                coverPath = playlist.coverPath,
+                trackIdsJson = gson.toJson(newIds),
+                tracksCount = newIds.size
+            )
+        )
+        return true
+    }
+
+    override suspend fun getTracksByIds(ids: List<Long>): List<Track> {
+        if (ids.isEmpty()) return emptyList()
+        val all = tracksDao.getAll()
+        val byId = all.associateBy { it.trackId }
+        return ids.mapNotNull { byId[it] }.map { it.toDomain() }
+    }
+
+    override suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean {
+        val affected = tracksDao.delete(playlist.id, trackId)
+        if (affected <= 0) return false
+
+        val newIds = playlist.trackIds.toMutableList().apply { remove(trackId) }
+        dao.update(
+            PlaylistEntity(
+                id = playlist.id,
+                name = playlist.name,
+                description = playlist.description,
+                coverPath = playlist.coverPath,
+                trackIdsJson = gson.toJson(newIds),
+                tracksCount = newIds.size
+            )
+        )
+        return true
+    }
+
+    override suspend fun deletePlaylist(playlistId: Long) {
+        tracksDao.deleteByPlaylist(playlistId)
+        dao.deleteById(playlistId)
+    }
+
+
+    override suspend fun updatePlaylist(playlist: Playlist) {
+        val entity = PlaylistEntity(
             id = playlist.id,
             name = playlist.name,
             description = playlist.description,
             coverPath = playlist.coverPath,
-            trackIdsJson = gson.toJson(newIds),
-            tracksCount = playlist.tracksCount + 1
+            trackIdsJson = gson.toJson(playlist.trackIds),
+            tracksCount = playlist.trackIds.size
         )
-        dao.update(updated)
-        return true
+        dao.update(entity)
     }
-
-
 
     private fun PlaylistEntity.toDomain(gson: Gson) = Playlist(
         id = id,
@@ -74,8 +114,21 @@ class PlaylistsRepositoryImpl(
         trackId = trackId ?: 0L,
         trackName = trackName.orEmpty(),
         artistName = artistName.orEmpty(),
-        trackTimeMillis = (trackTimeMillis ?: 0).toLong(),
-        artworkUrl100 = artworkUrl100.orEmpty(),
+        trackTimeMillis = trackTimeMillis ?: 0L,
+        artworkUrl100 = artworkUrl100,
+        collectionName = collectionName,
+        releaseDate = releaseDate,
+        primaryGenreName = primaryGenreName,
+        country = country,
+        previewUrl = previewUrl
+    )
+
+    private fun TrackInPlaylistEntity.toDomain() = Track(
+        trackId = trackId,
+        trackName = trackName,
+        artistName = artistName,
+        trackTimeMillis = trackTimeMillis,
+        artworkUrl100 = artworkUrl100,
         collectionName = collectionName,
         releaseDate = releaseDate,
         primaryGenreName = primaryGenreName,
