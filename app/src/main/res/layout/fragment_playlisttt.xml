@@ -213,7 +213,7 @@
                 app:layout_constraintStart_toEndOf="@id/menuCover"
                 app:layout_constraintTop_toTopOf="@id/menuCover"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/plTextPrimary"/>
 
             <TextView
                 android:id="@+id/menuCount"
@@ -222,7 +222,7 @@
                 android:layout_marginStart="12dp"
                 android:textSize="11sp"
                 android:fontFamily="@font/ys_display_regular"
-                android:textColor="#7A7D84"
+                android:textColor="?attr/trak"
                 android:maxLines="1"
                 app:layout_constraintStart_toEndOf="@id/menuCover"
                 app:layout_constraintBottom_toBottomOf="@id/menuCover"
@@ -237,7 +237,8 @@
             android:paddingStart="@dimen/menu_side_padding"
             android:text="@string/playlist_menu_share"
             android:textSize="16sp"
-            android:fontFamily="@font/ys_display_regular"/>
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="?attr/plTextPrimary"/>
 
         <TextView
             android:id="@+id/menuEdit"
@@ -247,7 +248,8 @@
             android:paddingStart="@dimen/menu_side_padding"
             android:text="@string/playlist_menu_edit"
             android:textSize="16sp"
-            android:fontFamily="@font/ys_display_regular"/>
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="?attr/plTextPrimary"/>
 
         <TextView
             android:id="@+id/menuDelete"
@@ -257,7 +259,8 @@
             android:paddingStart="@dimen/menu_side_padding"
             android:text="@string/playlist_menu_delete"
             android:textSize="16sp"
-            android:fontFamily="@font/ys_display_regular"/>
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="?attr/plTextPrimary"/>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -39,6 +39,7 @@
         <item name="playButtonBackground">@color/white</item>
         <item name="playButtonIconColor">@color/Gray_light</item>
 
-
+        <item name="plTextPrimary">@color/white</item>
+        <item name="trak">@color/white</item>
     </style>
 </resources>

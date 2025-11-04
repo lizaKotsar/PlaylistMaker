@@ -14,7 +14,7 @@
 
     <attr name="playButtonBackground" format="color|reference" />
     <attr name="playButtonIconColor" format="color|reference" />
-
-
+    <attr name="plTextPrimary" format="color"/>
+    <attr name="trak" format="color"/>
 
 </resources>
