@@ -3,6 +3,7 @@ package com.example.playlistmaker.ui.playlists.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -76,9 +77,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
         // BottomSheet со списком треков
         val sheet: View = view.findViewById(R.id.sheet)
-        sheetBehavior = BottomSheetBehavior.from(sheet).apply {
-            isHideable = false
-        }
+        sheetBehavior = BottomSheetBehavior.from(sheet).apply { isHideable = false }
+        view.post { updatePeekForTracks() }
 
         // BottomSheet меню
         menuBehavior = BottomSheetBehavior.from(menuSheet).apply {
@@ -88,6 +88,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     scrim.visibility =
                         if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                        // вернём высоту по умолчанию, чтобы поведение не ломалось
+                        val lp = menuSheet.layoutParams
+                        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                        menuSheet.layoutParams = lp
+                    }
                 }
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
                     scrim.alpha = (0.0001f + (slideOffset.coerceIn(0f, 1f) * 0.6f))
@@ -96,7 +102,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         }
         scrim.setOnClickListener { menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
 
-        btnMenu.setOnClickListener { menuBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
+        btnMenu.setOnClickListener { openMenu() } // важный фикс
         btnShare.setOnClickListener { sharePlaylist() }
         menuShare.setOnClickListener {
             menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -142,7 +148,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         .centerCrop()
                         .into(ivCover)
 
-                    // данные в заголовок меню
+                    // заголовок меню
                     menuTitle.text = pl.name
                     menuCount.text = "${tracks.size} треков"
                     Glide.with(menuCover)
@@ -157,15 +163,19 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         state.totalMinutes,
                         tracks.size
                     )
+
+                    view.post { updatePeekForTracks() }
                 }
                 is State.Empty -> {
                     tvTitle.text = ""
                     tvDescription.visibility = View.GONE
                     tvMeta.text = ""
                     tracksAdapter.submitList(emptyList())
+                    view.post { updatePeekForTracks() }
                 }
                 is State.Error -> {
                     tvMeta.text = state.message
+                    view.post { updatePeekForTracks() }
                 }
             }
         }
@@ -179,9 +189,36 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
     override fun onResume() {
         super.onResume()
-        // Перезагружаем данные на случай, если вернулись с экрана редактирования
         vm.load(args.playlistId)
+        view?.post { updatePeekForTracks() }
     }
+
+    /** Делает верх списка треков почти под кнопками Share/⋯ */
+    private fun updatePeekForTracks() {
+        val root = requireView().findViewById<View>(R.id.root)
+        val header = requireView().findViewById<View>(R.id.header)
+        val gap = resources.getDimensionPixelSize(R.dimen.playlist_sheet_gap)
+        val available = root.height - (header.bottom + gap)
+        if (available > 0) sheetBehavior.peekHeight = available
+    }
+
+    /** Открывает меню строго под заголовком, перекрывая список треков */
+    private fun openMenu() {
+        val root = requireView().findViewById<View>(R.id.root)
+        val title = requireView().findViewById<View>(R.id.tvTitle)   // якоримся под названием
+        val gap = resources.getDimensionPixelSize(R.dimen.playlist_sheet_gap) // 8dp (можно 0–4dp)
+
+        val top = title.bottom + gap
+        val desiredHeight = (root.height - top).coerceAtLeast(0)
+
+        val lp = menuSheet.layoutParams
+        lp.height = desiredHeight
+        menuSheet.layoutParams = lp
+        menuSheet.requestLayout()
+
+        menuBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
 
     private fun navigateToPlayer(track: Track) {
         val action = PlaylistFragmentDirections.actionPlaylistToPlayer(track)

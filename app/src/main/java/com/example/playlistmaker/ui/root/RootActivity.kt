@@ -21,14 +21,24 @@ class RootActivity : AppCompatActivity() {
         val bnv = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bnv.setupWithNavController(navController)
 
-
-        val hideBottomBarOn = setOf(
-            R.id.audioPlayerFragment,
-            R.id.createPlaylistFragment
+        val showBottomBarOn = setOf(
+            R.id.mediaFragment,
+            R.id.searchFragment,
+            R.id.settingsFragment
         )
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            bnv.isVisible = destination.id !in hideBottomBarOn
+
+        navController.addOnDestinationChangedListener { _, dest, _ ->
+            bnv.isVisible = dest.id in showBottomBarOn
         }
+
+
+        bnv.setOnItemReselectedListener { /* no-op */ }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        return navHost.navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

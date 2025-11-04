@@ -8,14 +8,28 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Верхняя часть -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:translationZ="8dp">
 
-        <!-- Кнопка Back: 12dp от экрана -->
+        <!-- Обложка: во всю ширину -->
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            tools:src="@drawable/cover_placeholder"/>
+
+        <!-- Back поверх обложки -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="24dp"
@@ -25,35 +39,18 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_arrow_back_24"
             android:tint="#1C1B1F"
+            android:translationZ="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Обложка: квадрат, по 16dp по бокам -->
-
-        <!-- Заголовок -->
-
-        <ImageView
-            android:id="@+id/ivCover"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/vector"
-            android:scaleType="centerCrop"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack"
-            app:layout_constraintWidth_max="360dp" />
-
+        <!-- Заголовок: 16dp слева/справа -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/layout_padding_horizontal"
+            android:layout_marginEnd="@dimen/layout_padding_horizontal"
             android:textColor="#1C1B1F"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -61,49 +58,54 @@
             android:ellipsize="end"
             tools:text="Best songs 2021"
             app:layout_constraintTop_toBottomOf="@id/ivCover"
-            app:layout_constraintStart_toStartOf="@id/ivCover"
-            app:layout_constraintEnd_toEndOf="@id/ivCover" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Описание (год/произвольный текст) -->
+        <!-- Описание: те же поля -->
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginStart="@dimen/layout_padding_horizontal"
+            android:layout_marginEnd="@dimen/layout_padding_horizontal"
             android:textColor="#7A7D84"
             android:textSize="16sp"
             android:maxLines="1"
             android:ellipsize="end"
             tools:text="2022"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintEnd_toEndOf="@id/tvTitle" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Минуты · треков -->
+        <!-- Минуты • треков: те же поля -->
         <TextView
             android:id="@+id/tvMeta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginStart="@dimen/layout_padding_horizontal"
+            android:layout_marginEnd="@dimen/layout_padding_horizontal"
             android:textColor="#7A7D84"
             android:textSize="16sp"
             tools:text="300 минут · 98 треков"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintEnd_toEndOf="@id/tvTitle" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Кнопки Share и More (как в макете слева) -->
+        <!-- Кнопки -->
         <ImageButton
             android:id="@+id/btnShare"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/layout_padding_horizontal"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/share_icon"
             android:tint="#1C1B1F"
+            android:translationZ="8dp"
             app:layout_constraintTop_toBottomOf="@id/tvMeta"
-            app:layout_constraintStart_toStartOf="@id/tvMeta"
-            android:translationZ="8dp"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/btnMenu"
@@ -113,12 +115,12 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/toc"
             android:tint="#1C1B1F"
+            android:translationZ="8dp"
             app:layout_constraintStart_toEndOf="@id/btnShare"
-            app:layout_constraintTop_toTopOf="@id/btnShare"
-            android:translationZ="8dp"/>
+            app:layout_constraintTop_toTopOf="@id/btnShare" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- BottomSheet со списком: peek 266dp как в макете -->
+    <!-- Шторка со списком -->
     <LinearLayout
         android:id="@+id/sheet"
         android:layout_width="match_parent"
@@ -146,9 +148,9 @@
             android:paddingTop="16dp"
             android:clipToPadding="false"
             tools:listitem="@layout/track_item" />
-
-
     </LinearLayout>
+
+    <!-- затемнение + меню -->
     <View
         android:id="@+id/scrim"
         android:layout_width="match_parent"
@@ -156,7 +158,6 @@
         android:background="#80000000"
         android:visibility="gone" />
 
-    <!-- ВСПЛЫВАЮЩЕЕ МЕНЮ (вторая BottomSheet) -->
     <LinearLayout
         android:id="@+id/menuSheet"
         android:layout_width="match_parent"
@@ -164,6 +165,7 @@
         android:orientation="vertical"
         android:background="@drawable/bg_bottom_sheet_16"
         android:visibility="visible"
+        android:translationZ="20dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="true">
 
@@ -174,7 +176,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bs_handle"/>
 
-        <!-- Заголовок меню: иконка + имя + кол-во -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/menuHeader"
             android:layout_width="match_parent"
@@ -219,7 +220,6 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Пункты меню -->
         <TextView
             android:id="@+id/menuShare"
             android:layout_width="match_parent"
@@ -244,6 +244,5 @@
             android:paddingStart="@dimen/menu_side_padding"
             android:text="@string/playlist_menu_delete"/>
     </LinearLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

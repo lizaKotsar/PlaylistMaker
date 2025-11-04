@@ -57,7 +57,7 @@
     <string name="yes">ДА</string>
     <string name="no">НЕТ</string>
     <string name="delete_track_question">Удалить трек из плейлиста?</string>
-
+    <string name="in_development">В разработке</string>
     <string name="playlist_menu_share">Поделиться</string>
     <string name="playlist_menu_edit">Редактировать информацию</string>
     <string name="playlist_menu_delete">Удалить плейлист</string>
