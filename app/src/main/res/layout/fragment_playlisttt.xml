@@ -6,13 +6,13 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/YP_Light_Gray">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:translationZ="8dp">
+        android:translationZ="0dp">
 
         <!-- Обложка: во всю ширину -->
         <ImageView
@@ -38,7 +38,7 @@
             android:layout_marginTop="12dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_arrow_back_24"
-            android:tint="#1C1B1F"
+            android:tint="@color/Gray_light"
             android:translationZ="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/layout_padding_horizontal"
             android:layout_marginEnd="@dimen/layout_padding_horizontal"
-            android:textColor="#1C1B1F"
+            android:textColor="@color/Gray_light"
             android:textSize="24sp"
             android:textStyle="bold"
             android:maxLines="2"
@@ -59,7 +59,8 @@
             tools:text="Best songs 2021"
             app:layout_constraintTop_toBottomOf="@id/ivCover"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+             />
 
         <!-- Описание: те же поля -->
         <TextView
@@ -69,14 +70,15 @@
             android:layout_marginTop="4dp"
             android:layout_marginStart="@dimen/layout_padding_horizontal"
             android:layout_marginEnd="@dimen/layout_padding_horizontal"
-            android:textColor="#7A7D84"
-            android:textSize="16sp"
+            android:textColor="@color/Gray_light"
+            android:textSize="18sp"
             android:maxLines="1"
             android:ellipsize="end"
             tools:text="2022"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/ys_display_regular"/>
 
         <!-- Минуты • треков: те же поля -->
         <TextView
@@ -86,23 +88,24 @@
             android:layout_marginTop="4dp"
             android:layout_marginStart="@dimen/layout_padding_horizontal"
             android:layout_marginEnd="@dimen/layout_padding_horizontal"
-            android:textColor="#7A7D84"
-            android:textSize="16sp"
+            android:textColor="@color/Gray_light"
+            android:textSize="18sp"
             tools:text="300 минут · 98 треков"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/ys_display_regular"/>
 
         <!-- Кнопки -->
         <ImageButton
             android:id="@+id/btnShare"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="@dimen/layout_padding_horizontal"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/share_icon"
-            android:tint="#1C1B1F"
+            android:tint="@color/Gray_light"
             android:translationZ="8dp"
             app:layout_constraintTop_toBottomOf="@id/tvMeta"
             app:layout_constraintStart_toStartOf="parent" />
@@ -112,9 +115,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
+
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/toc"
-            android:tint="#1C1B1F"
+            android:tint="@color/Gray_light"
             android:translationZ="8dp"
             app:layout_constraintStart_toEndOf="@id/btnShare"
             app:layout_constraintTop_toTopOf="@id/btnShare" />
@@ -127,8 +131,11 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_bottom_sheet_16"
         android:orientation="vertical"
+        android:translationZ="12dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="false"
+        app:behavior_fitToContents="false"
+        app:behavior_expandedOffset="0dp"
         app:behavior_peekHeight="@dimen/playlist_tracks_peek">
 
         <View
@@ -199,20 +206,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
+                android:fontFamily="@font/ys_display_regular"
                 android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintStart_toEndOf="@id/menuCover"
                 app:layout_constraintTop_toTopOf="@id/menuCover"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="?attr/colorOnSecondary"/>
 
             <TextView
                 android:id="@+id/menuCount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:textSize="12sp"
+                android:textSize="11sp"
+                android:fontFamily="@font/ys_display_regular"
                 android:textColor="#7A7D84"
                 android:maxLines="1"
                 app:layout_constraintStart_toEndOf="@id/menuCover"
@@ -226,7 +235,9 @@
             android:layout_height="@dimen/menu_item_height"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/menu_side_padding"
-            android:text="@string/playlist_menu_share"/>
+            android:text="@string/playlist_menu_share"
+            android:textSize="16sp"
+            android:fontFamily="@font/ys_display_regular"/>
 
         <TextView
             android:id="@+id/menuEdit"
@@ -234,7 +245,9 @@
             android:layout_height="@dimen/menu_item_height"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/menu_side_padding"
-            android:text="@string/playlist_menu_edit"/>
+            android:text="@string/playlist_menu_edit"
+            android:textSize="16sp"
+            android:fontFamily="@font/ys_display_regular"/>
 
         <TextView
             android:id="@+id/menuDelete"
@@ -242,7 +255,9 @@
             android:layout_height="@dimen/menu_item_height"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/menu_side_padding"
-            android:text="@string/playlist_menu_delete"/>
+            android:text="@string/playlist_menu_delete"
+            android:textSize="16sp"
+            android:fontFamily="@font/ys_display_regular"/>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

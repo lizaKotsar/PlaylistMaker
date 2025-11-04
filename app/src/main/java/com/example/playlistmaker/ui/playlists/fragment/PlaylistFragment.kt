@@ -193,10 +193,16 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
     /** Делает верх списка треков почти под кнопками Share/⋯ */
     private fun updatePeekForTracks() {
-        val root = requireView().findViewById<View>(R.id.root)
-        val header = requireView().findViewById<View>(R.id.header)
-        val gap = resources.getDimensionPixelSize(R.dimen.playlist_sheet_gap)
-        val available = root.height - (header.bottom + gap)
+        val root  = requireView().findViewById<View>(R.id.root)
+        val share = requireView().findViewById<View>(R.id.btnShare)
+        val menu  = requireView().findViewById<View>(R.id.btnMenu)
+
+
+        val bottomOfButtons = maxOf(share.bottom, menu.bottom)
+        val gap = resources.getDimensionPixelSize(
+            R.dimen.playlist_sheet_gap_from_buttons // 24dp
+        )
+        val available = root.height - (bottomOfButtons + gap)
         if (available > 0) sheetBehavior.peekHeight = available
     }
 
