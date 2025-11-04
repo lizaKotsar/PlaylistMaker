@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -89,7 +90,6 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                     scrim.visibility =
                         if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
                     if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        // вернём высоту по умолчанию, чтобы поведение не ломалось
                         val lp = menuSheet.layoutParams
                         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
                         menuSheet.layoutParams = lp
@@ -102,7 +102,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         }
         scrim.setOnClickListener { menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
 
-        btnMenu.setOnClickListener { openMenu() } // важный фикс
+        btnMenu.setOnClickListener { openMenu() }
         btnShare.setOnClickListener { sharePlaylist() }
         menuShare.setOnClickListener {
             menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -142,11 +142,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         tvDescription.visibility = View.GONE
                     }
 
-                    Glide.with(ivCover)
-                        .load(pl.coverPath)
-                        .placeholder(R.drawable.cover_placeholder)
-                        .centerCrop()
-                        .into(ivCover)
+                    // ВАЖНО: показываем либо полноэкранную обложку, либо компактный плейсхолдер
+                    showCoverOrPlaceholder(pl.coverPath)
 
                     // заголовок меню
                     menuTitle.text = pl.name
@@ -171,6 +168,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                     tvDescription.visibility = View.GONE
                     tvMeta.text = ""
                     tracksAdapter.submitList(emptyList())
+                    showCoverOrPlaceholder(null)
                     view.post { updatePeekForTracks() }
                 }
                 is State.Error -> {
@@ -205,8 +203,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
     /** Открывает меню строго под заголовком, перекрывая список треков */
     private fun openMenu() {
         val root = requireView().findViewById<View>(R.id.root)
-        val title = requireView().findViewById<View>(R.id.tvTitle)   // якоримся под названием
-        val gap = resources.getDimensionPixelSize(R.dimen.playlist_sheet_gap) // 8dp (можно 0–4dp)
+        val title = requireView().findViewById<View>(R.id.tvTitle)
+        val gap = resources.getDimensionPixelSize(R.dimen.playlist_sheet_gap)
 
         val top = title.bottom + gap
         val desiredHeight = (root.height - top).coerceAtLeast(0)
@@ -219,6 +217,52 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         menuBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
+    // --- ВСПОМОГАТЕЛЬНОЕ ---
+
+    /**
+     * Если coverPath пустой → показываем маленький плейсхолдер по центру квадрата
+     * с полями 16dp слева/справа/сверху и внутренним паддингом,
+     * иначе — полноэкранную обложку без полей.
+     */
+    private fun showCoverOrPlaceholder(coverPath: String?) {
+        val lp = ivCover.layoutParams as ConstraintLayout.LayoutParams
+        if (coverPath.isNullOrBlank()) {
+            // квадрат поменьше, с внешними отступами 16dp
+            lp.marginStart = dp(16)
+            lp.marginEnd  = dp(16)
+            lp.topMargin  = dp(16)
+            ivCover.layoutParams = lp
+
+            // крупный плейсхолдер внутри квадрата
+            ivCover.setPadding(dp(40), dp(40), dp(40), dp(40)) // можно 36–48, при желании подправить
+            ivCover.scaleType = ImageView.ScaleType.FIT_CENTER
+            ivCover.setImageResource(R.drawable.ic_placeholder)
+
+            // (если вдруг раньше ставили фон под плейсхолдер — можно вернуть)
+            // ivCover.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.placeholder_bg))
+        } else {
+            // полноэкранная обложка без полей
+            lp.marginStart = 0
+            lp.marginEnd  = 0
+            lp.topMargin  = 0
+            ivCover.layoutParams = lp
+
+            ivCover.setPadding(0, 0, 0, 0)
+            ivCover.scaleType = ImageView.ScaleType.CENTER_CROP
+            ivCover.background = null
+
+            Glide.with(ivCover)
+                .load(coverPath)
+                .placeholder(R.drawable.cover_placeholder)
+                .centerCrop()
+                .into(ivCover)
+        }
+
+    }
+
+
+    private fun dp(value: Int): Int =
+        (value * resources.displayMetrics.density).toInt()
 
     private fun navigateToPlayer(track: Track) {
         val action = PlaylistFragmentDirections.actionPlaylistToPlayer(track)
