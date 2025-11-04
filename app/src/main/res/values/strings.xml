@@ -58,6 +58,17 @@
     <string name="no">НЕТ</string>
     <string name="delete_track_question">Удалить трек из плейлиста?</string>
 
+    <string name="playlist_menu_share">Поделиться</string>
+    <string name="playlist_menu_edit">Редактировать информацию</string>
+    <string name="playlist_menu_delete">Удалить плейлист</string>
+
+    <string name="playlist_share_empty">
+    В этом плейлисте нет списка треков, которым можно поделиться
+</string>
+
+    <string name="delete_playlist_title">Удалить плейлист</string>
+    <string name="delete_playlist_question">Хотите удалить плейлист «%1$s»?</string>
+
     <plurals name="tracks_count">
         <item quantity="one">%d трек</item>
         <item quantity="few">%d трека</item>

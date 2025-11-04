@@ -27,4 +27,7 @@ class PlaylistsInteractorImpl(
 
     override suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean =
         repo.removeTrackFromPlaylist(playlist, trackId)
+
+    override suspend fun deletePlaylist(playlistId: Long) =
+        repo.deletePlaylist(playlistId)
 }

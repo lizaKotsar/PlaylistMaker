@@ -57,5 +57,11 @@
     <dimen name="pl_item_padding_h">16dp</dimen>
     <dimen name="pl_cover_size">48dp</dimen>
     <dimen name="pl_gap">12dp</dimen>
+    <dimen name="playlist_tracks_peek">266dp</dimen>
+
+
+    <dimen name="menu_item_height">61dp</dimen>
+    <dimen name="menu_side_padding">16dp</dimen>
+    <dimen name="menu_header_image">40dp</dimen>
 
 </resources>

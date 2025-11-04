@@ -1,10 +1,12 @@
 package com.example.playlistmaker.ui.playlists.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
     private val vm: PlaylistViewModel by viewModel()
@@ -28,6 +29,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
 
     private lateinit var ivCover: ImageView
     private lateinit var btnBack: ImageButton
+    private lateinit var btnShare: ImageButton
+    private lateinit var btnMenu: ImageButton
     private lateinit var tvTitle: TextView
     private lateinit var tvDescription: TextView
     private lateinit var tvMeta: TextView
@@ -36,28 +39,81 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
     private lateinit var tracksAdapter: PlaylistTracksAdapter
     private lateinit var sheetBehavior: BottomSheetBehavior<View>
 
+    // Меню
+    private lateinit var scrim: View
+    private lateinit var menuSheet: View
+    private lateinit var menuBehavior: BottomSheetBehavior<View>
+    private lateinit var menuShare: View
+    private lateinit var menuEdit: View
+    private lateinit var menuDelete: View
+    private lateinit var menuCover: ImageView
+    private lateinit var menuTitle: TextView
+    private lateinit var menuCount: TextView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         ivCover = view.findViewById(R.id.ivCover)
         btnBack = view.findViewById(R.id.btnBack)
+        btnShare = view.findViewById(R.id.btnShare)
+        btnMenu = view.findViewById(R.id.btnMenu)
         tvTitle = view.findViewById(R.id.tvTitle)
         tvDescription = view.findViewById(R.id.tvDescription)
         tvMeta = view.findViewById(R.id.tvMeta)
         rvTracks = view.findViewById(R.id.rvTracks)
 
+        // Вторая шторка (меню)
+        scrim = view.findViewById(R.id.scrim)
+        menuSheet = view.findViewById(R.id.menuSheet)
+        menuShare = view.findViewById(R.id.menuShare)
+        menuEdit = view.findViewById(R.id.menuEdit)
+        menuDelete = view.findViewById(R.id.menuDelete)
+        menuCover = view.findViewById(R.id.menuCover)
+        menuTitle = view.findViewById(R.id.menuTitle)
+        menuCount = view.findViewById(R.id.menuCount)
+
         btnBack.setOnClickListener { findNavController().navigateUp() }
 
-        // BottomSheet: не скрываемый
+        // BottomSheet со списком треков
         val sheet: View = view.findViewById(R.id.sheet)
         sheetBehavior = BottomSheetBehavior.from(sheet).apply {
             isHideable = false
-            // peekHeight задан в XML, можно оставить так
+        }
+
+        // BottomSheet меню
+        menuBehavior = BottomSheetBehavior.from(menuSheet).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+            isHideable = true
+            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    scrim.visibility =
+                        if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
+                }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    scrim.alpha = (0.0001f + (slideOffset.coerceIn(0f, 1f) * 0.6f))
+                }
+            })
+        }
+        scrim.setOnClickListener { menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
+
+        btnMenu.setOnClickListener { menuBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
+        btnShare.setOnClickListener { sharePlaylist() }
+        menuShare.setOnClickListener {
+            menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            sharePlaylist()
+        }
+        menuEdit.setOnClickListener {
+            // Сделаем на следующем шаге
+            menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        menuDelete.setOnClickListener {
+            menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            confirmDeletePlaylist()
         }
 
         tracksAdapter = PlaylistTracksAdapter(
             onClick = { track -> navigateToPlayer(track) },
-            onLongClick = { track -> confirmDelete(track) }
+            onLongClick = { track -> confirmDeleteTrack(track) }
         )
         rvTracks.layoutManager = LinearLayoutManager(requireContext())
         rvTracks.adapter = tracksAdapter
@@ -85,6 +141,15 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
                         .centerCrop()
                         .into(ivCover)
 
+                    // данные в заголовок меню
+                    menuTitle.text = pl.name
+                    menuCount.text = "${tracks.size} треков"
+                    Glide.with(menuCover)
+                        .load(pl.coverPath)
+                        .placeholder(R.drawable.ic_placeholder)
+                        .centerCrop()
+                        .into(menuCover)
+
                     tracksAdapter.submitList(tracks)
                     tvMeta.text = getString(
                         R.string.minutes_and_tracks_mask,
@@ -104,6 +169,10 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
             }
         }
 
+        vm.finish.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+
         vm.load(args.playlistId)
     }
 
@@ -112,13 +181,39 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
         findNavController().navigate(action)
     }
 
-    private fun confirmDelete(track: Track) {
+    private fun confirmDeleteTrack(track: Track) {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.delete_track_question)
             .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(R.string.yes) { dialog, _ ->
                 vm.removeTrack(track)
                 dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun sharePlaylist() {
+        val text = vm.buildShareText()
+        if (text.isNullOrBlank()) {
+            Toast.makeText(requireContext(), R.string.playlist_share_empty, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        startActivity(Intent.createChooser(intent, null))
+    }
+
+    private fun confirmDeletePlaylist() {
+        val name = (vm.state.value as? State.Content)?.playlist?.name.orEmpty()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_playlist_title)
+            .setMessage(getString(R.string.delete_playlist_question, name))
+            .setNegativeButton(R.string.no) { d, _ -> d.dismiss() }
+            .setPositiveButton(R.string.yes) { d, _ ->
+                vm.deletePlaylist()
+                d.dismiss()
             }
             .show()
     }
