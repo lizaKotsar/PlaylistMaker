@@ -5,7 +5,6 @@ import com.example.playlistmaker.domain.playlists.PlaylistsRepository
 import com.example.playlistmaker.domain.playlists.model.Playlist
 import com.example.playlistmaker.domain.search.model.Track
 
-
 class PlaylistsInteractorImpl(
     private val repo: PlaylistsRepository
 ) : PlaylistsInteractor {
@@ -30,4 +29,8 @@ class PlaylistsInteractorImpl(
 
     override suspend fun deletePlaylist(playlistId: Long) =
         repo.deletePlaylist(playlistId)
+
+
+    override suspend fun update(playlist: Playlist) =
+        repo.updatePlaylist(playlist)
 }

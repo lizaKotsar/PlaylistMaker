@@ -1,5 +1,6 @@
 package com.example.playlistmaker.domain.playlists
 
+
 import com.example.playlistmaker.domain.playlists.model.Playlist
 import com.example.playlistmaker.domain.search.model.Track
 
@@ -11,4 +12,5 @@ interface PlaylistsRepository {
     suspend fun getTracksByIds(ids: List<Long>): List<Track>
     suspend fun removeTrackFromPlaylist(playlist: Playlist, trackId: Long): Boolean
     suspend fun deletePlaylist(playlistId: Long)
+    suspend fun updatePlaylist(playlist: Playlist)
 }

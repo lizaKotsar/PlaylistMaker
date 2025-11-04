@@ -5,7 +5,6 @@
     android:id="@+id/root_navigation_graph"
     app:startDestination="@id/mediaFragment">
 
-
     <fragment
         android:id="@+id/mediaFragment"
         android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
@@ -16,13 +15,11 @@
             android:id="@+id/action_media_to_player"
             app:destination="@id/audioPlayerFragment" />
 
-        <!-- НОВЫЙ переход из media в экран плейлиста -->
         <action
             android:id="@+id/action_media_to_playlist"
             app:destination="@id/playlistFragment" />
     </fragment>
 
-    <!-- НОВЫЙ фрагмент плейлиста -->
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.example.playlistmaker.ui.playlists.fragment.PlaylistFragment"
@@ -35,16 +32,18 @@
         <action
             android:id="@+id/action_playlist_to_player"
             app:destination="@id/audioPlayerFragment" />
+
+
+        <action
+            android:id="@+id/action_playlist_to_edit"
+            app:destination="@id/editPlaylistFragment" />
     </fragment>
 
-
-    <!-- Поиск -->
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.playlistmaker.ui.search.fragment.SearchFragment"
         android:label="@string/search">
 
-        <!-- Переход из Поиска в Плеер -->
         <action
             android:id="@+id/action_search_to_player"
             app:destination="@id/audioPlayerFragment"
@@ -54,18 +53,15 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
-    <!-- Настройки -->
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.playlistmaker.ui.settings.fragment.SettingsFragment"
         android:label="@string/settings" />
 
-    <!-- Аудиоплеер -->
     <fragment
         android:id="@+id/audioPlayerFragment"
         android:name="com.example.playlistmaker.ui.player.fragment.AudioPlayerFragment"
         android:label="@string/player">
-        <!-- Аргумент с треком -->
         <argument
             android:name="track"
             app:argType="com.example.playlistmaker.domain.search.model.Track"
@@ -75,9 +71,20 @@
             app:destination="@id/createPlaylistFragment"/>
     </fragment>
 
+
     <fragment
         android:id="@+id/createPlaylistFragment"
-        android:name="com.example.playlistmaker.ui.media.fragment.CreatePlaylistFragment"
+        android:name="com.example.playlistmaker.ui.playlists.fragment.CreatePlaylistFragment"
         android:label="@string/new_playlist" />
+
+
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="com.example.playlistmaker.ui.playlists.fragment.EditPlaylistFragment"
+        android:label="@string/playlist">
+        <argument
+            android:name="playlistId"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

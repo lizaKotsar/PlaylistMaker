@@ -11,6 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.example.playlistmaker.ui.playlists.viewmodel.CreatePlaylistViewModel
+import com.example.playlistmaker.ui.playlists.viewmodel.EditPlaylistViewModel
 import com.example.playlistmaker.ui.playlists.viewmodel.PlaylistViewModel
 
 
@@ -27,4 +28,5 @@ val viewModelModule = module {
     viewModel { PlaylistsViewModel(get()) }
     viewModel { CreatePlaylistViewModel(get(), androidContext()) }
     viewModel { PlaylistViewModel(get()) }
+    viewModel { (playlistId: Long) -> EditPlaylistViewModel(get(), androidContext(), playlistId) }
 }

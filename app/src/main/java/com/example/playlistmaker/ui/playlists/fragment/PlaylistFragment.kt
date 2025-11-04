@@ -103,8 +103,9 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
             sharePlaylist()
         }
         menuEdit.setOnClickListener {
-            // Сделаем на следующем шаге
             menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            val action = PlaylistFragmentDirections.actionPlaylistToEdit(args.playlistId)
+            findNavController().navigate(action)
         }
         menuDelete.setOnClickListener {
             menuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -173,6 +174,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlisttt) {
             findNavController().navigateUp()
         }
 
+        vm.load(args.playlistId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Перезагружаем данные на случай, если вернулись с экрана редактирования
         vm.load(args.playlistId)
     }
 

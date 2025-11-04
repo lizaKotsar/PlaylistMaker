@@ -81,12 +81,24 @@ class PlaylistsRepositoryImpl(
         )
         return true
     }
+
     override suspend fun deletePlaylist(playlistId: Long) {
         tracksDao.deleteByPlaylist(playlistId)
         dao.deleteById(playlistId)
-
     }
 
+
+    override suspend fun updatePlaylist(playlist: Playlist) {
+        val entity = PlaylistEntity(
+            id = playlist.id,
+            name = playlist.name,
+            description = playlist.description,
+            coverPath = playlist.coverPath,
+            trackIdsJson = gson.toJson(playlist.trackIds),
+            tracksCount = playlist.trackIds.size
+        )
+        dao.update(entity)
+    }
 
     private fun PlaylistEntity.toDomain(gson: Gson) = Playlist(
         id = id,
